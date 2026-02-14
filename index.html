@@ -1,108 +1,127 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>UNGADRAKEN</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UNGADRAKEN</title>
+  <style>
+    :root { --max: 1120px; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: Helvetica, Arial, sans-serif; background:#fff; color:#111; }
 
-<style>
-body {
-  margin: 0;
-  font-family: Helvetica, Arial, sans-serif;
-  background: white;
-  color: black;
-}
+    header { border-bottom: 1px solid #eee; }
+    .nav {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 22px 20px;
+      display:flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 16px;
+    }
+    .brand {
+      text-decoration:none; color:inherit;
+      letter-spacing: 6px; text-transform: uppercase;
+      font-size: 16px;
+      white-space: nowrap;
+    }
+    .links a {
+      text-decoration:none; color:inherit;
+      font-size: 12px; letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-left: 16px;
+      opacity: .8;
+    }
+    .links a:hover { opacity: 1; }
 
-header {
-  padding: 60px 30px 30px 30px;
-  text-align: center;
-  border-bottom: 1px solid #eee;
-}
+    main { max-width: var(--max); margin: 0 auto; padding: 44px 20px 70px; }
 
-h1 {
-  margin: 0;
-  font-weight: normal;
-  letter-spacing: 6px;
-  font-size: 32px;
-}
+    .tagline {
+      margin: 0 0 26px;
+      font-size: 13px;
+      letter-spacing: 2px;
+      opacity: .75;
+    }
 
-.subtitle {
-  margin-top: 15px;
-  font-size: 14px;
-  letter-spacing: 3px;
-  opacity: 0.7;
-}
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+    @media (max-width: 900px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 560px) { .grid { grid-template-columns: 1fr; } }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-  padding: 60px 40px;
-}
+    .card { text-decoration:none; color:inherit; }
+    .thumb {
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      border: 1px solid #eee;
+      background: #f4f4f4;
+      display:block;
+    }
+    .meta { padding: 10px 2px 0; }
+    .title {
+      margin: 0;
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+    .sub {
+      margin: 6px 0 0;
+      font-size: 12px;
+      opacity: .65;
+      letter-spacing: 1px;
+    }
 
-@media (max-width: 900px) {
-  .grid { grid-template-columns: repeat(2, 1fr); }
-}
-
-@media (max-width: 600px) {
-  .grid { grid-template-columns: 1fr; }
-}
-
-.grid img {
-  width: 100%;
-  height: 450px;
-  object-fit: cover;
-}
-
-footer {
-  border-top: 1px solid #eee;
-  text-align: center;
-  padding: 40px 20px;
-  font-size: 14px;
-  letter-spacing: 2px;
-}
-
-.contact {
-  margin-top: 15px;
-  line-height: 1.8;
-}
-
-a {
-  color: black;
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
-}
-</style>
+    footer {
+      border-top: 1px solid #eee;
+      padding: 34px 20px;
+      text-align: center;
+      font-size: 12px;
+      letter-spacing: 1px;
+      opacity: .8;
+    }
+    footer a { color:inherit; text-decoration:none; }
+    footer a:hover { text-decoration: underline; }
+  </style>
 </head>
 
 <body>
+  <header>
+    <div class="nav">
+      <a class="brand" href="index.html">UNGADRAKEN</a>
+      <div class="links">
+        <a href="index.html">Portfolio</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+      </div>
+    </div>
+  </header>
 
-<header>
-  <h1>UNGADRAKEN</h1>
-  <div class="subtitle">
-    Photographer & Art Director
-  </div>
-</header>
+  <main>
+    <p class="tagline">Photographer & Art Director</p>
 
-<section class="grid">
-  <img src="bild1.jpg">
-  <img src="bild2.jpg">
-  <img src="bild3.jpg">
-  <img src="bild4.jpg">
-  <img src="bild5.jpg">
-  <img src="bild6.jpg">
-</section>
+    <section class="grid">
+      <!-- PROJECT 1 -->
+      <a class="card" href="projects/p1.html">
+        <img class="thumb" src="assets/portfolio/p1-cover.jpg" alt="Project 1 cover">
+        <div class="meta">
+          <p class="title">Project 1</p>
+          <p class="sub">Editorial</p>
+        </div>
+      </a>
 
-<footer>
-  <div>Contact</div>
-  <div class="contact">
-    <div>Email: <a href="mailto:ungadraken@gmail.com">ungadraken@gmail.com</a></div>
-    <div>Instagram: <a href="https://instagram.com/exxmag.eu" target="_blank">@exxmag.eu</a></div>
-  </div>
-</footer>
+      <!-- Du kan kopiera blocket ovan för fler projekt -->
+    </section>
+  </main>
 
+  <footer>
+    <div>Contact</div>
+    <div style="margin-top:10px; line-height:1.8;">
+      <div>Email: <a href="mailto:ungadraken@gmail.com">ungadraken@gmail.com</a></div>
+      <div>Instagram: <a href="https://instagram.com/exxmag.eu" target="_blank" rel="noopener">@exxmag.eu</a></div>
+    </div>
+  </footer>
 </body>
 </html>
