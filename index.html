@@ -1,59 +1,207 @@
 <!doctype html>
-<html lang="sv">
+<html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Originalstorlek – Säker bildstack</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>UNGADRAKEN – Photographer</title>
 
-<style>
-  body {
-    margin: 20px;
-    background: #111;
-    color: white;
-    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-  }
+  <style>
+    :root{
+      --bg: #ffffff;
+      --text: #111111;
+      --muted: #666666;
+      --border: #e6e6e6;
+      --card: #fafafa;
+    }
 
-  h1 {
-    font-weight: 500;
-  }
+    * { box-sizing: border-box; }
 
-  #stack {
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-    align-items: flex-start;
-  }
+    body{
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.5;
+    }
 
-  #stack img {
-    display: block;
+    a{
+      color: inherit;
+      text-decoration: none;
+      border-bottom: 1px solid var(--border);
+    }
 
-    /* Originalstorlek */
-    width: auto !important;
-    height: auto !important;
-    max-width: none !important;
-    max-height: none !important;
+    a:hover{
+      border-bottom-color: var(--text);
+    }
 
-    /* Förhindra överlapp */
-    position: static !important;
-    float: none !important;
-    clear: both !important;
-  }
+    .container{
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 32px 20px 80px;
+    }
 
-  input {
-    margin: 20px 0;
-  }
-</style>
+    header{
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 20px;
+      margin-bottom: 40px;
+    }
+
+    .brand h1{
+      margin: 0;
+      font-size: 26px;
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+
+    .brand p{
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    nav{
+      display: flex;
+      gap: 18px;
+      font-size: 14px;
+    }
+
+    section{
+      margin-bottom: 60px;
+    }
+
+    h2{
+      font-size: 14px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    .text{
+      max-width: 600px;
+      font-size: 15px;
+      color: var(--text);
+    }
+
+    .card{
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px;
+      margin-top: 20px;
+    }
+
+    #stack{
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      align-items: flex-start;
+      margin-top: 20px;
+    }
+
+    #stack img{
+      display: block;
+      width: auto !important;
+      height: auto !important;
+      max-width: none !important;
+      max-height: none !important;
+      position: static !important;
+      float: none !important;
+      clear: both !important;
+    }
+
+    .contact-grid{
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      max-width: 600px;
+    }
+
+    .contact-item{
+      border: 1px solid var(--border);
+      padding: 16px;
+      border-radius: 14px;
+    }
+
+    footer{
+      margin-top: 80px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    @media (max-width: 640px){
+      header{
+        flex-direction: column;
+        gap: 20px;
+      }
+      .contact-grid{
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<h1>Lägg till bilder (originalstorlek, ingen överlappning)</h1>
+<div class="container">
 
-<input type="file" id="imagePicker" accept="image/*" multiple>
+  <header>
+    <div class="brand">
+      <h1>UNGADRAKEN</h1>
+      <p>Photographer</p>
+    </div>
 
-<div id="stack"></div>
+    <nav>
+      <a href="#about">About</a>
+      <a href="#work">Work</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <section id="about">
+    <h2>About</h2>
+    <p class="text">
+      Visual storytelling focused on raw texture, atmosphere and emotional intensity.
+      Working across editorial, fashion and personal projects.
+    </p>
+  </section>
+
+  <section id="work">
+    <h2>Work</h2>
+
+    <div class="card">
+      <input id="imagePicker" type="file" accept="image/*" multiple>
+      <div id="stack"></div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <h2>Contact</h2>
+
+    <div class="contact-grid">
+      <div class="contact-item">
+        <strong>Email</strong><br>
+        <a href="mailto:ungadraken@gmail.com">ungadraken@gmail.com</a>
+      </div>
+
+      <div class="contact-item">
+        <strong>Instagram</strong><br>
+        <a href="https://instagram.com/exxmag.eu" target="_blank">@exxmag.eu</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    © <span id="year"></span> UNGADRAKEN
+  </footer>
+
+</div>
 
 <script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+
   const picker = document.getElementById("imagePicker");
   const stack = document.getElementById("stack");
 
@@ -74,7 +222,6 @@
       };
     });
 
-    // Tillåter att du väljer samma filer igen
     this.value = "";
   });
 </script>
