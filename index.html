@@ -29,10 +29,7 @@
       text-decoration: none;
       border-bottom: 1px solid var(--border);
     }
-
-    a:hover{
-      border-bottom-color: var(--text);
-    }
+    a:hover{ border-bottom-color: var(--text); }
 
     .container{
       max-width: 960px;
@@ -47,6 +44,7 @@
       border-bottom: 1px solid var(--border);
       padding-bottom: 20px;
       margin-bottom: 40px;
+      gap: 18px;
     }
 
     .brand h1{
@@ -55,7 +53,6 @@
       font-weight: 600;
       letter-spacing: 1px;
     }
-
     .brand p{
       margin: 6px 0 0;
       color: var(--muted);
@@ -66,23 +63,30 @@
       display: flex;
       gap: 18px;
       font-size: 14px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
     }
 
-    section{
-      margin-bottom: 60px;
-    }
+    section{ margin-bottom: 60px; }
 
     h2{
       font-size: 14px;
       letter-spacing: 1px;
       text-transform: uppercase;
-      margin-bottom: 20px;
+      margin: 0 0 20px;
     }
 
     .text{
       max-width: 600px;
       font-size: 15px;
       color: var(--text);
+      margin: 0;
+    }
+
+    .muted{
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 10px;
     }
 
     .card{
@@ -93,12 +97,13 @@
       margin-top: 20px;
     }
 
+    /* Work images: stacked, original size, no overlap */
     #stack{
       display: flex;
       flex-direction: column;
       gap: 30px;
       align-items: flex-start;
-      margin-top: 20px;
+      margin-top: 10px;
     }
 
     #stack img{
@@ -123,6 +128,7 @@
       border: 1px solid var(--border);
       padding: 16px;
       border-radius: 14px;
+      background: white;
     }
 
     footer{
@@ -132,19 +138,14 @@
     }
 
     @media (max-width: 640px){
-      header{
-        flex-direction: column;
-        gap: 20px;
-      }
-      .contact-grid{
-        grid-template-columns: 1fr;
-      }
+      header{ flex-direction: column; }
+      nav{ justify-content: flex-start; }
+      .contact-grid{ grid-template-columns: 1fr; }
     }
   </style>
 </head>
 
 <body>
-
 <div class="container">
 
   <header>
@@ -170,10 +171,13 @@
 
   <section id="work">
     <h2>Work</h2>
+    <p class="text">Selected images.</p>
 
     <div class="card">
-      <input id="imagePicker" type="file" accept="image/*" multiple>
-      <div id="stack"></div>
+      <div id="stack" aria-label="Work images"></div>
+      <p class="muted">
+        To update this section: put your image files next to index.html and edit the list in the code.
+      </p>
     </div>
   </section>
 
@@ -188,7 +192,7 @@
 
       <div class="contact-item">
         <strong>Instagram</strong><br>
-        <a href="https://instagram.com/exxmag.eu" target="_blank">@exxmag.eu</a>
+        <a href="https://instagram.com/exxmag.eu" target="_blank" rel="noopener">@exxmag.eu</a>
       </div>
     </div>
   </section>
@@ -202,27 +206,29 @@
 <script>
   document.getElementById("year").textContent = new Date().getFullYear();
 
-  const picker = document.getElementById("imagePicker");
+  // ✅ Put your image filenames here (same folder as index.html), OR URLs.
+  const images = [
+    // "work1.jpg",
+    // "work2.png",
+    // "work3.webp"
+  ];
+
   const stack = document.getElementById("stack");
 
-  picker.addEventListener("change", function() {
-    const files = Array.from(this.files);
+  images.forEach(src => {
+    const img = new Image();
+    img.src = src;
+    img.alt = "";
+    img.loading = "lazy";
 
-    files.forEach(file => {
-      const url = URL.createObjectURL(file);
-      const img = new Image();
-      img.src = url;
-      img.alt = file.name;
-      img.loading = "lazy";
+    img.onerror = () => {
+      const p = document.createElement("p");
+      p.className = "muted";
+      p.textContent = "Could not load: " + src;
+      stack.appendChild(p);
+    };
 
-      stack.appendChild(img);
-
-      img.onload = () => {
-        URL.revokeObjectURL(url);
-      };
-    });
-
-    this.value = "";
+    stack.appendChild(img);
   });
 </script>
 
