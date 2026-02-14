@@ -1,101 +1,83 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="sv">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>UNGADRAKEN</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Originalstorlek – Säker bildstack</title>
 
 <style>
-body {
-  margin: 0;
-  font-family: Helvetica, Arial, sans-serif;
-  background-color: #ffffff;
-  color: #000000;
-}
+  body {
+    margin: 20px;
+    background: #111;
+    color: white;
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  }
 
-header {
-  text-align: center;
-  padding: 80px 20px 40px;
-}
+  h1 {
+    font-weight: 500;
+  }
 
-h1 {
-  margin: 0;
-  font-size: 34px;
-  letter-spacing: 8px;
-  font-weight: normal;
-}
+  #stack {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    align-items: flex-start;
+  }
 
-.subtitle {
-  margin-top: 15px;
-  font-size: 14px;
-  letter-spacing: 3px;
-  opacity: 0.6;
-}
+  #stack img {
+    display: block;
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-  padding: 40px;
-}
+    /* Originalstorlek */
+    width: auto !important;
+    height: auto !important;
+    max-width: none !important;
+    max-height: none !important;
 
-@media (max-width: 900px) {
-  .grid { grid-template-columns: repeat(2, 1fr); }
-}
+    /* Förhindra överlapp */
+    position: static !important;
+    float: none !important;
+    clear: both !important;
+  }
 
-@media (max-width: 600px) {
-  .grid { grid-template-columns: 1fr; }
-}
-
-.grid img {
-  width: 100%;
-  height: 500px;
-  object-fit: cover;
-}
-
-footer {
-  border-top: 1px solid #eeeeee;
-  margin-top: 60px;
-  padding: 40px 20px;
-  text-align: center;
-  font-size: 13px;
-  letter-spacing: 2px;
-}
-
-footer a {
-  color: #000000;
-  text-decoration: none;
-}
-
-footer a:hover {
-  text-decoration: underline;
-}
+  input {
+    margin: 20px 0;
+  }
 </style>
 </head>
 
 <body>
 
-<header>
-  <h1>UNGADRAKEN</h1>
-  <div class="subtitle">Photographer</div>
-</header>
+<h1>Lägg till bilder (originalstorlek, ingen överlappning)</h1>
 
-<section class="grid">
-  <img src="elsablommakall.jpeg">
-  <img src="bild2.jpg">
-  <img src="bild3.jpg">
-  <img src="bild4.jpg">
-  <img src="bild5.jpg">
-  <img src="bild6.jpg">
-</section>
+<input type="file" id="imagePicker" accept="image/*" multiple>
 
-<footer>
-  <div>Contact</div>
-  <div style="margin-top:15px; line-height:1.8;">
-    <div>Email: <a href="mailto:ungadraken@gmail.com">ungadraken@gmail.com</a></div>
-    <div>Instagram: <a href="https://instagram.com/exxmag.eu" target="_blank">@exxmag.eu</a></div>
-  </div>
-</footer>
+<div id="stack"></div>
+
+<script>
+  const picker = document.getElementById("imagePicker");
+  const stack = document.getElementById("stack");
+
+  picker.addEventListener("change", function() {
+    const files = Array.from(this.files);
+
+    files.forEach(file => {
+      const url = URL.createObjectURL(file);
+      const img = new Image();
+      img.src = url;
+      img.alt = file.name;
+      img.loading = "lazy";
+
+      stack.appendChild(img);
+
+      img.onload = () => {
+        URL.revokeObjectURL(url);
+      };
+    });
+
+    // Tillåter att du väljer samma filer igen
+    this.value = "";
+  });
+</script>
 
 </body>
 </html>
