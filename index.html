@@ -91,28 +91,37 @@
       margin-top: 20px;
     }
 
-    /* Work images: stacked, original size, no overlap */
+    /* Work images: stacked, no overlap */
     #stack{
       display: flex;
       flex-direction: column;
-      gap: 30px;
-      align-items: flex-start;
+      gap: 22px;
+      align-items: center; /* centers images nicely */
       margin-top: 10px;
     }
 
+    /*
+      KEY CHANGE:
+      - Keep original proportions (no stretching)
+      - Scale DOWN to fit the page, so you can see the whole image
+      - Never exceed container width or a comfortable screen height
+    */
     #stack img{
       display: block;
 
-      /* ORIGINAL SIZE */
-      width: auto !important;
-      height: auto !important;
-      max-width: none !important;
-      max-height: none !important;
-
-      /* prevent weird overlap from global CSS */
+      /* prevent overlap / weird theme CSS */
       position: static !important;
       float: none !important;
       clear: both !important;
+
+      /* keep correct perspective/aspect ratio */
+      width: auto;
+      height: auto;
+      object-fit: contain;
+
+      /* scale down to fit */
+      max-width: 100%;
+      max-height: 78vh;   /* change to 70vh if you want smaller */
     }
 
     .contact-grid{
@@ -139,6 +148,9 @@
       header{ flex-direction: column; }
       nav{ justify-content: flex-start; }
       .contact-grid{ grid-template-columns: 1fr; }
+
+      /* On phones: make images a bit smaller vertically so they fit */
+      #stack img{ max-height: 70vh; }
     }
   </style>
 </head>
@@ -186,7 +198,7 @@
 
       <div class="contact-item">
         <strong>Instagram</strong><br>
-        <a href="https://instagram.com/exxmag.eu" target="_blank" rel="noopener">exmag.eu</a>
+        <a href="https://instagram.com/exxmag.eu" target="_blank" rel="noopener">@exxmag.eu</a>
       </div>
     </div>
   </section>
@@ -200,12 +212,6 @@
 <script>
   document.getElementById("year").textContent = new Date().getFullYear();
 
-  /*
-    ✅ Put your images in a folder called "work" in your repo:
-       /work/chessa01.jpg
-       /work/chessa02.jpg
-       /work/chessa03.jpg
-  */
   const images = [
     "elsablommakall.jpeg",
     "sexxxmag.eu-3.png",
