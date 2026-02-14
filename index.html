@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="sv">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,21 +14,30 @@ body {
 }
 
 header {
-  padding: 30px;
+  padding: 60px 30px 30px 30px;
   text-align: center;
   border-bottom: 1px solid #eee;
 }
 
 h1 {
-  letter-spacing: 6px;
+  margin: 0;
   font-weight: normal;
+  letter-spacing: 6px;
+  font-size: 32px;
+}
+
+.subtitle {
+  margin-top: 15px;
+  font-size: 14px;
+  letter-spacing: 3px;
+  opacity: 0.7;
 }
 
 .grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
-  padding: 40px;
+  padding: 60px 40px;
 }
 
 @media (max-width: 900px) {
@@ -44,6 +53,28 @@ h1 {
   height: 450px;
   object-fit: cover;
 }
+
+footer {
+  border-top: 1px solid #eee;
+  text-align: center;
+  padding: 40px 20px;
+  font-size: 14px;
+  letter-spacing: 2px;
+}
+
+.contact {
+  margin-top: 15px;
+  line-height: 1.8;
+}
+
+a {
+  color: black;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
 </style>
 </head>
 
@@ -51,6 +82,9 @@ h1 {
 
 <header>
   <h1>UNGADRAKEN</h1>
+  <div class="subtitle">
+    Photographer & Art Director
+  </div>
 </header>
 
 <section class="grid">
@@ -61,6 +95,14 @@ h1 {
   <img src="bild5.jpg">
   <img src="bild6.jpg">
 </section>
+
+<footer>
+  <div>Contact</div>
+  <div class="contact">
+    <div>Email: <a href="mailto:ungadraken@gmail.com">ungadraken@gmail.com</a></div>
+    <div>Instagram: <a href="https://instagram.com/exxmag.eu" target="_blank">@exxmag.eu</a></div>
+  </div>
+</footer>
 
 </body>
 </html>
