@@ -83,12 +83,6 @@
       margin: 0;
     }
 
-    .muted{
-      color: var(--muted);
-      font-size: 13px;
-      margin-top: 10px;
-    }
-
     .card{
       background: var(--card);
       border: 1px solid var(--border);
@@ -108,10 +102,14 @@
 
     #stack img{
       display: block;
+
+      /* ORIGINAL SIZE */
       width: auto !important;
       height: auto !important;
       max-width: none !important;
       max-height: none !important;
+
+      /* prevent weird overlap from global CSS */
       position: static !important;
       float: none !important;
       clear: both !important;
@@ -171,13 +169,9 @@
 
   <section id="work">
     <h2>Work</h2>
-    <p class="text">Selected images.</p>
 
     <div class="card">
       <div id="stack" aria-label="Work images"></div>
-      <p class="muted">
-        To update this section: put your image files next to index.html and edit the list in the code.
-      </p>
     </div>
   </section>
 
@@ -206,11 +200,16 @@
 <script>
   document.getElementById("year").textContent = new Date().getFullYear();
 
-  // ✅ Put your image filenames here (same folder as index.html), OR URLs.
+  /*
+    ✅ Put your images in a folder called "work" in your repo:
+       /work/chessa01.jpg
+       /work/chessa02.jpg
+       /work/chessa03.jpg
+  */
   const images = [
-    // "work1.jpg",
-    // "work2.png",
-    // "work3.webp"
+    "work/chessa01.jpg",
+    "work/chessa02.jpg",
+    "work/chessa03.jpg"
   ];
 
   const stack = document.getElementById("stack");
@@ -220,14 +219,6 @@
     img.src = src;
     img.alt = "";
     img.loading = "lazy";
-
-    img.onerror = () => {
-      const p = document.createElement("p");
-      p.className = "muted";
-      p.textContent = "Could not load: " + src;
-      stack.appendChild(p);
-    };
-
     stack.appendChild(img);
   });
 </script>
