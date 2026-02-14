@@ -96,32 +96,23 @@
       display: flex;
       flex-direction: column;
       gap: 22px;
-      align-items: center; /* centers images nicely */
+      align-items: center;
       margin-top: 10px;
     }
 
-    /*
-      KEY CHANGE:
-      - Keep original proportions (no stretching)
-      - Scale DOWN to fit the page, so you can see the whole image
-      - Never exceed container width or a comfortable screen height
-    */
+    /* Fit images nicely without distortion */
     #stack img{
       display: block;
-
-      /* prevent overlap / weird theme CSS */
       position: static !important;
       float: none !important;
       clear: both !important;
 
-      /* keep correct perspective/aspect ratio */
       width: auto;
       height: auto;
       object-fit: contain;
 
-      /* scale down to fit */
       max-width: 100%;
-      max-height: 78vh;   /* change to 70vh if you want smaller */
+      max-height: 78vh;
     }
 
     .contact-grid{
@@ -148,8 +139,6 @@
       header{ flex-direction: column; }
       nav{ justify-content: flex-start; }
       .contact-grid{ grid-template-columns: 1fr; }
-
-      /* On phones: make images a bit smaller vertically so they fit */
       #stack img{ max-height: 70vh; }
     }
   </style>
@@ -181,7 +170,6 @@
 
   <section id="work">
     <h2>Work</h2>
-
     <div class="card">
       <div id="stack" aria-label="Work images"></div>
     </div>
@@ -212,22 +200,28 @@
 <script>
   document.getElementById("year").textContent = new Date().getFullYear();
 
+  // Add as many as you want (15+). Just keep commas.
   const images = [
     "elsablommakall.jpeg",
     "sexxxmag.eu-3.png",
-    "adamblommaljus.JPG"
-    "adamblajajmaljus.JPG"
+    "adamblommaljus.JPG",
+    "adamblajajmaljus.JPG",
     "adamblnammaljus.JPG"
-    
   ];
 
   const stack = document.getElementById("stack");
 
   images.forEach(src => {
     const img = new Image();
-    img.src = src;
     img.alt = "";
     img.loading = "lazy";
+
+    // ✅ If the file is missing, hide it (no blue broken-image icon)
+    img.onerror = () => {
+      img.remove(); // removes it entirely
+    };
+
+    img.src = src;
     stack.appendChild(img);
   });
 </script>
