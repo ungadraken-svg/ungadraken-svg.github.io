@@ -1,224 +1,136 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>UNGADRAKEN – Photographer</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>UNGADRAKEN – Photographer</title>
 
-  <style>
-    :root{
-      --bg: #ffffff;
-      --text: #111111;
-      --muted: #666666;
-      --border: #e6e6e6;
-      --card: #fafafa;
-    }
+<style>
+body {
+  margin: 0;
+  background: #ffffff;
+  color: #111;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
 
-    * { box-sizing: border-box; }
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 32px 20px 80px;
+}
 
-    body{
-      margin: 0;
-      background: var(--bg);
-      color: var(--text);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      line-height: 1.5;
-    }
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-bottom: 1px solid #e6e6e6;
+  padding-bottom: 20px;
+  margin-bottom: 40px;
+}
 
-    a{
-      color: inherit;
-      text-decoration: none;
-      border-bottom: 1px solid var(--border);
-    }
-    a:hover{ border-bottom-color: var(--text); }
+.brand h1 {
+  margin: 0;
+  font-size: 26px;
+}
 
-    .container{
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 32px 20px 80px;
-    }
+.brand p {
+  margin: 6px 0 0;
+  color: #666;
+  font-size: 14px;
+}
 
-    header{
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 20px;
-      margin-bottom: 40px;
-      gap: 18px;
-    }
+nav {
+  display: flex;
+  gap: 18px;
+  font-size: 14px;
+}
 
-    .brand h1{
-      margin: 0;
-      font-size: 26px;
-      font-weight: 600;
-      letter-spacing: 1px;
-    }
-    .brand p{
-      margin: 6px 0 0;
-      color: var(--muted);
-      font-size: 14px;
-    }
+section {
+  margin-bottom: 60px;
+}
 
-    nav{
-      display: flex;
-      gap: 18px;
-      font-size: 14px;
-      flex-wrap: wrap;
-      justify-content: flex-end;
-    }
+h2 {
+  font-size: 14px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
 
-    section{ margin-bottom: 60px; }
+#stack {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  align-items: center;
+}
 
-    h2{
-      font-size: 14px;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      margin: 0 0 20px;
-    }
+#stack img {
+  max-width: 100%;
+  max-height: 78vh;
+  object-fit: contain;
+  display: block;
+}
 
-    .text{
-      max-width: 600px;
-      font-size: 15px;
-      color: var(--text);
-      margin: 0;
-    }
+.contact {
+  margin-top: 40px;
+}
 
-    .card{
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 20px;
-      margin-top: 20px;
-    }
-
-    #stack{
-      display: flex;
-      flex-direction: column;
-      gap: 22px;
-      align-items: center;
-      margin-top: 10px;
-    }
-
-    #stack img{
-      display: block;
-      position: static !important;
-      float: none !important;
-      clear: both !important;
-      width: auto;
-      height: auto;
-      object-fit: contain;
-      max-width: 100%;
-      max-height: 78vh;
-    }
-
-    .contact-grid{
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-      max-width: 600px;
-    }
-
-    .contact-item{
-      border: 1px solid var(--border);
-      padding: 16px;
-      border-radius: 14px;
-      background: white;
-    }
-
-    footer{
-      margin-top: 80px;
-      font-size: 12px;
-      color: var(--muted);
-    }
-
-    @media (max-width: 640px){
-      header{ flex-direction: column; }
-      nav{ justify-content: flex-start; }
-      .contact-grid{ grid-template-columns: 1fr; }
-      #stack img{ max-height: 70vh; }
-    }
-  </style>
+footer {
+  margin-top: 80px;
+  font-size: 12px;
+  color: #666;
+}
+</style>
 </head>
 
 <body>
 <div class="container">
 
-  <header>
-    <div class="brand">
-      <h1>UNGADRAKEN</h1>
-      <p>Photographer</p>
-    </div>
+<header>
+  <div class="brand">
+    <h1>UNGADRAKEN</h1>
+    <p>Photographer</p>
+  </div>
 
-    <nav>
-      <a href="#about">About</a>
-      <a href="#work">Work</a>
-      <a href="#contact">Contact</a>
-    </nav>
-  </header>
+  <nav>
+    <a href="#about">About</a>
+    <a href="#work">Work</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
 
-  <section id="about">
-    <h2>About</h2>
-    <p class="text">
-      Visual storytelling focused on raw texture, atmosphere and emotional intensity.
-      Working across editorial, fashion and personal projects.
-    </p>
-  </section>
+<section id="about">
+  <h2>About</h2>
+  <p>
+    Visual storytelling focused on raw texture, atmosphere and emotional intensity.
+  </p>
+</section>
 
-  <section id="work">
-    <h2>Work</h2>
-    <div class="card">
-      <div id="stack" aria-label="Work images"></div>
-    </div>
-  </section>
+<section id="work">
+  <h2>Work</h2>
+  <div id="stack">
+    <img src="mammagrå.JPG" loading="lazy">
+    <img src="DSC09711.JPG" loading="lazy">
+    <img src="mammakök.JPG" loading="lazy">
+    <img src="mammasnöstå.JPG" loading="lazy">
+    <img src="mammablå.JPG" loading="lazy">
+  </div>
+</section>
 
-  <section id="contact">
-    <h2>Contact</h2>
+<section id="contact">
+  <h2>Contact</h2>
+  <p>
+    Email: <a href="mailto:ungadraken@gmail.com">ungadraken@gmail.com</a><br>
+    Instagram: <a href="https://www.instagram.com/exmag.eu/" target="_blank">@exmag.eu</a>
+  </p>
+</section>
 
-    <div class="contact-grid">
-      <div class="contact-item">
-        <strong>Email</strong><br>
-        <a href="mailto:ungadraken@gmail.com">ungadraken@gmail.com</a>
-      </div>
-
-      <div class="contact-item">
-        <strong>Instagram</strong><br>
-        <a href="https://www.instagram.com/exmag.eu/" target="_blank" rel="noopener">
-          @exmag.eu
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <footer>
-    © <span id="year"></span> UNGADRAKEN
-  </footer>
+<footer>
+  © <span id="year"></span> UNGADRAKEN
+</footer>
 
 </div>
 
 <script>
-  document.getElementById("year").textContent = new Date().getFullYear();
-
-  const images = [
-    "elsablommakall.jpeg",
-    "adamblommaljus.JPG",
-    "adamlljus.JPG",
-    "mammagrå.JPG",
-    "DSC09711.JPG",
-    "mammakök.JPG",
-    "mammasnöstå.JPG",
-    "mammablå.JPG",
-  ];
-
-  const stack = document.getElementById("stack");
-
-  images.forEach(src => {
-    const img = new Image();
-    img.alt = "";
-    img.loading = "lazy";
-    img.onerror = () => { img.remove(); };
-    img.src = src;
-    stack.appendChild(img);
-  });
+document.getElementById("year").textContent = new Date().getFullYear();
 </script>
 
 </body>
