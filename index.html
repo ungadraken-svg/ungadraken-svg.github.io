@@ -7,7 +7,6 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Cormorant+Garamond:wght@700&family=DM+Serif+Display&family=Oswald:wght@700&family=Playfair+Display:wght@700&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
 
 <style>
 :root{
@@ -101,6 +100,16 @@ a:hover{
   pointer-events: none;
 }
 
+#intro::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255,79,179,0.12), transparent 28%),
+    radial-gradient(circle at 75% 70%, rgba(124,255,122,0.12), transparent 30%);
+  pointer-events:none;
+}
+
 #intro-letters{
   position: absolute;
   inset: 0;
@@ -111,11 +120,11 @@ a:hover{
   position: absolute;
   top: 0;
   left: 0;
-  color: #111;
-  font-weight: 700;
+  font-family: Helvetica, Arial, sans-serif;
+  font-weight: 900;
   line-height: 1;
   user-select: none;
-  will-change: transform, opacity;
+  will-change: transform, opacity, color;
   white-space: pre;
 }
 
@@ -125,7 +134,7 @@ a:hover{
   top: 50%;
   transform: translate(-50%, -50%);
   display: flex;
-  gap: 0.02em;
+  gap: 0.01em;
   align-items: center;
   justify-content: center;
   pointer-events: none;
@@ -143,9 +152,12 @@ a:hover{
   transition:
     opacity 0.45s ease,
     transform 0.6s cubic-bezier(.2,.8,.2,1),
-    letter-spacing 0.3s ease;
+    letter-spacing 0.3s ease,
+    color 0.4s ease;
   color: #111;
   user-select: none;
+  font-family: Helvetica, Arial, sans-serif;
+  font-weight: 900;
 }
 
 #intro-word.ready .final-letter{
@@ -154,6 +166,16 @@ a:hover{
 
 #intro-word.ready:hover .final-letter{
   transform: translateY(-2px) scale(1.02);
+}
+
+#intro-word .final-letter:nth-child(3),
+#intro-word .final-letter:nth-child(7){
+  color: var(--pink);
+}
+
+#intro-word .final-letter:nth-child(5),
+#intro-word .final-letter:nth-child(9){
+  color: var(--green);
 }
 
 #intro-hint{
@@ -374,7 +396,7 @@ a:hover{
   line-height: 1.12;
   text-transform: uppercase;
   letter-spacing: 0.02em;
-  max-width: 180px;
+  max-width: 210px;
 }
 
 .micro-1{ top: 25vh; left: 44vw; }
@@ -425,8 +447,8 @@ a:hover{
 
 .mag-grid{
   display: grid;
-  grid-template-columns: 210px minmax(0, 1fr);
-  gap: 30px;
+  grid-template-columns: 180px minmax(0, 1fr) 180px;
+  gap: 20px;
   max-width: 1380px;
   margin: 0 auto;
 }
@@ -450,6 +472,9 @@ a:hover{
 
 .section-content{
   min-width: 0;
+  max-width: 880px;
+  width: 100%;
+  margin: 0 auto;
 }
 
 .section-title{
@@ -467,7 +492,7 @@ a:hover{
 .section-title.green{ color: #000; }
 
 .section-subtext{
-  margin: 20px 0 0;
+  margin: 20px auto 0;
   max-width: 620px;
   font-size: 15px;
   line-height: 1.65;
@@ -475,7 +500,7 @@ a:hover{
 
 .statement-row{
   display: grid;
-  grid-template-columns: 1.3fr 0.9fr;
+  grid-template-columns: 1fr 1fr;
   gap: 28px;
   margin-top: 24px;
   align-items: start;
@@ -530,7 +555,9 @@ a:hover{
   flex-direction: column;
   gap: 24px;
   align-items: center;
-  margin-top: 10px;
+  justify-content: center;
+  margin: 10px auto 0;
+  width: 100%;
 }
 
 #stack img{
@@ -545,6 +572,7 @@ a:hover{
   max-height: 82vh;
   border: 1px solid rgba(17,17,17,0.08);
   background: #fff;
+  margin: 0 auto;
 }
 
 .work-note-grid{
@@ -608,7 +636,6 @@ a:hover{
   flex-wrap: wrap;
 }
 
-/* SMALLER TEXT INSIDE BIG FEEL */
 .inline-fragments{
   margin-top: 22px;
   display: flex;
@@ -625,7 +652,10 @@ a:hover{
   padding-bottom: 3px;
 }
 
-/* MOBILE */
+.mag-spacer{
+  min-height: 1px;
+}
+
 @media (max-width: 980px){
   .mag-grid{
     grid-template-columns: 1fr;
@@ -669,6 +699,10 @@ a:hover{
 
   .hero{
     min-height: 205vh;
+  }
+
+  .mag-spacer{
+    display: none;
   }
 }
 
@@ -743,21 +777,21 @@ a:hover{
       <div class="hero-meta-left">
         ISSUE 01<br>
         UNGADRAKEN STUDIOS<br>
-        RAW IMAGE / EDITORIAL FORM<br>
+        EDITORIAL IMAGE / VISUAL FORM<br>
         GÖTEBORG / 2026
       </div>
 
       <div class="hero-meta-right">
-        FRONT PAGE FOR A DIGITAL MAGAZINE<br>
-        TEXT AS IMAGE / IMAGE AS SURFACE<br>
+        DIGITAL FRONT PAGE<br>
+        IMAGE / TEXT / SURFACE<br>
         SCROLL TO ENTER
       </div>
 
-      <div class="hero-word word-1">FLESH</div>
-      <div class="hero-word word-2">YOUTH</div>
+      <div class="hero-word word-1">SURFACE</div>
+      <div class="hero-word word-2">SIGNAL</div>
       <div class="hero-word word-3">AFTER</div>
-      <div class="hero-word word-4">RAW</div>
-      <div class="hero-word word-5">DESIRE</div>
+      <div class="hero-word word-4">FRAME</div>
+      <div class="hero-word word-5">STATIC</div>
       <div class="hero-word word-6">IMAGE</div>
 
       <div class="hero-shape shape-pink-1"></div>
@@ -766,12 +800,11 @@ a:hover{
       <div class="hero-shape shape-green-2"></div>
 
       <div class="hero-micro micro-1">
-        TOUCH / TENSION / GLANCE / SWEAT / STATIC / SOFT VIOLENCE
+        LOOK / TEXTURE / PRESSURE / GLANCE / SURFACE / AFTERIMAGE
       </div>
 
       <div class="hero-micro micro-2">
-        BODIES BEFORE LANGUAGE<br>
-        DESIRE BEFORE CERTAINTY
+        FASHION / DOCUMENT / STAGING / INTENSITY
       </div>
 
       <div class="hero-micro micro-3">
@@ -779,7 +812,7 @@ a:hover{
       </div>
 
       <div class="hero-micro micro-4">
-        A-Z / Å Ä Ö / TYPOGRAPHY AS MASS
+        CONTEMPORARY IMAGE / FRAGMENT / SCREEN / PRINT
       </div>
 
       <div class="hero-alphabet">
@@ -802,48 +835,50 @@ a:hover{
         </div>
 
         <div class="section-content">
-          <h2 class="section-title pink">Raw texture.<br>Emotional surface.</h2>
+          <h2 class="section-title pink">Raw texture.<br>Contemporary image.</h2>
 
           <p class="section-subtext">
-            Visual storytelling focused on raw texture, atmosphere and emotional intensity.
-            Working across editorial, fashion and personal projects with an interest in youth,
-            intimacy, tension, cold light, bodies in space and the emotional residue that remains
-            after the image has been taken.
+            Visual storytelling focused on texture, atmosphere and intensity.
+            Working across editorial, fashion and personal projects with an interest in the
+            visual language of the present: surface, tension, styling, stillness, constructed
+            moments and the emotional charge that remains around an image.
           </p>
 
           <div class="inline-fragments">
             <span>Editorial instinct</span>
             <span>Magazine structure</span>
             <span>Noise and scratches</span>
-            <span>Body as symbol</span>
-            <span>Provocation through form</span>
+            <span>Image culture</span>
+            <span>Surface and form</span>
           </div>
 
           <div class="statement-row">
             <div class="statement-box">
               <h3>Approach</h3>
               <p>
-                The work moves between fashion image, diary fragment and visual fiction.
-                The goal is not polish for its own sake, but atmosphere with pressure:
-                something tactile, charged and slightly unstable, like a printed page that has
-                been handled too many times.
+                The work moves between fashion image, visual fragment and staged document.
+                The aim is not polish for its own sake, but atmosphere with pressure:
+                something tactile, clear and slightly unstable, like a printed page that keeps
+                carrying traces of handling, repetition and time.
               </p>
             </div>
 
             <div class="statement-box">
-              <h3>Interest</h3>
+              <h3>Focus</h3>
               <p>
-                Texture, skin, fabric, gesture, suburban melancholy, nightlife residue,
-                awkward closeness, staged realism and the point where editorial beauty starts
-                to feel slightly dangerous.
+                Texture, fabric, gesture, contemporary styling, emotional distance,
+                nightlife residue, image saturation, closeness, form and the point where an
+                editorial image begins to feel charged beyond its surface.
               </p>
             </div>
           </div>
 
           <div class="ribbon-text">
-            IMAGE AS DESIRE / <span>DESIRE AS DESIGN</span>
+            IMAGE / SURFACE / <span>PRESENT TENSE</span>
           </div>
         </div>
+
+        <div class="mag-spacer"></div>
       </div>
     </section>
 
@@ -852,28 +887,29 @@ a:hover{
         <div class="section-kicker">
           <strong>Work</strong>
           Selected images<br>
-          Scroll like a virtual issue
+          Digital sequence
         </div>
 
         <div class="section-content">
-          <h2 class="section-title red">Work as pages.<br>Not thumbnails.</h2>
+          <h2 class="section-title red">A sequence of images.<br>A continuous surface.</h2>
 
           <p class="section-subtext">
-            The images sit one after another to keep the feeling of an unfolding spread rather
-            than a standard grid. This makes the site feel closer to a digital magazine than a
-            portfolio index.
+            The images are shown one after another to preserve rhythm, scale and atmosphere.
+            The site is built to feel closer to a digital spread than a conventional index.
           </p>
 
           <div class="work-note-grid">
-            <div class="note-box">Cold light / soft aggression / intimacy / stillness</div>
-            <div class="note-box">Editorial image / personal residue / body language</div>
-            <div class="note-box">Surface / print feel / image as object</div>
+            <div class="note-box">Cold light / surface / restraint / atmosphere</div>
+            <div class="note-box">Editorial image / staging / residue / tension</div>
+            <div class="note-box">Print feel / screen space / image as object</div>
           </div>
 
           <div class="card">
             <div id="stack" aria-label="Work images"></div>
           </div>
         </div>
+
+        <div class="mag-spacer"></div>
       </div>
     </section>
 
@@ -912,9 +948,11 @@ a:hover{
           </div>
 
           <div class="ribbon-text" style="margin-top:30px;">
-            PRINT FEEL / SCREEN SPACE / <span>VIRTUAL ZINE</span>
+            PRINT FEEL / SCREEN SPACE / <span>VISUAL ISSUE</span>
           </div>
         </div>
+
+        <div class="mag-spacer"></div>
       </div>
     </section>
 
@@ -961,19 +999,7 @@ const introWord = document.getElementById("intro-word");
 
 const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ";
 const finalWord = "UNGADRAKEN";
-
-const fontPool = [
-  '"Anton", sans-serif',
-  '"Bebas Neue", sans-serif',
-  '"Playfair Display", serif',
-  '"Cormorant Garamond", serif',
-  '"DM Serif Display", serif',
-  '"Oswald", sans-serif',
-  '"Space Grotesk", sans-serif',
-  'Helvetica, Arial, sans-serif',
-  '"Times New Roman", serif',
-  'Georgia, serif'
-];
+const introColors = ["#111111", "#ff4fb3", "#7cff7a"];
 
 let introFinished = false;
 let animationFrame = null;
@@ -989,7 +1015,6 @@ function buildFinalWord(){
     const span = document.createElement("span");
     span.className = "final-letter";
     span.textContent = char;
-    span.style.fontFamily = fontPool[i % fontPool.length];
     introWord.appendChild(span);
   });
 }
@@ -998,11 +1023,11 @@ function sizeFinalWord(){
   const spans = [...introWord.querySelectorAll(".final-letter")];
   const w = window.innerWidth;
 
-  let fontSize = 110;
-  if (w < 1200) fontSize = 96;
-  if (w < 900) fontSize = 78;
-  if (w < 700) fontSize = 54;
-  if (w < 520) fontSize = 38;
+  let fontSize = 118;
+  if (w < 1200) fontSize = 102;
+  if (w < 900) fontSize = 82;
+  if (w < 700) fontSize = 58;
+  if (w < 520) fontSize = 40;
 
   spans.forEach(span => {
     span.style.fontSize = fontSize + "px";
@@ -1024,9 +1049,9 @@ function createParticle(char, target = null, delay = 0){
   const el = document.createElement("div");
   el.className = "falling-letter";
   el.textContent = char;
-  el.style.fontFamily = fontPool[Math.floor(Math.random() * fontPool.length)];
-  el.style.fontSize = randomBetween(26, 74) + "px";
-  el.style.opacity = randomBetween(0.72, 1).toFixed(2);
+  el.style.fontSize = randomBetween(28, 84) + "px";
+  el.style.opacity = randomBetween(0.74, 1).toFixed(2);
+  el.style.color = introColors[Math.floor(Math.random() * introColors.length)];
   introLetters.appendChild(el);
 
   const p = {
@@ -1059,7 +1084,7 @@ function seedParticles(){
     createParticle(char);
   }
 
-  for (let i = 0; i < 38; i++) {
+  for (let i = 0; i < 42; i++) {
     const char = alphabet[Math.floor(Math.random() * alphabet.length)];
     createParticle(char);
   }
