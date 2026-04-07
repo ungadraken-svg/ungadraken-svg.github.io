@@ -22,6 +22,11 @@
   --poster-white:#f5f4ef;
   --white:#ffffff;
 
+  --lime:#c9ff2f;
+  --pink:#ef57bb;
+  --blue-strong:#2f5ef5;
+  --orange:#f3a347;
+
   --tracking-display:.028em;
   --tracking-ui:.14em;
   --tracking-small:.12em;
@@ -117,7 +122,7 @@ body::after{
 .star-shape-burst{
   position:absolute;
   aspect-ratio:1/1;
-  pointer-events:none;
+  pointer-events:auto;
 }
 
 .star-shape{
@@ -170,6 +175,20 @@ body::after{
   );
 }
 
+.skull-shape{
+  position:absolute;
+  pointer-events:auto;
+  background:currentColor;
+  -webkit-mask-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'><path d='M128 12C84 12 50 45 50 89c0 24 10 42 24 55-7 8-11 18-11 29 0 24 19 42 43 42h22v13l-11 12h22l9-11 9 11h22l-11-12v-13h22c24 0 43-18 43-42 0-11-4-21-11-29 14-13 24-31 24-55 0-44-34-77-78-77zm-31 86c18 0 31 11 31 24s-13 24-31 24-31-11-31-24 13-24 31-24zm62 0c18 0 31 11 31 24s-13 24-31 24-31-11-31-24 13-24 31-24zm-31 49 11 28h-22l11-28zm-88 47c7-6 17-6 24 0l28 20 36-15-52 35c-8 5-18 4-25-2l-11-9c-9 2-18-3-20-11-2-8 2-15 10-18l10 0zm176 0c-7-6-17-6-24 0l-28 20-36-15 52 35c8 5 18 4 25-2l11-9c9 2 18-3 20-11 2-8-2-15-10-18l-10 0z'/></svg>");
+  mask-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'><path d='M128 12C84 12 50 45 50 89c0 24 10 42 24 55-7 8-11 18-11 29 0 24 19 42 43 42h22v13l-11 12h22l9-11 9 11h22l-11-12v-13h22c24 0 43-18 43-42 0-11-4-21-11-29 14-13 24-31 24-55 0-44-34-77-78-77zm-31 86c18 0 31 11 31 24s-13 24-31 24-31-11-31-24 13-24 31-24zm62 0c18 0 31 11 31 24s-13 24-31 24-31-11-31-24 13-24 31-24zm-31 49 11 28h-22l11-28zm-88 47c7-6 17-6 24 0l28 20 36-15-52 35c-8 5-18 4-25-2l-11-9c-9 2-18-3-20-11-2-8 2-15 10-18l10 0zm176 0c-7-6-17-6-24 0l-28 20-36-15 52 35c8 5 18 4 25-2l11-9c9 2 18-3 20-11 2-8-2-15-10-18l-10 0z'/></svg>");
+  -webkit-mask-repeat:no-repeat;
+  mask-repeat:no-repeat;
+  -webkit-mask-size:contain;
+  mask-size:contain;
+  -webkit-mask-position:center;
+  mask-position:center;
+}
+
 .grid-overlay{
   position:absolute;
   inset:0;
@@ -180,6 +199,33 @@ body::after{
     linear-gradient(90deg, rgba(0,0,0,.14) 1px, transparent 1px);
   background-size:56px 56px;
   z-index:0;
+}
+
+/* DRAG / TILT SHAPES */
+.floating-shape{
+  position:absolute;
+  z-index:1;
+  user-select:none;
+  -webkit-user-select:none;
+  touch-action:none;
+  cursor:grab;
+  will-change:transform;
+  transition:box-shadow .2s ease, filter .2s ease;
+  filter:drop-shadow(0 8px 14px rgba(0,0,0,.12));
+}
+
+.floating-shape:active{
+  cursor:grabbing;
+}
+
+.floating-shape.dragging{
+  z-index:6;
+  filter:drop-shadow(0 18px 22px rgba(0,0,0,.22));
+}
+
+.text-layer{
+  position:relative;
+  z-index:4;
 }
 
 /* COVER */
@@ -256,9 +302,7 @@ body::after{
   width:min(40vw,560px);
   left:50%;
   top:48%;
-  transform:translate(-50%,-50%) rotate(-7deg);
   background:var(--signal-yellow);
-  opacity:1;
 }
 
 .cover-title{
@@ -273,7 +317,7 @@ body::after{
   text-transform:uppercase;
   color:var(--berry);
   text-align:center;
-  z-index:3;
+  z-index:4;
 }
 
 .cover-sub{
@@ -281,7 +325,7 @@ body::after{
   left:50%;
   bottom:14%;
   transform:translateX(-50%);
-  z-index:3;
+  z-index:4;
   font-size:11px;
   letter-spacing:var(--tracking-ui);
   text-transform:uppercase;
@@ -412,7 +456,7 @@ body::after{
   text-transform:uppercase;
   line-height:.88;
   color:var(--ink);
-  z-index:3;
+  z-index:4;
   letter-spacing:-.02em;
 }
 
@@ -431,18 +475,7 @@ body::after{
 }
 
 .home-manifesto{
-  position:absolute;
-  left:4.5%;
-  top:23%;
-  z-index:3;
-  display:grid;
-  gap:2px;
-  font-size:clamp(18px, 2vw, 34px);
-  line-height:.92;
-  font-weight:900;
-  letter-spacing:-.045em;
-  text-transform:uppercase;
-  color:var(--ink);
+  display:none;
 }
 
 .home-blue-bar{
@@ -452,17 +485,13 @@ body::after{
   width:min(26vw,360px);
   height:min(8.6vw,118px);
   background:linear-gradient(90deg, #4bb5ea, #2f5ef5);
-  transform:rotate(-9deg);
-  z-index:2;
 }
 
 .home-yellow-burst{
   width:min(28vw,420px);
-  left:59%;
-  top:51%;
-  transform:translate(-50%,-50%) rotate(8deg);
+  left:58%;
+  top:48%;
   background:var(--signal-yellow);
-  z-index:1;
 }
 
 .home-red-star{
@@ -470,20 +499,35 @@ body::after{
   left:18%;
   top:42%;
   background:#e65ab4;
-  transform:rotate(-10deg);
-  z-index:2;
+}
+
+.home-skull-lime{
+  width:min(16vw,220px);
+  height:min(16vw,220px);
+  left:68%;
+  top:14%;
+  color:var(--lime);
+}
+
+.home-skull-pink{
+  width:min(13vw,180px);
+  height:min(13vw,180px);
+  left:8%;
+  top:58%;
+  color:var(--pink);
 }
 
 .home-black-note{
   position:absolute;
   right:4%;
   bottom:37%;
-  z-index:3;
+  z-index:4;
   font-size:11px;
   letter-spacing:var(--tracking-ui);
   text-transform:uppercase;
   color:var(--ink);
   text-align:right;
+  max-width:44%;
 }
 
 .index-card{
@@ -569,7 +613,7 @@ body::after{
 }
 .index-card:nth-child(4){
   background:
-    linear-gradient(180deg, rgba(0,0,0,.04), rgba(255,255,255,.18)),
+    linear-gradient(180deg, rgba(201,255,47,.16), rgba(255,255,255,.18)),
     var(--paper);
 }
 
@@ -582,11 +626,14 @@ body::after{
 
 .poster-top{
   position:relative;
-  min-height:54vh;
+  min-height:56vh;
   padding:20px;
   border-bottom:1px solid var(--line);
   overflow:hidden;
-  background:var(--paper);
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.36), rgba(255,255,255,0) 38%),
+    linear-gradient(180deg, rgba(179,229,252,.18), rgba(255,255,255,.02)),
+    var(--paper);
 }
 
 .poster-top .grid-overlay{
@@ -613,9 +660,10 @@ body::after{
   letter-spacing:-.04em;
   font-weight:900;
   text-transform:uppercase;
-  z-index:3;
+  z-index:4;
   color:var(--ink);
   white-space:nowrap;
+  max-width:88%;
 }
 
 .poster-word.word-editorial{
@@ -634,7 +682,7 @@ body::after{
   position:absolute;
   top:18px;
   left:20px;
-  z-index:3;
+  z-index:4;
   font-size:11px;
   line-height:1.4;
   text-transform:uppercase;
@@ -647,7 +695,6 @@ body::after{
 .poster-shape-c,
 .poster-shape-d{
   position:absolute;
-  z-index:1;
 }
 
 .poster-shape-a{
@@ -655,30 +702,73 @@ body::after{
   height:clamp(70px, 8vw, 130px);
   background:linear-gradient(90deg, #3257eb, #4666ef);
   right:12%;
-  top:25%;
-  transform:rotate(-9deg);
+  top:22%;
 }
 
 .poster-shape-b{
   width:clamp(110px, 15vw, 220px);
-  left:12%;
-  top:23%;
-  background:#e45ab5;
-  transform:rotate(-10deg);
+  left:10%;
+  top:22%;
+  background:var(--pink);
 }
 
 .poster-shape-c{
   width:clamp(76px, 9vw, 145px);
-  right:34%;
-  bottom:18%;
+  right:36%;
+  bottom:26%;
   background:var(--signal-yellow);
 }
 
 .poster-shape-d{
   width:clamp(70px, 8vw, 132px);
   left:22%;
-  bottom:22%;
-  background:#e7a44f;
+  bottom:24%;
+  background:var(--orange);
+}
+
+.poster-skull-lime{
+  width:clamp(80px, 10vw, 150px);
+  height:clamp(80px, 10vw, 150px);
+  right:7%;
+  bottom:15%;
+  color:var(--lime);
+}
+
+.poster-skull-pink{
+  width:clamp(62px, 8vw, 115px);
+  height:clamp(62px, 8vw, 115px);
+  right:27%;
+  top:12%;
+  color:var(--pink);
+}
+
+.poster-skull-blue{
+  width:clamp(70px, 8vw, 120px);
+  height:clamp(70px, 8vw, 120px);
+  left:34%;
+  top:12%;
+  color:var(--blue-strong);
+}
+
+.editorial-bg{
+  background:
+    linear-gradient(140deg, rgba(179,229,252,.34), rgba(255,255,255,0) 36%),
+    linear-gradient(180deg, rgba(239,87,187,.08), rgba(255,255,255,.05)),
+    var(--paper);
+}
+
+.fashion-bg{
+  background:
+    linear-gradient(140deg, rgba(201,255,47,.25), rgba(255,255,255,0) 34%),
+    linear-gradient(180deg, rgba(47,94,245,.08), rgba(255,255,255,.05)),
+    var(--paper);
+}
+
+.personal-bg{
+  background:
+    linear-gradient(140deg, rgba(243,234,25,.22), rgba(255,255,255,0) 34%),
+    linear-gradient(180deg, rgba(239,87,187,.10), rgba(255,255,255,.05)),
+    var(--paper);
 }
 
 .poster-actions{
@@ -687,7 +777,9 @@ body::after{
   gap:10px;
   padding:18px 20px;
   border-bottom:1px solid var(--line);
-  background:rgba(255,255,255,.46);
+  background:
+    linear-gradient(90deg, rgba(201,255,47,.12), rgba(239,87,187,.08), rgba(47,94,245,.08)),
+    rgba(255,255,255,.5);
 }
 
 .poster-actions button{
@@ -768,12 +860,13 @@ body::after{
 
 .contact-top{
   position:relative;
-  min-height:48vh;
+  min-height:50vh;
   padding:20px;
   border-bottom:1px solid var(--line);
   overflow:hidden;
   background:
-    linear-gradient(180deg, var(--icy) 0 58%, var(--paper) 58% 100%);
+    linear-gradient(145deg, rgba(201,255,47,.22), rgba(255,255,255,0) 28%),
+    linear-gradient(180deg, var(--icy) 0 52%, rgba(239,87,187,.12) 52% 100%);
 }
 
 .contact-top::after{
@@ -790,16 +883,17 @@ body::after{
   letter-spacing:-.04em;
   font-weight:900;
   text-transform:uppercase;
-  z-index:3;
+  z-index:4;
   color:var(--ink);
   white-space:nowrap;
+  max-width:86%;
 }
 
 .contact-note{
   position:absolute;
   top:18px;
   left:20px;
-  z-index:3;
+  z-index:4;
   font-size:11px;
   line-height:1.4;
   text-transform:uppercase;
@@ -812,17 +906,13 @@ body::after{
   top:19%;
   width:clamp(120px, 16vw, 220px);
   background:var(--signal-yellow);
-  transform:rotate(-8deg);
-  z-index:1;
 }
 
 .contact-star-two{
   left:16%;
   top:16%;
   width:clamp(80px, 10vw, 130px);
-  background:#e95fb7;
-  transform:rotate(10deg);
-  z-index:1;
+  background:var(--pink);
 }
 
 .contact-star-three{
@@ -830,8 +920,22 @@ body::after{
   bottom:24%;
   width:clamp(55px, 7vw, 98px);
   background:#1f58ff;
-  transform:rotate(18deg);
-  z-index:1;
+}
+
+.contact-skull-lime{
+  width:clamp(90px, 12vw, 150px);
+  height:clamp(90px, 12vw, 150px);
+  right:16%;
+  bottom:16%;
+  color:var(--lime);
+}
+
+.contact-skull-pink{
+  width:clamp(62px, 8vw, 112px);
+  height:clamp(62px, 8vw, 112px);
+  left:32%;
+  top:14%;
+  color:var(--pink);
 }
 
 .contact-grid{
@@ -845,7 +949,9 @@ body::after{
   min-height:170px;
   border-right:1px solid var(--line);
   border-bottom:1px solid var(--line);
-  background:rgba(255,255,255,.58);
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.54), rgba(201,255,47,.06)),
+    rgba(255,255,255,.58);
 }
 
 .contact-card:nth-child(2n){
@@ -862,7 +968,7 @@ body::after{
 
 .contact-value{
   font-size:clamp(24px,4vw,54px);
-  line-height:.95;
+  line-height:1;
   letter-spacing:-.03em;
   font-weight:900;
   text-transform:uppercase;
@@ -917,6 +1023,11 @@ body::after{
   .index-card{
     min-height:120px;
   }
+
+  .poster-word,
+  .contact-word{
+    max-width:78%;
+  }
 }
 
 /* TABLET */
@@ -957,13 +1068,17 @@ body::after{
     padding:16px;
   }
 
-  .home-manifesto{
-    top:25%;
-    font-size:clamp(16px, 4vw, 26px);
-  }
-
   .index-card .label{
     white-space:normal;
+  }
+
+  .poster-word,
+  .contact-word{
+    max-width:74%;
+  }
+
+  .home-black-note{
+    max-width:48%;
   }
 }
 
@@ -1024,48 +1139,56 @@ body::after{
     min-height:48vh;
   }
 
-  .home-manifesto{
-    left:5%;
-    top:24%;
-    font-size:8.8vw;
-    line-height:.9;
-  }
-
   .home-blue-bar{
-    width:46vw;
+    width:44vw;
     height:18vw;
     right:8%;
-    top:20%;
+    top:18%;
   }
 
   .home-red-star{
-    width:34vw;
-    left:12%;
-    top:40%;
+    width:30vw;
+    left:10%;
+    top:34%;
   }
 
   .home-yellow-burst{
-    width:44vw;
+    width:38vw;
     left:68%;
-    top:50%;
+    top:56%;
+  }
+
+  .home-skull-lime{
+    width:24vw;
+    height:24vw;
+    left:66%;
+    top:10%;
+  }
+
+  .home-skull-pink{
+    width:20vw;
+    height:20vw;
+    left:8%;
+    top:62%;
   }
 
   .word-image{
-    font-size:16.5vw;
+    font-size:16.2vw;
     top:7%;
     left:4%;
   }
 
   .word-archive{
-    font-size:15.2vw;
+    font-size:15vw;
     left:4%;
     bottom:6%;
   }
 
   .home-black-note{
     right:4%;
-    bottom:36%;
+    bottom:34%;
     font-size:9px;
+    max-width:44%;
   }
 
   .home-right{
@@ -1090,7 +1213,7 @@ body::after{
   }
 
   .poster-top{
-    min-height:38vh;
+    min-height:40vh;
     padding:16px;
   }
 
@@ -1100,6 +1223,7 @@ body::after{
     bottom:7%;
     line-height:.88;
     white-space:nowrap;
+    max-width:68%;
     transform-origin:left bottom;
   }
 
@@ -1119,28 +1243,49 @@ body::after{
   }
 
   .poster-shape-a{
-    width:36vw;
-    height:16vw;
-    right:12%;
-    top:24%;
+    width:30vw;
+    height:14vw;
+    right:8%;
+    top:20%;
   }
 
   .poster-shape-b{
-    width:30vw;
-    left:12%;
-    top:24%;
+    width:24vw;
+    left:10%;
+    top:22%;
   }
 
   .poster-shape-c{
-    width:20vw;
-    right:34%;
-    bottom:18%;
+    width:15vw;
+    right:30%;
+    bottom:22%;
   }
 
   .poster-shape-d{
-    width:18vw;
-    left:24%;
-    bottom:20%;
+    width:14vw;
+    left:18%;
+    bottom:24%;
+  }
+
+  .poster-skull-lime{
+    width:16vw;
+    height:16vw;
+    right:8%;
+    bottom:12%;
+  }
+
+  .poster-skull-pink{
+    width:13vw;
+    height:13vw;
+    right:23%;
+    top:10%;
+  }
+
+  .poster-skull-blue{
+    width:13vw;
+    height:13vw;
+    left:34%;
+    top:9%;
   }
 
   .poster-actions{
@@ -1166,14 +1311,14 @@ body::after{
   }
 
   .contact-top{
-    min-height:36vh;
+    min-height:38vh;
     padding:16px;
   }
 
   .contact-note{
     left:16px;
     top:16px;
-    max-width:72%;
+    max-width:62%;
   }
 
   .contact-word{
@@ -1181,6 +1326,39 @@ body::after{
     left:4%;
     bottom:7%;
     letter-spacing:-.055em;
+    max-width:68%;
+  }
+
+  .contact-star{
+    width:24vw;
+    right:8%;
+    top:20%;
+  }
+
+  .contact-star-two{
+    width:16vw;
+    left:12%;
+    top:18%;
+  }
+
+  .contact-star-three{
+    width:12vw;
+    right:30%;
+    bottom:24%;
+  }
+
+  .contact-skull-lime{
+    width:16vw;
+    height:16vw;
+    right:14%;
+    bottom:14%;
+  }
+
+  .contact-skull-pink{
+    width:13vw;
+    height:13vw;
+    left:30%;
+    top:14%;
   }
 
   .contact-card{
@@ -1217,16 +1395,12 @@ body::after{
     font-size:15vw;
   }
 
-  .home-manifesto{
-    font-size:8.6vw;
-  }
-
   .word-image{
-    font-size:15.5vw;
+    font-size:15.2vw;
   }
 
   .word-archive{
-    font-size:14.5vw;
+    font-size:14.2vw;
   }
 
   .poster-word.word-editorial{
@@ -1244,10 +1418,6 @@ body::after{
   .contact-word{
     font-size:14.2vw;
   }
-
-  .contact-note{
-    max-width:68%;
-  }
 }
 </style>
 </head>
@@ -1261,7 +1431,7 @@ body::after{
 
     <div class="cover-blue-field"></div>
     <div class="cover-berry-block"></div>
-    <div class="cover-yellow-burst star-shape-burst"></div>
+    <div class="cover-yellow-burst star-shape-burst floating-shape" data-depth="0.45" data-rotate="-7"></div>
 
     <div class="cover-title">
       <span>UNGADRAKEN</span>
@@ -1297,18 +1467,13 @@ body::after{
           <div class="home-left">
             <div class="grid-overlay"></div>
 
-            <div class="home-blue-bar"></div>
-            <div class="home-red-star star-shape-soft"></div>
-            <div class="home-yellow-burst star-shape-burst"></div>
+            <div class="home-blue-bar floating-shape" data-depth="0.38" data-rotate="-9"></div>
+            <div class="home-red-star star-shape-soft floating-shape" data-depth="0.52" data-rotate="-10"></div>
+            <div class="home-yellow-burst star-shape-burst floating-shape" data-depth="0.62" data-rotate="8"></div>
+            <div class="home-skull-lime skull-shape floating-shape" data-depth="0.72" data-rotate="12"></div>
+            <div class="home-skull-pink skull-shape floating-shape" data-depth="0.55" data-rotate="-14"></div>
 
             <div class="home-word word-image">IMAGE</div>
-
-            <div class="home-manifesto">
-              <span>UNGADRAKENELLIOTT</span>
-              <span>PORTFOLIO</span>
-              <span>(ARCHIVE)</span>
-            </div>
-
             <div class="home-black-note">UNGADRAKEN / IMAGE ARCHIVE / SELECT ENTRY</div>
             <div class="home-word word-archive">ARCHIVE</div>
           </div>
@@ -1341,13 +1506,18 @@ body::after{
     <section class="page-section" id="editorial" data-page>
       <div class="section-inner">
         <div class="poster-shell">
-          <div class="poster-top">
+          <div class="poster-top editorial-bg">
             <div class="grid-overlay"></div>
             <div class="poster-meta">ARCHIVE ENTRY 01</div>
-            <div class="poster-shape-a"></div>
-            <div class="poster-shape-b star-shape-soft"></div>
-            <div class="poster-shape-c star-shape-burst"></div>
-            <div class="poster-shape-d star-shape-spike"></div>
+
+            <div class="poster-shape-a floating-shape" data-depth="0.40" data-rotate="-9"></div>
+            <div class="poster-shape-b star-shape-soft floating-shape" data-depth="0.56" data-rotate="-10"></div>
+            <div class="poster-shape-c star-shape-burst floating-shape" data-depth="0.62" data-rotate="7"></div>
+            <div class="poster-shape-d star-shape-spike floating-shape" data-depth="0.48" data-rotate="16"></div>
+            <div class="poster-skull-lime skull-shape floating-shape" data-depth="0.74" data-rotate="9"></div>
+            <div class="poster-skull-pink skull-shape floating-shape" data-depth="0.66" data-rotate="-16"></div>
+            <div class="poster-skull-blue skull-shape floating-shape" data-depth="0.50" data-rotate="6"></div>
+
             <div class="poster-word word-editorial">EDITORIAL</div>
           </div>
 
@@ -1365,13 +1535,18 @@ body::after{
     <section class="page-section" id="fashion" data-page>
       <div class="section-inner">
         <div class="poster-shell">
-          <div class="poster-top">
+          <div class="poster-top fashion-bg">
             <div class="grid-overlay"></div>
             <div class="poster-meta">ARCHIVE ENTRY 02</div>
-            <div class="poster-shape-a"></div>
-            <div class="poster-shape-b star-shape-wide"></div>
-            <div class="poster-shape-c star-shape-burst"></div>
-            <div class="poster-shape-d star-shape-spike"></div>
+
+            <div class="poster-shape-a floating-shape" data-depth="0.40" data-rotate="-8"></div>
+            <div class="poster-shape-b star-shape-wide floating-shape" data-depth="0.54" data-rotate="-10"></div>
+            <div class="poster-shape-c star-shape-burst floating-shape" data-depth="0.68" data-rotate="8"></div>
+            <div class="poster-shape-d star-shape-spike floating-shape" data-depth="0.47" data-rotate="15"></div>
+            <div class="poster-skull-lime skull-shape floating-shape" data-depth="0.78" data-rotate="-12"></div>
+            <div class="poster-skull-pink skull-shape floating-shape" data-depth="0.64" data-rotate="12"></div>
+            <div class="poster-skull-blue skull-shape floating-shape" data-depth="0.50" data-rotate="-6"></div>
+
             <div class="poster-word word-fashion">FASHION</div>
           </div>
 
@@ -1389,13 +1564,18 @@ body::after{
     <section class="page-section" id="personal-work" data-page>
       <div class="section-inner">
         <div class="poster-shell">
-          <div class="poster-top">
+          <div class="poster-top personal-bg">
             <div class="grid-overlay"></div>
             <div class="poster-meta">ARCHIVE ENTRY 03</div>
-            <div class="poster-shape-a"></div>
-            <div class="poster-shape-b star-shape-soft"></div>
-            <div class="poster-shape-c star-shape-burst"></div>
-            <div class="poster-shape-d star-shape-spike"></div>
+
+            <div class="poster-shape-a floating-shape" data-depth="0.40" data-rotate="-9"></div>
+            <div class="poster-shape-b star-shape-soft floating-shape" data-depth="0.52" data-rotate="-11"></div>
+            <div class="poster-shape-c star-shape-burst floating-shape" data-depth="0.66" data-rotate="9"></div>
+            <div class="poster-shape-d star-shape-spike floating-shape" data-depth="0.48" data-rotate="16"></div>
+            <div class="poster-skull-lime skull-shape floating-shape" data-depth="0.76" data-rotate="10"></div>
+            <div class="poster-skull-pink skull-shape floating-shape" data-depth="0.62" data-rotate="-10"></div>
+            <div class="poster-skull-blue skull-shape floating-shape" data-depth="0.46" data-rotate="5"></div>
+
             <div class="poster-word word-personal">PERSONAL</div>
           </div>
 
@@ -1415,9 +1595,13 @@ body::after{
         <div class="contact-shell">
           <div class="contact-top">
             <div class="contact-note">COLLABORATION / COMMISSION / EDITORIAL</div>
-            <div class="contact-star star-shape-burst"></div>
-            <div class="contact-star-two star-shape-soft"></div>
-            <div class="contact-star-three star-shape-diamond"></div>
+
+            <div class="contact-star star-shape-burst floating-shape" data-depth="0.66" data-rotate="-8"></div>
+            <div class="contact-star-two star-shape-soft floating-shape" data-depth="0.52" data-rotate="10"></div>
+            <div class="contact-star-three star-shape-diamond floating-shape" data-depth="0.44" data-rotate="18"></div>
+            <div class="contact-skull-lime skull-shape floating-shape" data-depth="0.76" data-rotate="10"></div>
+            <div class="contact-skull-pink skull-shape floating-shape" data-depth="0.58" data-rotate="-12"></div>
+
             <div class="contact-word">CONTACT</div>
           </div>
 
@@ -1583,6 +1767,139 @@ window.addEventListener("load", () => {
     showPage(pageId);
   }
 });
+
+/* DRAG + TILT */
+const floatingShapes = [...document.querySelectorAll(".floating-shape")];
+const tiltState = { x: 0, y: 0 };
+let activeShape = null;
+let dragData = null;
+
+floatingShapes.forEach(shape => {
+  const rotate = parseFloat(shape.dataset.rotate || 0);
+  const depth = parseFloat(shape.dataset.depth || 0.5);
+
+  shape.dataset.baseRotate = rotate;
+  shape.dataset.depth = depth;
+  shape.dataset.dragX = 0;
+  shape.dataset.dragY = 0;
+
+  applyShapeTransform(shape);
+  shape.addEventListener("pointerdown", startDrag);
+});
+
+function applyShapeTransform(shape){
+  const dragX = parseFloat(shape.dataset.dragX || 0);
+  const dragY = parseFloat(shape.dataset.dragY || 0);
+  const rotate = parseFloat(shape.dataset.baseRotate || 0);
+  const depth = parseFloat(shape.dataset.depth || 0.5);
+
+  const tx = dragX + tiltState.x * depth;
+  const ty = dragY + tiltState.y * depth;
+
+  shape.style.transform = `translate3d(${tx}px, ${ty}px, 0) rotate(${rotate}deg)`;
+}
+
+function updateAllShapeTransforms(){
+  floatingShapes.forEach(applyShapeTransform);
+}
+
+function startDrag(e){
+  activeShape = e.currentTarget;
+  activeShape.classList.add("dragging");
+
+  const currentX = parseFloat(activeShape.dataset.dragX || 0);
+  const currentY = parseFloat(activeShape.dataset.dragY || 0);
+
+  dragData = {
+    startPointerX: e.clientX,
+    startPointerY: e.clientY,
+    startDragX: currentX,
+    startDragY: currentY
+  };
+
+  activeShape.setPointerCapture?.(e.pointerId);
+}
+
+function onPointerMove(e){
+  if (!activeShape || !dragData) return;
+
+  const dx = e.clientX - dragData.startPointerX;
+  const dy = e.clientY - dragData.startPointerY;
+
+  activeShape.dataset.dragX = dragData.startDragX + dx;
+  activeShape.dataset.dragY = dragData.startDragY + dy;
+
+  applyShapeTransform(activeShape);
+}
+
+function stopDrag(){
+  if (!activeShape) return;
+  activeShape.classList.remove("dragging");
+  activeShape = null;
+  dragData = null;
+}
+
+window.addEventListener("pointermove", onPointerMove);
+window.addEventListener("pointerup", stopDrag);
+window.addEventListener("pointercancel", stopDrag);
+window.addEventListener("pointerleave", stopDrag);
+
+function clamp(value, min, max){
+  return Math.max(min, Math.min(max, value));
+}
+
+function setTiltFromPointer(x, y){
+  const nx = (x / window.innerWidth) - 0.5;
+  const ny = (y / window.innerHeight) - 0.5;
+  tiltState.x = clamp(nx * 20, -10, 10);
+  tiltState.y = clamp(ny * 20, -10, 10);
+  updateAllShapeTransforms();
+}
+
+window.addEventListener("mousemove", e => {
+  if (window.matchMedia("(pointer:fine)").matches && !activeShape) {
+    setTiltFromPointer(e.clientX, e.clientY);
+  }
+});
+
+window.addEventListener("mouseleave", () => {
+  tiltState.x = 0;
+  tiltState.y = 0;
+  updateAllShapeTransforms();
+});
+
+function handleOrientation(event){
+  const gamma = clamp(event.gamma || 0, -20, 20);
+  const beta = clamp(event.beta || 0, -20, 20);
+
+  tiltState.x = gamma * 0.6;
+  tiltState.y = beta * 0.35;
+  updateAllShapeTransforms();
+}
+
+let orientationStarted = false;
+
+async function enableDeviceOrientation(){
+  if (orientationStarted) return;
+  orientationStarted = true;
+
+  if (typeof DeviceOrientationEvent !== "undefined" &&
+      typeof DeviceOrientationEvent.requestPermission === "function") {
+    try {
+      const permission = await DeviceOrientationEvent.requestPermission();
+      if (permission === "granted") {
+        window.addEventListener("deviceorientation", handleOrientation, true);
+      }
+    } catch (err) {}
+  } else if ("DeviceOrientationEvent" in window) {
+    window.addEventListener("deviceorientation", handleOrientation, true);
+  }
+}
+
+window.addEventListener("touchstart", enableDeviceOrientation, { once:true, passive:true });
+window.addEventListener("click", enableDeviceOrientation, { once:true });
+
+window.addEventListener("resize", updateAllShapeTransforms);
 </script>
 </body>
 </html>
