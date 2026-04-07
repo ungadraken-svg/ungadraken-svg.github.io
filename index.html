@@ -364,16 +364,18 @@ body::after{
   z-index:2;
 }
 
+/* ÄNDRAT: IMAGE högst upp, ARCHIVE längst ner */
 .word-archive{
-  left:2.5%;
-  top:7%;
-  font-size:clamp(64px, 12vw, 180px);
-}
-
-.word-image{
   left:8%;
   bottom:8%;
   font-size:clamp(58px, 10vw, 150px);
+  color:var(--ink);
+}
+
+.word-image{
+  left:2.5%;
+  top:7%;
+  font-size:clamp(64px, 12vw, 180px);
   color:var(--ink);
 }
 
@@ -869,11 +871,11 @@ body::after{
   }
 
   .word-archive{
-    font-size:18vw;
+    font-size:16vw;
   }
 
   .word-image{
-    font-size:16vw;
+    font-size:18vw;
   }
 
   .cover-red-star{
@@ -934,8 +936,8 @@ body::after{
             <div class="home-shape-yellow star-shape-soft"></div>
             <div class="home-shape-cyan star-shape-wide"></div>
 
-            <div class="home-word word-archive">ARCHIVE</div>
             <div class="home-word word-image">IMAGE</div>
+            <div class="home-word word-archive">ARCHIVE</div>
           </div>
 
           <div class="home-right">
