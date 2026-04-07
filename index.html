@@ -119,83 +119,9 @@ a{
   padding: 20px;
 }
 
-/* COVER */
-.cover{
-  min-height: 100vh;
-  position: relative;
-  background:
-    linear-gradient(to bottom, rgba(255,255,255,0.03), rgba(0,0,0,0.02)),
-    var(--yellow);
-  border-bottom: 2px solid var(--black);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.cover-top{
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 16px;
-  padding: 16px 18px 0;
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-}
-
-.cover-top-left,
-.cover-top-right{
-  max-width: 260px;
-  line-height: 1.25;
-}
-
-.cover-center{
-  padding: 20px 12px 30px;
-  flex: 1;
-  display: flex;
-  align-items: center;
-}
-
-.cover-title{
-  width: 100%;
-  text-align: center;
-  font-size: clamp(84px, 27vw, 380px);
-  line-height: 0.78;
-  letter-spacing: -0.08em;
-  font-weight: 900;
-  text-transform: uppercase;
-  color: var(--black);
-  word-break: break-word;
-}
-
-.cover-bottom{
-  border-top: 2px solid var(--black);
-  padding: 16px 18px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 14px;
-  flex-wrap: wrap;
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-}
-
-.enter-archive{
-  display: inline-block;
-  padding: 10px 14px;
-  border: 2px solid var(--black);
-  background: rgba(255,255,255,0.15);
-  font-weight: 700;
-}
-
-.enter-archive:hover{
-  background: var(--black);
-  color: var(--yellow);
-}
-
 /* ARCHIVE */
 .archive{
+  min-height: 100vh;
   background: linear-gradient(to bottom, rgba(255,240,120,0.25), rgba(255,240,120,0.07));
 }
 
@@ -244,14 +170,19 @@ a{
   border-bottom: 1px solid transparent;
 }
 
-.archive-nav a:hover{
+.archive-nav a:hover,
+.archive-nav a.active{
   border-bottom-color: var(--black);
 }
 
-/* SECTIONS */
-.section{
+.page-section{
+  display: none;
   border-bottom: 1px solid var(--line);
   padding: 34px 18px 42px;
+}
+
+.page-section.active{
+  display: block;
 }
 
 .section-inner{
@@ -344,7 +275,6 @@ a{
   line-height: 1.68;
 }
 
-/* IMAGE STACK */
 .stack-wrap{
   margin-top: 28px;
   border: 1px solid var(--line);
@@ -352,8 +282,7 @@ a{
   padding: 18px;
 }
 
-#stack,
-.category-stack{
+.image-stack{
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -362,8 +291,7 @@ a{
   gap: 26px;
 }
 
-#stack img,
-.category-stack img{
+.image-stack img{
   display: block;
   width: auto;
   height: auto;
@@ -375,7 +303,6 @@ a{
   margin: 0 auto;
 }
 
-/* CONTACT */
 .contact-grid{
   margin-top: 24px;
   display: grid;
@@ -401,6 +328,22 @@ a{
   margin: 0;
   font-size: 14px;
   line-height: 1.6;
+}
+
+.contact-bottom{
+  margin-top: 22px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 16px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+.contact-bottom span{
+  padding-bottom: 3px;
+  border-bottom: 1px solid rgba(0,0,0,0.16);
 }
 
 .footer{
@@ -434,21 +377,17 @@ a{
     grid-template-columns: 1fr;
   }
 
-  .cover-title,
   .cover-gate-title{
     font-size: 30vw;
   }
 }
 
 @media (max-width: 640px){
-  .cover-top,
-  .cover-bottom,
   .archive-header-inner{
     flex-direction: column;
     align-items: flex-start;
   }
 
-  .cover-title,
   .cover-gate-title{
     font-size: 31vw;
     line-height: 0.84;
@@ -464,29 +403,6 @@ a{
 </div>
 
 <div class="site" id="site">
-
-  <section class="cover" id="top">
-    <div class="cover-top">
-      <div class="cover-top-left">
-        UNGADRAKEN<br>
-        ARCHIVE
-      </div>
-      <div class="cover-top-right">
-        PHOTOGRAPHER<br>
-        EDITORIAL / IMAGE / FILM
-      </div>
-    </div>
-
-    <div class="cover-center">
-      <div class="cover-title">UNGADRAKEN</div>
-    </div>
-
-    <div class="cover-bottom">
-      <div>ARCHIVE / INDEX / SELECTED WORK</div>
-      <a class="enter-archive" href="#archive">OPEN ARCHIVE</a>
-    </div>
-  </section>
-
   <main class="archive" id="archive">
 
     <header class="archive-header">
@@ -497,14 +413,17 @@ a{
         </div>
 
         <nav class="archive-nav">
-          <a href="#archive-about">About</a>
-          <a href="#archive-work">Archive</a>
-          <a href="#archive-contact">Contact</a>
+          <a href="#archive-home" data-page="archive-home">Archive</a>
+          <a href="#editorial" data-page="editorial">Editorial</a>
+          <a href="#fashion" data-page="fashion">Fashion</a>
+          <a href="#personal-work" data-page="personal-work">Personal work</a>
+          <a href="#archive-format" data-page="archive-format">Archive format</a>
+          <a href="#contact" data-page="contact">Contact</a>
         </nav>
       </div>
     </header>
 
-    <section class="section" id="archive-about">
+    <section class="page-section" id="archive-home" data-page>
       <div class="section-inner">
         <div class="section-label">
           <strong>About</strong>
@@ -524,32 +443,33 @@ a{
             <a href="#fashion">Fashion</a>
             <a href="#personal-work">Personal work</a>
             <a href="#archive-format">Archive format</a>
-            <span>Collab</span>
-            <span>Commission</span>
-            <span>Contact</span>
+            <a href="#contact">Contact</a>
           </div>
-        </div>
-      </div>
-    </section>
 
-    <section class="section" id="archive-work">
-      <div class="section-inner">
-        <div class="section-label">
-          <strong>Archive</strong>
-          Selected works
-        </div>
+          <div class="panel-row">
+            <div class="panel">
+              <h3>Selected</h3>
+              <p>
+                A sequence of images presented as an archive rather than a conventional portfolio.
+              </p>
+            </div>
 
-        <div class="section-main">
-          <h2 class="section-title">SELECTED IMAGES</h2>
+            <div class="panel">
+              <h3>Index</h3>
+              <p>
+                Editorial, fashion, personal work and archive format arranged as separate entries.
+              </p>
+            </div>
+          </div>
 
           <div class="stack-wrap">
-            <div id="stack" aria-label="Selected work"></div>
+            <div class="image-stack" id="stack-home" aria-label="Selected work"></div>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="section" id="editorial">
+    <section class="page-section" id="editorial" data-page>
       <div class="section-inner">
         <div class="section-label">
           <strong>Editorial</strong>
@@ -560,13 +480,13 @@ a{
           <h2 class="section-title">EDITORIAL</h2>
 
           <div class="stack-wrap">
-            <div class="category-stack" id="editorial-stack" aria-label="Editorial images"></div>
+            <div class="image-stack" id="editorial-stack" aria-label="Editorial images"></div>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="section" id="fashion">
+    <section class="page-section" id="fashion" data-page>
       <div class="section-inner">
         <div class="section-label">
           <strong>Fashion</strong>
@@ -577,13 +497,13 @@ a{
           <h2 class="section-title">FASHION</h2>
 
           <div class="stack-wrap">
-            <div class="category-stack" id="fashion-stack" aria-label="Fashion images"></div>
+            <div class="image-stack" id="fashion-stack" aria-label="Fashion images"></div>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="section" id="personal-work">
+    <section class="page-section" id="personal-work" data-page>
       <div class="section-inner">
         <div class="section-label">
           <strong>Personal work</strong>
@@ -594,13 +514,13 @@ a{
           <h2 class="section-title">PERSONAL WORK</h2>
 
           <div class="stack-wrap">
-            <div class="category-stack" id="personal-stack" aria-label="Personal work images"></div>
+            <div class="image-stack" id="personal-stack" aria-label="Personal work images"></div>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="section" id="archive-format">
+    <section class="page-section" id="archive-format" data-page>
       <div class="section-inner">
         <div class="section-label">
           <strong>Archive format</strong>
@@ -611,13 +531,13 @@ a{
           <h2 class="section-title">ARCHIVE FORMAT</h2>
 
           <div class="stack-wrap">
-            <div class="category-stack" id="archive-stack" aria-label="Archive format images"></div>
+            <div class="image-stack" id="archive-stack" aria-label="Archive format images"></div>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="section" id="archive-contact">
+    <section class="page-section" id="contact" data-page>
       <div class="section-inner">
         <div class="section-label">
           <strong>Contact</strong>
@@ -642,6 +562,12 @@ a{
               </p>
             </div>
           </div>
+
+          <div class="contact-bottom">
+            <span>Collaboration</span>
+            <span>Commission</span>
+            <span>Contact</span>
+          </div>
         </div>
       </div>
     </section>
@@ -654,7 +580,6 @@ a{
       <div>Archive</div>
     </div>
   </footer>
-
 </div>
 
 <script>
@@ -662,27 +587,44 @@ document.getElementById("year").textContent = new Date().getFullYear();
 
 const coverGate = document.getElementById("coverGate");
 const site = document.getElementById("site");
+const pageSections = [...document.querySelectorAll("[data-page]")];
+const navLinks = [...document.querySelectorAll(".archive-nav a")];
 
-coverGate.addEventListener("click", () => {
-  coverGate.classList.add("hidden");
-  site.classList.add("active");
-  document.body.classList.remove("locked");
-});
-
-const images = [
+const homeImages = [
   "elsablommakall.jpeg",
   "adamblommaljus.JPG",
   "adamlljus.JPG",
-  "mammagrå.JPG",
+  "mammagrå.JPG"
+];
+
+const editorialImages = [
+  "elsablommakall.jpeg",
+  "adamblommaljus.JPG"
+];
+
+const fashionImages = [
+  "adamlljus.JPG",
+  "mammagrå.JPG"
+];
+
+const personalImages = [
   "DSC09711.JPG",
   "mammakök.JPG",
   "mammasnöstå.JPG",
   "mammablå.JPG"
 ];
 
+const archiveFormatImages = [
+  "elsablommakall.jpeg",
+  "DSC09711.JPG",
+  "mammablå.JPG"
+];
+
 function loadImages(containerId, imageArray){
   const container = document.getElementById(containerId);
   if (!container) return;
+
+  container.innerHTML = "";
 
   imageArray.forEach(src => {
     const img = new Image();
@@ -694,11 +636,54 @@ function loadImages(containerId, imageArray){
   });
 }
 
-loadImages("stack", images);
-loadImages("editorial-stack", images);
-loadImages("fashion-stack", images);
-loadImages("personal-stack", images);
-loadImages("archive-stack", images);
+loadImages("stack-home", homeImages);
+loadImages("editorial-stack", editorialImages);
+loadImages("fashion-stack", fashionImages);
+loadImages("personal-stack", personalImages);
+loadImages("archive-stack", archiveFormatImages);
+
+function showPage(pageId){
+  const validPage = document.getElementById(pageId) ? pageId : "archive-home";
+
+  pageSections.forEach(section => {
+    section.classList.toggle("active", section.id === validPage);
+  });
+
+  navLinks.forEach(link => {
+    link.classList.toggle("active", link.dataset.page === validPage);
+  });
+
+  window.scrollTo({ top: 0, behavior: "auto" });
+}
+
+function openArchiveTo(pageId = "archive-home"){
+  coverGate.classList.add("hidden");
+  site.classList.add("active");
+  document.body.classList.remove("locked");
+  showPage(pageId);
+  history.replaceState(null, "", "#" + pageId);
+}
+
+coverGate.addEventListener("click", () => {
+  openArchiveTo("archive-home");
+});
+
+window.addEventListener("hashchange", () => {
+  const pageId = window.location.hash.replace("#", "") || "archive-home";
+  if (coverGate.classList.contains("hidden")) {
+    showPage(pageId);
+  }
+});
+
+window.addEventListener("load", () => {
+  const pageId = window.location.hash.replace("#", "");
+  if (pageId && document.getElementById(pageId)) {
+    coverGate.classList.add("hidden");
+    site.classList.add("active");
+    document.body.classList.remove("locked");
+    showPage(pageId);
+  }
+});
 </script>
 </body>
 </html>
