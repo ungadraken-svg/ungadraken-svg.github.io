@@ -129,34 +129,6 @@ body::after{
   margin:0 auto;
 }
 
-.cover-small-left,
-.cover-small-right,
-.cover-enter{
-  position:absolute;
-  z-index:2;
-  font-size:11px;
-  line-height:1.35;
-  text-transform:uppercase;
-  letter-spacing:.12em;
-}
-
-.cover-small-left{
-  left:2.5%;
-  top:4.5%;
-}
-
-.cover-small-right{
-  right:2.5%;
-  top:4.5%;
-  text-align:right;
-}
-
-.cover-enter{
-  right:2.5%;
-  bottom:4.5%;
-  text-align:right;
-}
-
 .cover-rule-top,
 .cover-rule-bottom{
   position:absolute;
@@ -797,9 +769,6 @@ body::after{
 }
 
 @media (max-width:520px){
-  .cover-small-left,
-  .cover-small-right,
-  .cover-enter,
   .poster-meta,
   .poster-tag,
   .contact-note{
@@ -834,9 +803,6 @@ body::after{
 
 <div class="cover-gate" id="coverGate" aria-label="Enter archive">
   <div class="cover-inner">
-    <div class="cover-small-left">ungadraken<br>archive / image / editorial</div>
-    <div class="cover-small-right">printed internet<br>paper index<br>click to enter</div>
-
     <div class="cover-rule-top"></div>
     <div class="cover-rule-bottom"></div>
 
@@ -847,8 +813,6 @@ body::after{
     <div class="cover-title">
       <span>UNGADRAKEN</span>
     </div>
-
-    <div class="cover-enter">enter</div>
   </div>
 </div>
 
@@ -1003,12 +967,16 @@ body::after{
 
             <div class="contact-card">
               <div class="contact-label">work</div>
-              <div class="contact-value">commission</div>
+              <div class="contact-value">
+                <a href="mailto:ungadraken@gmail.com?subject=Commission">commission</a>
+              </div>
             </div>
 
             <div class="contact-card">
               <div class="contact-label">work</div>
-              <div class="contact-value">collaboration</div>
+              <div class="contact-value">
+                <a href="mailto:ungadraken@gmail.com?subject=Collaboration">collaboration</a>
+              </div>
             </div>
           </div>
         </div>
