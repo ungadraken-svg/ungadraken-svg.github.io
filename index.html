@@ -7,15 +7,17 @@
 
 <style>
 :root{
-  --bg: #ffffff;
-  --paper: #f7f7f5;
+  --bg: #f5f4ef;
+  --paper: #f1efe8;
+  --paper-2: #ebe7dd;
+  --white: #ffffff;
   --black: #0a0a0a;
   --text: #111111;
   --muted: rgba(0,0,0,0.58);
   --line: rgba(0,0,0,0.16);
-  --panel: rgba(0,0,0,0.025);
-  --red: #df1111;
-  --white: #ffffff;
+  --panel: rgba(0,0,0,0.03);
+  --red: #c91919;
+  --blue: #2046d1;
 }
 
 *{
@@ -40,20 +42,21 @@ body.locked{
   overflow: hidden;
 }
 
-/* SUBTLE PAPER / PRINT TEXTURE */
+/* PRINTED TEXTURE / GRAIN / SCRATCHES */
 body::before{
   content: "";
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 1;
-  opacity: 0.06;
+  opacity: 0.12;
   background-image:
-    radial-gradient(circle at 12% 18%, rgba(0,0,0,0.18) 0 1px, transparent 1.5px),
-    radial-gradient(circle at 78% 26%, rgba(0,0,0,0.12) 0 1px, transparent 1.6px),
-    radial-gradient(circle at 22% 74%, rgba(0,0,0,0.12) 0 1px, transparent 1.4px),
-    radial-gradient(circle at 67% 83%, rgba(0,0,0,0.10) 0 1px, transparent 1.5px);
-  background-size: 13px 13px, 17px 17px, 15px 15px, 19px 19px;
+    radial-gradient(circle at 13% 19%, rgba(0,0,0,0.18) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 77% 23%, rgba(0,0,0,0.12) 0 1px, transparent 1.6px),
+    radial-gradient(circle at 19% 73%, rgba(0,0,0,0.14) 0 1px, transparent 1.4px),
+    radial-gradient(circle at 68% 82%, rgba(0,0,0,0.10) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 49% 58%, rgba(0,0,0,0.09) 0 1px, transparent 1.3px);
+  background-size: 13px 13px, 17px 17px, 15px 15px, 19px 19px, 11px 11px;
   mix-blend-mode: multiply;
 }
 
@@ -63,12 +66,12 @@ body::after{
   inset: 0;
   pointer-events: none;
   z-index: 2;
-  opacity: 0.04;
+  opacity: 0.08;
   background:
-    linear-gradient(91deg, transparent 0 9%, rgba(0,0,0,0.06) 9.1%, transparent 9.35%),
-    linear-gradient(96deg, transparent 0 36%, rgba(0,0,0,0.05) 36.15%, transparent 36.4%),
-    linear-gradient(87deg, transparent 0 71%, rgba(0,0,0,0.06) 71.1%, transparent 71.3%),
-    linear-gradient(transparent 0 88%, rgba(0,0,0,0.05) 88.1%, transparent 88.35%);
+    linear-gradient(92deg, transparent 0 8%, rgba(0,0,0,0.05) 8.15%, transparent 8.4%),
+    linear-gradient(96deg, transparent 0 33%, rgba(0,0,0,0.05) 33.1%, transparent 33.35%),
+    linear-gradient(88deg, transparent 0 69%, rgba(0,0,0,0.045) 69.1%, transparent 69.35%),
+    linear-gradient(transparent 0 87%, rgba(0,0,0,0.045) 87.1%, transparent 87.35%);
   mix-blend-mode: multiply;
 }
 
@@ -94,74 +97,141 @@ a{
   inset: 0;
   z-index: 50;
   background:
-    linear-gradient(to bottom, rgba(255,255,255,0.02), rgba(0,0,0,0.015)),
-    var(--bg);
+    linear-gradient(to bottom, rgba(255,255,255,0.02), rgba(0,0,0,0.03)),
+    var(--paper);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   border-bottom: 2px solid var(--black);
+  overflow: hidden;
 }
 
 .cover-gate.hidden{
   display: none;
 }
 
-.cover-gate-inner{
-  width: min(1200px, 92vw);
-  height: min(760px, 88vh);
+.cover-gate::before{
+  content: "";
+  position: absolute;
+  inset: 3.5vw;
   border: 1px solid var(--line);
+  pointer-events: none;
+}
+
+.cover-gate::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 17% 24%, rgba(32,70,209,0.14) 0 10%, transparent 28%),
+    radial-gradient(circle at 81% 73%, rgba(201,25,25,0.12) 0 11%, transparent 28%),
+    linear-gradient(180deg, transparent 0 78%, rgba(0,0,0,0.05) 78.1%, transparent 78.4%);
+  pointer-events: none;
+  mix-blend-mode: multiply;
+}
+
+.cover-gate-inner{
   position: relative;
-  background: var(--white);
+  width: min(1300px, 92vw);
+  height: min(800px, 88vh);
+  z-index: 2;
   overflow: hidden;
+}
+
+.cover-gate-mark{
+  position: absolute;
+  top: 7%;
+  left: 3%;
+  font-size: 11px;
+  line-height: 1.45;
+  text-transform: uppercase;
+  letter-spacing: 0.11em;
+}
+
+.cover-gate-note{
+  position: absolute;
+  top: 8%;
+  right: 4%;
+  max-width: 220px;
+  font-size: 11px;
+  line-height: 1.45;
+  text-transform: uppercase;
+  letter-spacing: 0.11em;
+  text-align: right;
 }
 
 .cover-gate-title{
   position: absolute;
-  left: -1.5%;
+  left: -1.4%;
   bottom: -4%;
-  font-size: clamp(92px, 23vw, 330px);
-  line-height: 0.78;
-  letter-spacing: -0.09em;
+  font-size: clamp(92px, 20vw, 300px);
+  line-height: 0.8;
+  letter-spacing: -0.1em;
   font-weight: 900;
-  text-transform: lowercase;
+  text-transform: uppercase;
   color: var(--black);
 }
 
-.cover-gate-accent{
+.cover-gate-bar{
   position: absolute;
-  right: 16%;
-  bottom: 21%;
-  font-size: clamp(46px, 8vw, 130px);
-  line-height: 0.84;
-  letter-spacing: -0.09em;
-  font-weight: 900;
-  color: var(--red);
-  text-transform: lowercase;
+  left: 0;
+  bottom: 16%;
+  width: 100%;
+  height: 1px;
+  background: rgba(0,0,0,0.14);
 }
 
-.cover-gate-meta{
+.cover-gate-blue{
   position: absolute;
-  top: 7%;
-  right: 6%;
-  max-width: 220px;
-  font-size: 13px;
-  line-height: 1.33;
-  color: var(--black);
+  right: 17%;
+  top: 23%;
+  width: 150px;
+  height: 150px;
+  border-radius: 999px;
+  background: rgba(32,70,209,0.9);
+  filter: blur(26px);
+  opacity: 0.28;
+  mix-blend-mode: multiply;
+}
+
+.cover-gate-red{
+  position: absolute;
+  left: 16%;
+  bottom: 22%;
+  width: 180px;
+  height: 180px;
+  border-radius: 999px;
+  background: rgba(201,25,25,0.88);
+  filter: blur(34px);
+  opacity: 0.2;
+  mix-blend-mode: multiply;
+}
+
+.cover-gate-enter{
+  position: absolute;
+  right: 3%;
+  bottom: 5%;
+  font-size: 11px;
+  line-height: 1.45;
+  text-transform: uppercase;
+  letter-spacing: 0.11em;
 }
 
 /* ARCHIVE */
 .archive{
   min-height: 100vh;
-  background: linear-gradient(to bottom, rgba(0,0,0,0.015), rgba(0,0,0,0.01));
+  background:
+    linear-gradient(to bottom, rgba(255,255,255,0.06), rgba(0,0,0,0.02)),
+    var(--bg);
 }
 
 .archive-header{
   position: sticky;
   top: 0;
   z-index: 10;
-  background: rgba(255,255,255,0.94);
-  backdrop-filter: blur(6px);
+  background: rgba(245,244,239,0.93);
+  backdrop-filter: blur(7px);
   border-bottom: 1px solid var(--line);
 }
 
@@ -248,16 +318,16 @@ a{
   margin: 0;
   font-size: clamp(42px, 8vw, 112px);
   line-height: 0.9;
-  letter-spacing: -0.065em;
+  letter-spacing: -0.07em;
   text-transform: uppercase;
   font-weight: 900;
 }
 
 .section-copy{
-  max-width: 760px;
-  margin-top: 18px;
+  max-width: 650px;
+  margin-top: 16px;
   font-size: 15px;
-  line-height: 1.72;
+  line-height: 1.65;
 }
 
 .meta-row{
@@ -282,52 +352,42 @@ a{
   color: var(--black);
 }
 
-/* NEW ARCHIVE HOME */
+/* HOME */
 .archive-hero{
   margin-top: 28px;
-  min-height: 72vh;
+  min-height: 74vh;
   border: 1px solid var(--line);
-  background: var(--white);
+  background:
+    linear-gradient(135deg, rgba(255,255,255,0.15), rgba(0,0,0,0.03)),
+    var(--paper);
   position: relative;
   overflow: hidden;
 }
 
-.archive-hero-big{
-  position: absolute;
-  left: -1.8%;
-  bottom: -3.5%;
-  font-size: clamp(92px, 19vw, 320px);
-  line-height: 0.77;
-  letter-spacing: -0.09em;
-  font-weight: 900;
-  color: var(--black);
-  text-transform: lowercase;
+.archive-hero::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  opacity:0.24;
+  background:
+    linear-gradient(90deg, transparent 0 14%, rgba(0,0,0,0.045) 14.1%, transparent 14.35%),
+    linear-gradient(transparent 0 62%, rgba(0,0,0,0.05) 62.1%, transparent 62.35%);
+  mix-blend-mode: multiply;
 }
 
-.archive-hero-accent{
-  position: absolute;
-  right: 17%;
-  bottom: 18%;
-  font-size: clamp(44px, 8vw, 120px);
-  line-height: 0.82;
-  letter-spacing: -0.09em;
-  font-weight: 900;
-  color: var(--red);
-  text-transform: lowercase;
-}
-
-.archive-hero-meta{
-  position: absolute;
-  top: 7%;
-  right: 5%;
-  max-width: 240px;
-  font-size: 13px;
-  line-height: 1.38;
+.archive-hero::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(circle at 18% 74%, rgba(201,25,25,0.14) 0 10%, transparent 26%),
+    radial-gradient(circle at 79% 18%, rgba(32,70,209,0.16) 0 9%, transparent 24%);
+  mix-blend-mode: multiply;
 }
 
 .archive-hero-rule-v{
   position: absolute;
-  left: 62%;
+  left: 61%;
   top: 0;
   width: 1px;
   height: 100%;
@@ -337,10 +397,68 @@ a{
 .archive-hero-rule-h{
   position: absolute;
   left: 0;
-  top: 56%;
+  top: 54%;
   width: 100%;
   height: 1px;
   background: rgba(0,0,0,0.08);
+}
+
+.archive-hero-meta{
+  position: absolute;
+  top: 6%;
+  right: 4%;
+  max-width: 210px;
+  font-size: 11px;
+  line-height: 1.48;
+  text-transform: uppercase;
+  letter-spacing: 0.11em;
+}
+
+.archive-hero-block{
+  position: absolute;
+  border: 1px solid rgba(0,0,0,0.13);
+  background: rgba(255,255,255,0.5);
+  backdrop-filter: blur(1px);
+  padding: 12px 14px;
+  font-size: 11px;
+  line-height: 1.45;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.archive-hero-block.block-1{
+  left: 6%;
+  top: 11%;
+}
+
+.archive-hero-block.block-2{
+  left: 12%;
+  bottom: 12%;
+}
+
+.archive-hero-block.block-3{
+  right: 18%;
+  bottom: 16%;
+}
+
+.archive-hero-title{
+  position: absolute;
+  left: 3%;
+  bottom: 6%;
+  max-width: 920px;
+  font-size: clamp(58px, 11vw, 180px);
+  line-height: 0.83;
+  letter-spacing: -0.09em;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.archive-hero-title .blue{
+  color: var(--blue);
+}
+
+.archive-hero-title .red{
+  color: var(--red);
 }
 
 .archive-index{
@@ -354,7 +472,7 @@ a{
   border: 1px solid var(--line);
   background: var(--white);
   padding: 14px;
-  min-height: 82px;
+  min-height: 90px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -374,20 +492,22 @@ a{
   text-transform: uppercase;
 }
 
-/* CATEGORY PAGES GET OWN IDENTITY */
+/* CATEGORY PAGES */
 .category-shell{
   margin-top: 22px;
   border: 1px solid var(--line);
-  background: linear-gradient(to bottom, rgba(0,0,0,0.015), rgba(0,0,0,0.03));
+  background:
+    linear-gradient(to bottom, rgba(255,255,255,0.04), rgba(0,0,0,0.03)),
+    var(--paper);
 }
 
 .category-intro{
   display: grid;
-  grid-template-columns: minmax(0, 1.2fr) minmax(260px, 0.8fr);
+  grid-template-columns: minmax(0, 1.2fr) minmax(240px, 0.8fr);
   gap: 20px;
   padding: 20px;
   border-bottom: 1px solid var(--line);
-  background: var(--white);
+  background: rgba(255,255,255,0.42);
 }
 
 .category-kicker{
@@ -395,23 +515,23 @@ a{
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: var(--muted);
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 .category-heading{
   margin: 0;
-  font-size: clamp(38px, 7vw, 88px);
+  font-size: clamp(42px, 7vw, 92px);
   line-height: 0.9;
-  letter-spacing: -0.065em;
+  letter-spacing: -0.07em;
   text-transform: uppercase;
   font-weight: 900;
 }
 
 .category-copy{
-  margin-top: 14px;
-  max-width: 760px;
+  margin-top: 10px;
+  max-width: 520px;
   font-size: 14px;
-  line-height: 1.7;
+  line-height: 1.55;
 }
 
 .category-info{
@@ -419,29 +539,24 @@ a{
   padding-left: 20px;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  justify-content: space-between;
+  gap: 12px;
 }
 
 .category-info-block{
   font-size: 11px;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   line-height: 1.45;
-}
-
-.category-info-block strong{
-  display: block;
-  font-size: 11px;
-  color: var(--black);
-  margin-bottom: 6px;
 }
 
 .stack-wrap{
   padding: 26px;
-  background: var(--paper);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.04), rgba(0,0,0,0.02)),
+    var(--paper-2);
 }
 
-/* CENTERED IMAGES */
 .image-stack{
   width: 100%;
   display: flex;
@@ -455,11 +570,24 @@ a{
   width: 100%;
   min-height: 82vh;
   border: 1px solid var(--line);
-  background: var(--white);
+  background: rgba(255,255,255,0.82);
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.image-frame::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(circle at 14% 20%, rgba(32,70,209,0.06) 0 8%, transparent 22%),
+    radial-gradient(circle at 81% 78%, rgba(201,25,25,0.06) 0 8%, transparent 22%);
+  mix-blend-mode: multiply;
+  pointer-events: none;
 }
 
 .image-stack img{
@@ -471,13 +599,17 @@ a{
   object-fit: contain;
   background: #fff;
   margin: 0 auto;
+  position: relative;
+  z-index: 1;
 }
 
 /* CONTACT */
 .contact-shell{
   margin-top: 26px;
   border: 1px solid var(--line);
-  background: var(--white);
+  background:
+    linear-gradient(to bottom, rgba(255,255,255,0.05), rgba(0,0,0,0.03)),
+    var(--paper);
 }
 
 .contact-top{
@@ -486,22 +618,23 @@ a{
   gap: 20px;
   padding: 22px;
   border-bottom: 1px solid var(--line);
+  background: rgba(255,255,255,0.35);
 }
 
 .contact-lead{
   margin: 0;
-  font-size: clamp(34px, 6vw, 72px);
+  font-size: clamp(36px, 6vw, 76px);
   line-height: 0.92;
-  letter-spacing: -0.06em;
+  letter-spacing: -0.065em;
   text-transform: uppercase;
   font-weight: 900;
 }
 
 .contact-copy{
-  margin-top: 14px;
-  max-width: 660px;
+  margin-top: 12px;
+  max-width: 520px;
   font-size: 15px;
-  line-height: 1.72;
+  line-height: 1.62;
 }
 
 .contact-aside{
@@ -509,7 +642,7 @@ a{
   padding-left: 20px;
   font-size: 11px;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   line-height: 1.5;
 }
 
@@ -523,7 +656,7 @@ a{
 
 .contact-card{
   border: 1px solid var(--line);
-  background: var(--paper);
+  background: rgba(255,255,255,0.7);
   padding: 16px;
   min-height: 132px;
 }
@@ -611,20 +744,9 @@ a{
     grid-template-columns: 1fr;
   }
 
-  .cover-gate-title{
-    font-size: 26vw;
-  }
-
-  .archive-hero-big{
-    font-size: 26vw;
-    left: -1%;
-    bottom: -2%;
-  }
-
-  .archive-hero-accent{
-    font-size: 13vw;
-    right: 10%;
-    bottom: 15%;
+  .archive-hero-title{
+    font-size: 18vw;
+    bottom: 7%;
   }
 }
 
@@ -638,55 +760,44 @@ a{
     grid-template-columns: 1fr;
   }
 
-  .cover-gate-meta,
   .archive-hero-meta{
     position: static;
     max-width: none;
     padding: 18px;
   }
 
-  .cover-gate-inner{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-
-  .cover-gate-title{
-    position: absolute;
-    left: -1%;
-    bottom: 2%;
-    font-size: 31vw;
-    line-height: 0.8;
-  }
-
-  .cover-gate-accent{
-    right: 9%;
-    bottom: 24%;
-    font-size: 16vw;
-  }
-
   .archive-hero{
-    min-height: 62vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-
-  .archive-hero-big{
-    position: absolute;
-    left: -1%;
-    bottom: 4%;
-    font-size: 28vw;
-  }
-
-  .archive-hero-accent{
-    right: 8%;
-    bottom: 23%;
-    font-size: 16vw;
+    min-height: 66vh;
   }
 
   .archive-hero-rule-v,
   .archive-hero-rule-h{
+    display: none;
+  }
+
+  .archive-hero-block.block-1{
+    left: 5%;
+    top: 8%;
+  }
+
+  .archive-hero-block.block-2{
+    left: 5%;
+    bottom: 28%;
+  }
+
+  .archive-hero-block.block-3{
+    right: 5%;
+    bottom: 13%;
+  }
+
+  .cover-gate-title{
+    font-size: 27vw;
+    left: -1%;
+    bottom: 2%;
+  }
+
+  .cover-gate-blue,
+  .cover-gate-red{
     display: none;
   }
 
@@ -706,13 +817,24 @@ a{
 
 <div class="cover-gate" id="coverGate" aria-label="Enter archive">
   <div class="cover-gate-inner">
-    <div class="cover-gate-meta">
-      ungadraken archive<br>
-      editorial / fashion / personal work<br>
-      image index / ongoing selection
+    <div class="cover-gate-mark">
+      archive / editorial / image
     </div>
-    <div class="cover-gate-title">face<br>face</div>
-    <div class="cover-gate-accent">to</div>
+
+    <div class="cover-gate-note">
+      click to enter<br>
+      ungadraken archive
+    </div>
+
+    <div class="cover-gate-blue"></div>
+    <div class="cover-gate-red"></div>
+    <div class="cover-gate-bar"></div>
+
+    <div class="cover-gate-title">UNGADRAKEN</div>
+
+    <div class="cover-gate-enter">
+      enter
+    </div>
   </div>
 </div>
 
@@ -731,7 +853,6 @@ a{
           <a href="#editorial" data-page="editorial">Editorial</a>
           <a href="#fashion" data-page="fashion">Fashion</a>
           <a href="#personal-work" data-page="personal-work">Personal work</a>
-          <a href="#archive-format" data-page="archive-format">Archive format</a>
           <a href="#contact" data-page="contact">Contact</a>
         </nav>
       </div>
@@ -748,16 +869,13 @@ a{
           <h2 class="section-title">AN ARCHIVE OF IMAGES</h2>
 
           <div class="section-copy">
-            Photographer working across editorial, fashion and image-based work.
-            A focus on atmosphere, surface, sequencing, gesture, styling and contemporary image language.
-            This archive is arranged as separate entries rather than one continuous scroll, so each section carries its own pace and identity.
+            Editorial, fashion and personal image work arranged as separate entries.
           </div>
 
           <div class="meta-row">
             <a href="#editorial">Editorial</a>
             <a href="#fashion">Fashion</a>
             <a href="#personal-work">Personal work</a>
-            <a href="#archive-format">Archive format</a>
             <a href="#contact">Contact</a>
           </div>
 
@@ -766,15 +884,29 @@ a{
             <div class="archive-hero-rule-h"></div>
 
             <div class="archive-hero-meta">
-              the ungadraken archive<br><br>
+              ungadraken archive<br><br>
               editorial selections<br>
               fashion studies<br>
-              personal work<br><br>
-              ongoing visual index
+              personal work
             </div>
 
-            <div class="archive-hero-big">face<br>face</div>
-            <div class="archive-hero-accent">to</div>
+            <div class="archive-hero-block block-1">
+              printed image language
+            </div>
+
+            <div class="archive-hero-block block-2">
+              archive / editorial / surface
+            </div>
+
+            <div class="archive-hero-block block-3">
+              sequence / still / fragment
+            </div>
+
+            <div class="archive-hero-title">
+              IMAGE<br>
+              <span class="blue">ARCHIVE</span><br>
+              <span class="red">INDEX</span>
+            </div>
           </div>
 
           <div class="archive-index">
@@ -793,9 +925,9 @@ a{
               <strong>Personal work</strong>
             </a>
 
-            <a href="#archive-format">
+            <a href="#contact">
               <span>04</span>
-              <strong>Archive format</strong>
+              <strong>Contact</strong>
             </a>
           </div>
         </div>
@@ -816,24 +948,13 @@ a{
                 <div class="category-kicker">Selected category</div>
                 <h2 class="category-heading">EDITORIAL</h2>
                 <div class="category-copy">
-                  A page for editorial image-making, built around atmosphere, sequencing and visual tension.
-                  This section is meant to read as its own entry in the archive rather than a continuation of the home page.
+                  Selected editorial work.
                 </div>
               </div>
 
               <div class="category-info">
-                <div class="category-info-block">
-                  <strong>Focus</strong>
-                  image / atmosphere / sequence
-                </div>
-                <div class="category-info-block">
-                  <strong>Format</strong>
-                  selected stills arranged one by one
-                </div>
-                <div class="category-info-block">
-                  <strong>Archive note</strong>
-                  centered display / isolated viewing
-                </div>
+                <div class="category-info-block">Archive entry 01</div>
+                <div class="category-info-block">Image / sequence / still</div>
               </div>
             </div>
 
@@ -859,24 +980,13 @@ a{
                 <div class="category-kicker">Selected category</div>
                 <h2 class="category-heading">FASHION</h2>
                 <div class="category-copy">
-                  A page for styling, silhouette, texture and surface.
-                  The structure stays related to the rest of the archive, but this section has its own tone and identity through spacing, framing and pacing.
+                  Selected fashion work.
                 </div>
               </div>
 
               <div class="category-info">
-                <div class="category-info-block">
-                  <strong>Focus</strong>
-                  styling / surface / body / texture
-                </div>
-                <div class="category-info-block">
-                  <strong>Format</strong>
-                  image-led / slow browsing
-                </div>
-                <div class="category-info-block">
-                  <strong>Archive note</strong>
-                  each image centered in its own frame
-                </div>
+                <div class="category-info-block">Archive entry 02</div>
+                <div class="category-info-block">Surface / styling / image</div>
               </div>
             </div>
 
@@ -902,72 +1012,18 @@ a{
                 <div class="category-kicker">Selected category</div>
                 <h2 class="category-heading">PERSONAL WORK</h2>
                 <div class="category-copy">
-                  A more intimate part of the archive, holding fragments, observations and personal image-making.
-                  It keeps the same system as the rest of the site but feels quieter and slightly more open.
+                  Selected personal work.
                 </div>
               </div>
 
               <div class="category-info">
-                <div class="category-info-block">
-                  <strong>Focus</strong>
-                  fragments / memory / image notes
-                </div>
-                <div class="category-info-block">
-                  <strong>Format</strong>
-                  isolated stills / archive entry
-                </div>
-                <div class="category-info-block">
-                  <strong>Archive note</strong>
-                  separate page identity
-                </div>
+                <div class="category-info-block">Archive entry 03</div>
+                <div class="category-info-block">Fragment / memory / still</div>
               </div>
             </div>
 
             <div class="stack-wrap">
               <div class="image-stack" id="personal-stack" aria-label="Personal work images"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="page-section" id="archive-format" data-page>
-      <div class="section-inner">
-        <div class="section-label">
-          <strong>Archive format</strong>
-          Category
-        </div>
-
-        <div class="section-main">
-          <div class="category-shell">
-            <div class="category-intro">
-              <div>
-                <div class="category-kicker">Selected category</div>
-                <h2 class="category-heading">ARCHIVE FORMAT</h2>
-                <div class="category-copy">
-                  A section for the archive’s own logic: repetition, variation, ordering and display.
-                  This page can hold images that describe the system itself, rather than fitting only under one category.
-                </div>
-              </div>
-
-              <div class="category-info">
-                <div class="category-info-block">
-                  <strong>Focus</strong>
-                  index / sequence / format / structure
-                </div>
-                <div class="category-info-block">
-                  <strong>Format</strong>
-                  archive study / reference selection
-                </div>
-                <div class="category-info-block">
-                  <strong>Archive note</strong>
-                  system inside the system
-                </div>
-              </div>
-            </div>
-
-            <div class="stack-wrap">
-              <div class="image-stack" id="archive-stack" aria-label="Archive format images"></div>
             </div>
           </div>
         </div>
@@ -985,19 +1041,16 @@ a{
           <div class="contact-shell">
             <div class="contact-top">
               <div>
-                <h2 class="contact-lead">CONTACT / COLLABORATION / COMMISSION</h2>
+                <h2 class="contact-lead">CONTACT</h2>
                 <div class="contact-copy">
-                  For commissions, collaborations, editorial projects, image-based work and related inquiries, please get in touch by email or Instagram.
-                  This page is treated as a proper archive entry rather than a simple contact block, so it feels like part of the site instead of an afterthought.
+                  For commissions, collaborations and editorial inquiries.
                 </div>
               </div>
 
               <div class="contact-aside">
                 ungadraken<br><br>
                 editorial / fashion / image<br>
-                collaborations<br>
-                commissions<br>
-                contact
+                collaboration / commission
               </div>
             </div>
 
@@ -1021,7 +1074,6 @@ a{
               <span>Collaboration</span>
               <span>Commission</span>
               <span>Editorial inquiries</span>
-              <span>Image-based work</span>
             </div>
           </div>
         </div>
@@ -1063,12 +1115,6 @@ const personalImages = [
   "mammablå.JPG"
 ];
 
-const archiveFormatImages = [
-  "elsablommakall.jpeg",
-  "DSC09711.JPG",
-  "mammablå.JPG"
-];
-
 function loadImages(containerId, imageArray){
   const container = document.getElementById(containerId);
   if (!container) return;
@@ -1093,7 +1139,6 @@ function loadImages(containerId, imageArray){
 loadImages("editorial-stack", editorialImages);
 loadImages("fashion-stack", fashionImages);
 loadImages("personal-stack", personalImages);
-loadImages("archive-stack", archiveFormatImages);
 
 function showPage(pageId){
   const validPage = document.getElementById(pageId) ? pageId : "archive-home";
