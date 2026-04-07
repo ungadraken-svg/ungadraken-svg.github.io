@@ -36,6 +36,10 @@ body{
   position: relative;
 }
 
+body.locked{
+  overflow: hidden;
+}
+
 /* PAPER + SCRATCH TEXTURE */
 body::before{
   content: "";
@@ -76,6 +80,43 @@ a{
 .site{
   position: relative;
   z-index: 3;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.site.active{
+  opacity: 1;
+}
+
+/* COVER GATE */
+.cover-gate{
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background:
+    linear-gradient(to bottom, rgba(255,255,255,0.03), rgba(0,0,0,0.02)),
+    var(--yellow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-bottom: 2px solid var(--black);
+}
+
+.cover-gate.hidden{
+  display: none;
+}
+
+.cover-gate-title{
+  text-align: center;
+  font-size: clamp(84px, 27vw, 380px);
+  line-height: 0.78;
+  letter-spacing: -0.08em;
+  font-weight: 900;
+  text-transform: uppercase;
+  color: var(--black);
+  word-break: break-word;
+  padding: 20px;
 }
 
 /* COVER */
@@ -266,9 +307,15 @@ a{
   color: var(--muted);
 }
 
-.meta-row span{
+.meta-row span,
+.meta-row a{
   padding-bottom: 3px;
   border-bottom: 1px solid rgba(0,0,0,0.16);
+}
+
+.meta-row a:hover{
+  border-bottom-color: var(--black);
+  color: var(--black);
 }
 
 .panel-row{
@@ -305,15 +352,18 @@ a{
   padding: 18px;
 }
 
-#stack{
+#stack,
+.category-stack{
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 26px;
 }
 
-#stack img{
+#stack img,
+.category-stack img{
   display: block;
   width: auto;
   height: auto;
@@ -325,6 +375,7 @@ a{
   margin: 0 auto;
 }
 
+/* CONTACT */
 .contact-grid{
   margin-top: 24px;
   display: grid;
@@ -383,7 +434,8 @@ a{
     grid-template-columns: 1fr;
   }
 
-  .cover-title{
+  .cover-title,
+  .cover-gate-title{
     font-size: 30vw;
   }
 }
@@ -396,7 +448,8 @@ a{
     align-items: flex-start;
   }
 
-  .cover-title{
+  .cover-title,
+  .cover-gate-title{
     font-size: 31vw;
     line-height: 0.84;
   }
@@ -404,8 +457,13 @@ a{
 </style>
 </head>
 
-<body>
-<div class="site">
+<body class="locked">
+
+<div class="cover-gate" id="coverGate" aria-label="Enter archive">
+  <div class="cover-gate-title">UNGADRAKEN</div>
+</div>
+
+<div class="site" id="site">
 
   <section class="cover" id="top">
     <div class="cover-top">
@@ -457,38 +515,18 @@ a{
           <h2 class="section-title">AN ARCHIVE OF IMAGES</h2>
 
           <div class="section-copy">
-            UNGADRAKEN is a photographic archive built around editorial image-making,
-            atmosphere, surface, clothing, gesture and contemporary visual culture.
-            The site is structured less like a portfolio and more like a sequence of
-            stored material: pages, fragments, entries and selected images gathered
-            into one continuous archive.
+            Photographer working across editorial, fashion and image-based work.
+            Focus on atmosphere, surface, gesture, styling and contemporary visual language.
           </div>
 
           <div class="meta-row">
-            <span>Editorial</span>
-            <span>Fashion</span>
-            <span>Personal work</span>
-            <span>Archive format</span>
-          </div>
-
-          <div class="panel-row">
-            <div class="panel">
-              <h3>Approach</h3>
-              <p>
-                The images are presented with as little interruption as possible.
-                Scale, repetition and spacing are used to keep the feeling of
-                turning pages rather than scrolling through thumbnails.
-              </p>
-            </div>
-
-            <div class="panel">
-              <h3>Format</h3>
-              <p>
-                The structure draws from catalogues, printed matter, archives and
-                artist books: restrained, direct and built to let the work hold
-                the surface.
-              </p>
-            </div>
+            <a href="#editorial">Editorial</a>
+            <a href="#fashion">Fashion</a>
+            <a href="#personal-work">Personal work</a>
+            <a href="#archive-format">Archive format</a>
+            <span>Collab</span>
+            <span>Commission</span>
+            <span>Contact</span>
           </div>
         </div>
       </div>
@@ -506,6 +544,74 @@ a{
 
           <div class="stack-wrap">
             <div id="stack" aria-label="Selected work"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="editorial">
+      <div class="section-inner">
+        <div class="section-label">
+          <strong>Editorial</strong>
+          Category
+        </div>
+
+        <div class="section-main">
+          <h2 class="section-title">EDITORIAL</h2>
+
+          <div class="stack-wrap">
+            <div class="category-stack" id="editorial-stack" aria-label="Editorial images"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="fashion">
+      <div class="section-inner">
+        <div class="section-label">
+          <strong>Fashion</strong>
+          Category
+        </div>
+
+        <div class="section-main">
+          <h2 class="section-title">FASHION</h2>
+
+          <div class="stack-wrap">
+            <div class="category-stack" id="fashion-stack" aria-label="Fashion images"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="personal-work">
+      <div class="section-inner">
+        <div class="section-label">
+          <strong>Personal work</strong>
+          Category
+        </div>
+
+        <div class="section-main">
+          <h2 class="section-title">PERSONAL WORK</h2>
+
+          <div class="stack-wrap">
+            <div class="category-stack" id="personal-stack" aria-label="Personal work images"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="archive-format">
+      <div class="section-inner">
+        <div class="section-label">
+          <strong>Archive format</strong>
+          Category
+        </div>
+
+        <div class="section-main">
+          <h2 class="section-title">ARCHIVE FORMAT</h2>
+
+          <div class="stack-wrap">
+            <div class="category-stack" id="archive-stack" aria-label="Archive format images"></div>
           </div>
         </div>
       </div>
@@ -554,6 +660,15 @@ a{
 <script>
 document.getElementById("year").textContent = new Date().getFullYear();
 
+const coverGate = document.getElementById("coverGate");
+const site = document.getElementById("site");
+
+coverGate.addEventListener("click", () => {
+  coverGate.classList.add("hidden");
+  site.classList.add("active");
+  document.body.classList.remove("locked");
+});
+
 const images = [
   "elsablommakall.jpeg",
   "adamblommaljus.JPG",
@@ -565,16 +680,25 @@ const images = [
   "mammablå.JPG"
 ];
 
-const stack = document.getElementById("stack");
+function loadImages(containerId, imageArray){
+  const container = document.getElementById(containerId);
+  if (!container) return;
 
-images.forEach(src => {
-  const img = new Image();
-  img.alt = "";
-  img.loading = "lazy";
-  img.onerror = () => { img.remove(); };
-  img.src = src;
-  stack.appendChild(img);
-});
+  imageArray.forEach(src => {
+    const img = new Image();
+    img.alt = "";
+    img.loading = "lazy";
+    img.onerror = () => { img.remove(); };
+    img.src = src;
+    container.appendChild(img);
+  });
+}
+
+loadImages("stack", images);
+loadImages("editorial-stack", images);
+loadImages("fashion-stack", images);
+loadImages("personal-stack", images);
+loadImages("archive-stack", images);
 </script>
 </body>
 </html>
