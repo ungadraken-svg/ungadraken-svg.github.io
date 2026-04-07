@@ -249,36 +249,118 @@ a{
   color: var(--black);
 }
 
-.panel-row{
-  margin-top: 26px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 18px;
-}
-
-.panel{
+/* GRAPHIC HOME PAGE */
+.graphic-field{
+  margin-top: 30px;
+  position: relative;
+  min-height: 64vh;
   border: 1px solid var(--line);
-  background: var(--panel);
-  padding: 16px;
+  background:
+    linear-gradient(to bottom right, rgba(255,255,255,0.08), rgba(0,0,0,0.03)),
+    rgba(255,250,180,0.26);
+  overflow: hidden;
 }
 
-.panel h3{
-  margin: 0 0 10px;
+.graphic-word{
+  position: absolute;
+  font-size: clamp(56px, 14vw, 220px);
+  line-height: 0.82;
+  letter-spacing: -0.08em;
+  font-weight: 900;
+  text-transform: uppercase;
+  color: var(--black);
+  white-space: nowrap;
+}
+
+.graphic-word.word-1{
+  top: 2%;
+  left: -1%;
+}
+
+.graphic-word.word-2{
+  top: 23%;
+  right: -3%;
+}
+
+.graphic-word.word-3{
+  top: 46%;
+  left: -2%;
+}
+
+.graphic-word.word-4{
+  bottom: 2%;
+  right: 0;
+}
+
+.graphic-block{
+  position: absolute;
+  border: 1px solid rgba(0,0,0,0.14);
+  background: rgba(255,248,190,0.42);
+  backdrop-filter: blur(1px);
+  padding: 14px 16px;
+  max-width: 260px;
   font-size: 11px;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.08em;
+  line-height: 1.45;
 }
 
-.panel p{
-  margin: 0;
-  font-size: 14px;
-  line-height: 1.68;
+.graphic-block.block-1{
+  top: 8%;
+  right: 7%;
 }
 
+.graphic-block.block-2{
+  top: 39%;
+  left: 10%;
+}
+
+.graphic-block.block-3{
+  bottom: 10%;
+  right: 14%;
+}
+
+.graphic-line{
+  position: absolute;
+  background: rgba(0,0,0,0.14);
+}
+
+.graphic-line.line-1{
+  top: 0;
+  left: 33%;
+  width: 1px;
+  height: 100%;
+}
+
+.graphic-line.line-2{
+  top: 54%;
+  left: 0;
+  width: 100%;
+  height: 1px;
+}
+
+.graphic-note-grid{
+  margin-top: 22px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.graphic-note{
+  border: 1px solid var(--line);
+  background: rgba(255,248,190,0.48);
+  padding: 14px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  line-height: 1.45;
+}
+
+/* SIMPLE IMAGE PAGES */
 .stack-wrap{
   margin-top: 28px;
   border: 1px solid var(--line);
-  background: rgba(255,250,180,0.38);
+  background: rgba(255,250,180,0.26);
   padding: 18px;
 }
 
@@ -303,6 +385,7 @@ a{
   margin: 0 auto;
 }
 
+/* CONTACT */
 .contact-grid{
   margin-top: 24px;
   display: grid;
@@ -363,14 +446,16 @@ a{
   color: var(--muted);
 }
 
+@media (max-width: 1100px){
+  .graphic-note-grid{
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
 @media (max-width: 900px){
   .section-inner{
     grid-template-columns: 1fr;
     gap: 18px;
-  }
-
-  .panel-row{
-    grid-template-columns: 1fr;
   }
 
   .contact-grid{
@@ -379,6 +464,14 @@ a{
 
   .cover-gate-title{
     font-size: 30vw;
+  }
+
+  .graphic-field{
+    min-height: 56vh;
+  }
+
+  .graphic-block{
+    max-width: 220px;
   }
 }
 
@@ -392,6 +485,25 @@ a{
     font-size: 31vw;
     line-height: 0.84;
   }
+
+  .graphic-note-grid{
+    grid-template-columns: 1fr;
+  }
+
+  .graphic-word{
+    font-size: 22vw;
+  }
+
+  .graphic-block{
+    position: absolute;
+    max-width: 160px;
+    font-size: 10px;
+    padding: 10px 12px;
+  }
+
+  .graphic-block.block-1{ top: 10%; right: 4%; }
+  .graphic-block.block-2{ top: 43%; left: 5%; }
+  .graphic-block.block-3{ bottom: 8%; right: 8%; }
 }
 </style>
 </head>
@@ -426,7 +538,7 @@ a{
     <section class="page-section" id="archive-home" data-page>
       <div class="section-inner">
         <div class="section-label">
-          <strong>About</strong>
+          <strong>Archive</strong>
           UNGADRAKEN
         </div>
 
@@ -446,24 +558,33 @@ a{
             <a href="#contact">Contact</a>
           </div>
 
-          <div class="panel-row">
-            <div class="panel">
-              <h3>Selected</h3>
-              <p>
-                A sequence of images presented as an archive rather than a conventional portfolio.
-              </p>
+          <div class="graphic-field">
+            <div class="graphic-line line-1"></div>
+            <div class="graphic-line line-2"></div>
+
+            <div class="graphic-word word-1">IMAGE</div>
+            <div class="graphic-word word-2">SURFACE</div>
+            <div class="graphic-word word-3">INDEX</div>
+            <div class="graphic-word word-4">ARCHIVE</div>
+
+            <div class="graphic-block block-1">
+              Editorial / fashion / image / film
             </div>
 
-            <div class="panel">
-              <h3>Index</h3>
-              <p>
-                Editorial, fashion, personal work and archive format arranged as separate entries.
-              </p>
+            <div class="graphic-block block-2">
+              Sequence / fragment / atmosphere / gesture
+            </div>
+
+            <div class="graphic-block block-3">
+              Selected entries arranged as separate pages
             </div>
           </div>
 
-          <div class="stack-wrap">
-            <div class="image-stack" id="stack-home" aria-label="Selected work"></div>
+          <div class="graphic-note-grid">
+            <div class="graphic-note">Editorial</div>
+            <div class="graphic-note">Fashion</div>
+            <div class="graphic-note">Personal work</div>
+            <div class="graphic-note">Archive format</div>
           </div>
         </div>
       </div>
@@ -590,13 +711,6 @@ const site = document.getElementById("site");
 const pageSections = [...document.querySelectorAll("[data-page]")];
 const navLinks = [...document.querySelectorAll(".archive-nav a")];
 
-const homeImages = [
-  "elsablommakall.jpeg",
-  "adamblommaljus.JPG",
-  "adamlljus.JPG",
-  "mammagrå.JPG"
-];
-
 const editorialImages = [
   "elsablommakall.jpeg",
   "adamblommaljus.JPG"
@@ -636,7 +750,6 @@ function loadImages(containerId, imageArray){
   });
 }
 
-loadImages("stack-home", homeImages);
 loadImages("editorial-stack", editorialImages);
 loadImages("fashion-stack", fashionImages);
 loadImages("personal-stack", personalImages);
