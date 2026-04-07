@@ -5,6 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>UNGADRAKEN – Photographer</title>
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Cormorant+Garamond:wght@700&family=DM+Serif+Display&family=Oswald:wght@700&family=Playfair+Display:wght@700&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+
 <style>
 :root{
   --bg: #ffffff;
@@ -16,12 +20,17 @@
 
 * { box-sizing: border-box; }
 
-body{
+html, body{
   margin: 0;
   background: var(--bg);
   color: var(--text);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   line-height: 1.5;
+  overflow-x: hidden;
+}
+
+body.intro-active{
+  overflow: hidden;
 }
 
 a{
@@ -137,6 +146,96 @@ footer{
   color: var(--muted);
 }
 
+/* INTRO */
+#intro{
+  position: fixed;
+  inset: 0;
+  background: #ffffff;
+  z-index: 9999;
+  overflow: hidden;
+  transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+#intro.hidden{
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+#intro-letters{
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.falling-letter{
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: #111;
+  font-weight: 700;
+  line-height: 1;
+  user-select: none;
+  will-change: transform, opacity;
+  white-space: pre;
+}
+
+#intro-word{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  gap: 0.02em;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+#intro-word.ready{
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+#intro-word .final-letter{
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(20px) scale(0.94);
+  transition:
+    opacity 0.45s ease,
+    transform 0.6s cubic-bezier(.2,.8,.2,1),
+    letter-spacing 0.3s ease;
+  color: #111;
+  user-select: none;
+}
+
+#intro-word.ready .final-letter{
+  opacity: 1;
+}
+
+#intro-word.ready:hover .final-letter{
+  transform: translateY(-2px) scale(1.02);
+}
+
+#intro-hint{
+  position: absolute;
+  left: 50%;
+  bottom: 42px;
+  transform: translateX(-50%);
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #777;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+#intro.show-hint #intro-hint{
+  opacity: 1;
+}
+
 @media (max-width: 640px){
   header{
     flex-direction: column;
@@ -154,7 +253,14 @@ footer{
 </style>
 </head>
 
-<body>
+<body class="intro-active">
+
+<div id="intro" aria-label="Intro animation">
+  <div id="intro-letters"></div>
+  <div id="intro-word" aria-label="UNGADRAKEN intro title"></div>
+  <div id="intro-hint">Click to enter</div>
+</div>
+
 <div class="container">
 
 <header>
@@ -231,6 +337,230 @@ images.forEach(src => {
   img.src = src;
   stack.appendChild(img);
 });
+
+/* INTRO ANIMATION */
+const intro = document.getElementById("intro");
+const introLetters = document.getElementById("intro-letters");
+const introWord = document.getElementById("intro-word");
+
+const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ";
+const finalWord = "UNGADRAKEN";
+
+const fontPool = [
+  '"Anton", sans-serif',
+  '"Bebas Neue", sans-serif',
+  '"Playfair Display", serif',
+  '"Cormorant Garamond", serif',
+  '"DM Serif Display", serif',
+  '"Oswald", sans-serif',
+  '"Space Grotesk", sans-serif',
+  'Helvetica, Arial, sans-serif',
+  '"Times New Roman", serif',
+  'Georgia, serif'
+];
+
+let introFinished = false;
+let animationFrame = null;
+const particles = [];
+
+function randomBetween(min, max){
+  return Math.random() * (max - min) + min;
+}
+
+function buildFinalWord(){
+  introWord.innerHTML = "";
+  [...finalWord].forEach((char, i) => {
+    const span = document.createElement("span");
+    span.className = "final-letter";
+    span.textContent = char;
+    span.style.fontFamily = fontPool[i % fontPool.length];
+    introWord.appendChild(span);
+  });
+}
+
+function sizeFinalWord(){
+  const spans = [...introWord.querySelectorAll(".final-letter")];
+  const w = window.innerWidth;
+
+  let fontSize = 110;
+  if (w < 1200) fontSize = 96;
+  if (w < 900) fontSize = 78;
+  if (w < 700) fontSize = 54;
+  if (w < 520) fontSize = 38;
+
+  spans.forEach(span => {
+    span.style.fontSize = fontSize + "px";
+  });
+}
+
+function getTargetPositions(){
+  const spans = [...introWord.querySelectorAll(".final-letter")];
+  return spans.map(span => {
+    const rect = span.getBoundingClientRect();
+    return {
+      x: rect.left + rect.width / 2,
+      y: rect.top + rect.height / 2
+    };
+  });
+}
+
+function createParticle(char, target = null, delay = 0){
+  const el = document.createElement("div");
+  el.className = "falling-letter";
+  el.textContent = char;
+  el.style.fontFamily = fontPool[Math.floor(Math.random() * fontPool.length)];
+  el.style.fontSize = randomBetween(26, 74) + "px";
+  el.style.opacity = randomBetween(0.72, 1).toFixed(2);
+  introLetters.appendChild(el);
+
+  const p = {
+    el,
+    char,
+    x: randomBetween(0, window.innerWidth),
+    y: randomBetween(-window.innerHeight * 1.2, -30),
+    vx: randomBetween(-0.4, 0.4),
+    vy: randomBetween(5, 11),
+    rotation: randomBetween(-18, 18),
+    vr: randomBetween(-1, 1),
+    floor: window.innerHeight - randomBetween(40, 120),
+    bounce: randomBetween(0.22, 0.38),
+    gravity: 0.32,
+    state: "falling",
+    target,
+    delay,
+    done: false
+  };
+
+  particles.push(p);
+  return p;
+}
+
+function seedParticles(){
+  particles.length = 0;
+  introLetters.innerHTML = "";
+
+  for (const char of alphabet) {
+    createParticle(char);
+  }
+
+  for (let i = 0; i < 38; i++) {
+    const char = alphabet[Math.floor(Math.random() * alphabet.length)];
+    createParticle(char);
+  }
+}
+
+function animateParticles(){
+  let active = false;
+
+  particles.forEach(p => {
+    if (p.done) return;
+
+    if (p.delay > 0) {
+      p.delay -= 1;
+      active = true;
+      return;
+    }
+
+    if (p.state === "falling") {
+      p.vy += p.gravity;
+      p.y += p.vy;
+      p.x += p.vx;
+      p.rotation += p.vr;
+
+      if (p.y >= p.floor) {
+        p.y = p.floor;
+        p.vy *= -p.bounce;
+
+        if (Math.abs(p.vy) < 1.4) {
+          p.state = p.target ? "toTarget" : "settled";
+        }
+      }
+
+      active = true;
+    } else if (p.state === "settled") {
+      p.rotation *= 0.96;
+      active = true;
+    } else if (p.state === "toTarget") {
+      const dx = p.target.x - p.x;
+      const dy = p.target.y - p.y;
+      p.x += dx * 0.11;
+      p.y += dy * 0.11;
+      p.rotation *= 0.9;
+
+      if (Math.abs(dx) < 0.7 && Math.abs(dy) < 0.7) {
+        p.el.style.opacity = "0";
+        p.done = true;
+        setTimeout(() => p.el.remove(), 180);
+      }
+
+      active = true;
+    }
+
+    p.el.style.transform = `translate(${p.x}px, ${p.y}px) rotate(${p.rotation}deg)`;
+  });
+
+  if (active) {
+    animationFrame = requestAnimationFrame(animateParticles);
+  }
+}
+
+function startGatherPhase(){
+  const targets = getTargetPositions();
+  const finalLetters = [...introWord.querySelectorAll(".final-letter")];
+
+  finalLetters.forEach((span, i) => {
+    setTimeout(() => {
+      span.style.opacity = "1";
+      span.style.transform = "translateY(0) scale(1)";
+    }, i * 55);
+  });
+
+  [...finalWord].forEach((char, i) => {
+    createParticle(char, targets[i], i * 7);
+  });
+
+  animationFrame = requestAnimationFrame(animateParticles);
+
+  setTimeout(() => {
+    introWord.classList.add("ready");
+    intro.classList.add("show-hint");
+    introFinished = true;
+  }, 1200);
+}
+
+function runIntro(){
+  buildFinalWord();
+  sizeFinalWord();
+  seedParticles();
+
+  if (animationFrame) cancelAnimationFrame(animationFrame);
+  animationFrame = requestAnimationFrame(animateParticles);
+
+  setTimeout(() => {
+    startGatherPhase();
+  }, 1900);
+}
+
+function closeIntro(){
+  intro.classList.add("hidden");
+  document.body.classList.remove("intro-active");
+}
+
+introWord.addEventListener("click", () => {
+  if (!introFinished) return;
+  closeIntro();
+});
+
+intro.addEventListener("click", (e) => {
+  if (!introFinished) return;
+  if (e.target === introWord || introWord.contains(e.target)) return;
+});
+
+window.addEventListener("resize", () => {
+  sizeFinalWord();
+});
+
+runIntro();
 </script>
 
 </body>
