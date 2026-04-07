@@ -7,15 +7,15 @@
 
 <style>
 :root{
-  --yellow: #efe62f;
-  --yellow-deep: #e5db1f;
-  --paper: #f2e93b;
-  --black: #0d0d0d;
+  --bg: #ffffff;
+  --paper: #f7f7f5;
+  --black: #0a0a0a;
   --text: #111111;
-  --muted: rgba(0,0,0,0.66);
-  --line: rgba(0,0,0,0.24);
-  --panel: rgba(255,248,190,0.62);
-  --white: #fffef8;
+  --muted: rgba(0,0,0,0.58);
+  --line: rgba(0,0,0,0.16);
+  --panel: rgba(0,0,0,0.025);
+  --red: #df1111;
+  --white: #ffffff;
 }
 
 *{
@@ -26,7 +26,7 @@ html, body{
   margin: 0;
   padding: 0;
   font-family: Helvetica, Arial, sans-serif;
-  background: var(--yellow);
+  background: var(--bg);
   color: var(--text);
   overflow-x: hidden;
   scroll-behavior: smooth;
@@ -40,19 +40,19 @@ body.locked{
   overflow: hidden;
 }
 
-/* PAPER + SCRATCH TEXTURE */
+/* SUBTLE PAPER / PRINT TEXTURE */
 body::before{
   content: "";
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 1;
-  opacity: 0.18;
+  opacity: 0.06;
   background-image:
-    radial-gradient(circle at 12% 18%, rgba(0,0,0,0.20) 0 1px, transparent 1.5px),
-    radial-gradient(circle at 78% 26%, rgba(0,0,0,0.14) 0 1px, transparent 1.6px),
-    radial-gradient(circle at 22% 74%, rgba(0,0,0,0.16) 0 1px, transparent 1.4px),
-    radial-gradient(circle at 67% 83%, rgba(0,0,0,0.12) 0 1px, transparent 1.5px);
+    radial-gradient(circle at 12% 18%, rgba(0,0,0,0.18) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 78% 26%, rgba(0,0,0,0.12) 0 1px, transparent 1.6px),
+    radial-gradient(circle at 22% 74%, rgba(0,0,0,0.12) 0 1px, transparent 1.4px),
+    radial-gradient(circle at 67% 83%, rgba(0,0,0,0.10) 0 1px, transparent 1.5px);
   background-size: 13px 13px, 17px 17px, 15px 15px, 19px 19px;
   mix-blend-mode: multiply;
 }
@@ -63,7 +63,7 @@ body::after{
   inset: 0;
   pointer-events: none;
   z-index: 2;
-  opacity: 0.12;
+  opacity: 0.04;
   background:
     linear-gradient(91deg, transparent 0 9%, rgba(0,0,0,0.06) 9.1%, transparent 9.35%),
     linear-gradient(96deg, transparent 0 36%, rgba(0,0,0,0.05) 36.15%, transparent 36.4%),
@@ -94,8 +94,8 @@ a{
   inset: 0;
   z-index: 50;
   background:
-    linear-gradient(to bottom, rgba(255,255,255,0.03), rgba(0,0,0,0.02)),
-    var(--yellow);
+    linear-gradient(to bottom, rgba(255,255,255,0.02), rgba(0,0,0,0.015)),
+    var(--bg);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -107,35 +107,66 @@ a{
   display: none;
 }
 
+.cover-gate-inner{
+  width: min(1200px, 92vw);
+  height: min(760px, 88vh);
+  border: 1px solid var(--line);
+  position: relative;
+  background: var(--white);
+  overflow: hidden;
+}
+
 .cover-gate-title{
-  text-align: center;
-  font-size: clamp(84px, 27vw, 380px);
+  position: absolute;
+  left: -1.5%;
+  bottom: -4%;
+  font-size: clamp(92px, 23vw, 330px);
   line-height: 0.78;
-  letter-spacing: -0.08em;
+  letter-spacing: -0.09em;
   font-weight: 900;
-  text-transform: uppercase;
+  text-transform: lowercase;
   color: var(--black);
-  word-break: break-word;
-  padding: 20px;
+}
+
+.cover-gate-accent{
+  position: absolute;
+  right: 16%;
+  bottom: 21%;
+  font-size: clamp(46px, 8vw, 130px);
+  line-height: 0.84;
+  letter-spacing: -0.09em;
+  font-weight: 900;
+  color: var(--red);
+  text-transform: lowercase;
+}
+
+.cover-gate-meta{
+  position: absolute;
+  top: 7%;
+  right: 6%;
+  max-width: 220px;
+  font-size: 13px;
+  line-height: 1.33;
+  color: var(--black);
 }
 
 /* ARCHIVE */
 .archive{
   min-height: 100vh;
-  background: linear-gradient(to bottom, rgba(255,240,120,0.25), rgba(255,240,120,0.07));
+  background: linear-gradient(to bottom, rgba(0,0,0,0.015), rgba(0,0,0,0.01));
 }
 
 .archive-header{
   position: sticky;
   top: 0;
   z-index: 10;
-  background: rgba(239,230,47,0.92);
-  backdrop-filter: blur(3px);
+  background: rgba(255,255,255,0.94);
+  backdrop-filter: blur(6px);
   border-bottom: 1px solid var(--line);
 }
 
 .archive-header-inner{
-  max-width: 1400px;
+  max-width: 1440px;
   margin: 0 auto;
   padding: 14px 18px;
   display: flex;
@@ -168,6 +199,7 @@ a{
 
 .archive-nav a{
   border-bottom: 1px solid transparent;
+  padding-bottom: 2px;
 }
 
 .archive-nav a:hover,
@@ -177,8 +209,9 @@ a{
 
 .page-section{
   display: none;
+  min-height: calc(100vh - 58px);
   border-bottom: 1px solid var(--line);
-  padding: 34px 18px 42px;
+  padding: 36px 18px 42px;
 }
 
 .page-section.active{
@@ -186,11 +219,11 @@ a{
 }
 
 .section-inner{
-  max-width: 1400px;
+  max-width: 1440px;
   margin: 0 auto;
   display: grid;
   grid-template-columns: 180px minmax(0, 1fr);
-  gap: 28px;
+  gap: 30px;
 }
 
 .section-label{
@@ -213,15 +246,15 @@ a{
 
 .section-title{
   margin: 0;
-  font-size: clamp(34px, 8vw, 110px);
+  font-size: clamp(42px, 8vw, 112px);
   line-height: 0.9;
-  letter-spacing: -0.06em;
+  letter-spacing: -0.065em;
   text-transform: uppercase;
   font-weight: 900;
 }
 
 .section-copy{
-  max-width: 720px;
+  max-width: 760px;
   margin-top: 18px;
   font-size: 15px;
   line-height: 1.72;
@@ -249,128 +282,184 @@ a{
   color: var(--black);
 }
 
-/* GRAPHIC HOME PAGE */
-.graphic-field{
-  margin-top: 30px;
-  position: relative;
-  min-height: 64vh;
+/* NEW ARCHIVE HOME */
+.archive-hero{
+  margin-top: 28px;
+  min-height: 72vh;
   border: 1px solid var(--line);
-  background:
-    linear-gradient(to bottom right, rgba(255,255,255,0.08), rgba(0,0,0,0.03)),
-    rgba(255,250,180,0.26);
+  background: var(--white);
+  position: relative;
   overflow: hidden;
 }
 
-.graphic-word{
+.archive-hero-big{
   position: absolute;
-  font-size: clamp(56px, 14vw, 220px);
-  line-height: 0.82;
-  letter-spacing: -0.08em;
+  left: -1.8%;
+  bottom: -3.5%;
+  font-size: clamp(92px, 19vw, 320px);
+  line-height: 0.77;
+  letter-spacing: -0.09em;
   font-weight: 900;
-  text-transform: uppercase;
   color: var(--black);
-  white-space: nowrap;
+  text-transform: lowercase;
 }
 
-.graphic-word.word-1{
-  top: 2%;
-  left: -1%;
-}
-
-.graphic-word.word-2{
-  top: 23%;
-  right: -3%;
-}
-
-.graphic-word.word-3{
-  top: 46%;
-  left: -2%;
-}
-
-.graphic-word.word-4{
-  bottom: 2%;
-  right: 0;
-}
-
-.graphic-block{
+.archive-hero-accent{
   position: absolute;
-  border: 1px solid rgba(0,0,0,0.14);
-  background: rgba(255,248,190,0.42);
-  backdrop-filter: blur(1px);
-  padding: 14px 16px;
-  max-width: 260px;
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  line-height: 1.45;
+  right: 17%;
+  bottom: 18%;
+  font-size: clamp(44px, 8vw, 120px);
+  line-height: 0.82;
+  letter-spacing: -0.09em;
+  font-weight: 900;
+  color: var(--red);
+  text-transform: lowercase;
 }
 
-.graphic-block.block-1{
-  top: 8%;
-  right: 7%;
-}
-
-.graphic-block.block-2{
-  top: 39%;
-  left: 10%;
-}
-
-.graphic-block.block-3{
-  bottom: 10%;
-  right: 14%;
-}
-
-.graphic-line{
+.archive-hero-meta{
   position: absolute;
-  background: rgba(0,0,0,0.14);
+  top: 7%;
+  right: 5%;
+  max-width: 240px;
+  font-size: 13px;
+  line-height: 1.38;
 }
 
-.graphic-line.line-1{
+.archive-hero-rule-v{
+  position: absolute;
+  left: 62%;
   top: 0;
-  left: 33%;
   width: 1px;
   height: 100%;
+  background: rgba(0,0,0,0.08);
 }
 
-.graphic-line.line-2{
-  top: 54%;
+.archive-hero-rule-h{
+  position: absolute;
   left: 0;
+  top: 56%;
   width: 100%;
   height: 1px;
+  background: rgba(0,0,0,0.08);
 }
 
-.graphic-note-grid{
-  margin-top: 22px;
+.archive-index{
+  margin-top: 16px;
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0,1fr));
+  gap: 12px;
+}
+
+.archive-index a{
+  border: 1px solid var(--line);
+  background: var(--white);
+  padding: 14px;
+  min-height: 82px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.archive-index a span{
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+}
+
+.archive-index a strong{
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: -0.05em;
+  text-transform: uppercase;
+}
+
+/* CATEGORY PAGES GET OWN IDENTITY */
+.category-shell{
+  margin-top: 22px;
+  border: 1px solid var(--line);
+  background: linear-gradient(to bottom, rgba(0,0,0,0.015), rgba(0,0,0,0.03));
+}
+
+.category-intro{
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(260px, 0.8fr);
+  gap: 20px;
+  padding: 20px;
+  border-bottom: 1px solid var(--line);
+  background: var(--white);
+}
+
+.category-kicker{
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+
+.category-heading{
+  margin: 0;
+  font-size: clamp(38px, 7vw, 88px);
+  line-height: 0.9;
+  letter-spacing: -0.065em;
+  text-transform: uppercase;
+  font-weight: 900;
+}
+
+.category-copy{
+  margin-top: 14px;
+  max-width: 760px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.category-info{
+  border-left: 1px solid var(--line);
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
   gap: 14px;
 }
 
-.graphic-note{
-  border: 1px solid var(--line);
-  background: rgba(255,248,190,0.48);
-  padding: 14px;
+.category-info-block{
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   line-height: 1.45;
 }
 
-/* SIMPLE IMAGE PAGES */
-.stack-wrap{
-  margin-top: 28px;
-  border: 1px solid var(--line);
-  background: rgba(255,250,180,0.26);
-  padding: 18px;
+.category-info-block strong{
+  display: block;
+  font-size: 11px;
+  color: var(--black);
+  margin-bottom: 6px;
 }
 
+.stack-wrap{
+  padding: 26px;
+  background: var(--paper);
+}
+
+/* CENTERED IMAGES */
 .image-stack{
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 26px;
+  gap: 34px;
+}
+
+.image-frame{
+  width: 100%;
+  min-height: 82vh;
+  border: 1px solid var(--line);
+  background: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
 }
 
 .image-stack img{
@@ -378,30 +467,69 @@ a{
   width: auto;
   height: auto;
   max-width: 100%;
-  max-height: 84vh;
+  max-height: 72vh;
   object-fit: contain;
-  border: 1px solid rgba(0,0,0,0.10);
   background: #fff;
   margin: 0 auto;
 }
 
 /* CONTACT */
+.contact-shell{
+  margin-top: 26px;
+  border: 1px solid var(--line);
+  background: var(--white);
+}
+
+.contact-top{
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
+  gap: 20px;
+  padding: 22px;
+  border-bottom: 1px solid var(--line);
+}
+
+.contact-lead{
+  margin: 0;
+  font-size: clamp(34px, 6vw, 72px);
+  line-height: 0.92;
+  letter-spacing: -0.06em;
+  text-transform: uppercase;
+  font-weight: 900;
+}
+
+.contact-copy{
+  margin-top: 14px;
+  max-width: 660px;
+  font-size: 15px;
+  line-height: 1.72;
+}
+
+.contact-aside{
+  border-left: 1px solid var(--line);
+  padding-left: 20px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  line-height: 1.5;
+}
+
 .contact-grid{
-  margin-top: 24px;
+  padding: 22px;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 18px;
-  max-width: 760px;
+  max-width: 920px;
 }
 
 .contact-card{
   border: 1px solid var(--line);
-  background: var(--panel);
+  background: var(--paper);
   padding: 16px;
+  min-height: 132px;
 }
 
 .contact-card h3{
-  margin: 0 0 10px;
+  margin: 0 0 12px;
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.12em;
@@ -409,12 +537,20 @@ a{
 
 .contact-card p{
   margin: 0;
-  font-size: 14px;
+  font-size: 15px;
   line-height: 1.6;
 }
 
+.contact-card a{
+  border-bottom: 1px solid rgba(0,0,0,0.28);
+}
+
+.contact-card a:hover{
+  border-bottom-color: var(--black);
+}
+
 .contact-bottom{
-  margin-top: 22px;
+  padding: 0 22px 22px;
   display: flex;
   flex-wrap: wrap;
   gap: 10px 16px;
@@ -437,7 +573,7 @@ a{
 }
 
 .footer-inner{
-  max-width: 1400px;
+  max-width: 1440px;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
@@ -447,8 +583,21 @@ a{
 }
 
 @media (max-width: 1100px){
-  .graphic-note-grid{
+  .archive-index{
     grid-template-columns: 1fr 1fr;
+  }
+
+  .category-intro,
+  .contact-top{
+    grid-template-columns: 1fr;
+  }
+
+  .category-info,
+  .contact-aside{
+    border-left: 0;
+    padding-left: 0;
+    border-top: 1px solid var(--line);
+    padding-top: 18px;
   }
 }
 
@@ -463,15 +612,19 @@ a{
   }
 
   .cover-gate-title{
-    font-size: 30vw;
+    font-size: 26vw;
   }
 
-  .graphic-field{
-    min-height: 56vh;
+  .archive-hero-big{
+    font-size: 26vw;
+    left: -1%;
+    bottom: -2%;
   }
 
-  .graphic-block{
-    max-width: 220px;
+  .archive-hero-accent{
+    font-size: 13vw;
+    right: 10%;
+    bottom: 15%;
   }
 }
 
@@ -481,29 +634,70 @@ a{
     align-items: flex-start;
   }
 
-  .cover-gate-title{
-    font-size: 31vw;
-    line-height: 0.84;
-  }
-
-  .graphic-note-grid{
+  .archive-index{
     grid-template-columns: 1fr;
   }
 
-  .graphic-word{
-    font-size: 22vw;
+  .cover-gate-meta,
+  .archive-hero-meta{
+    position: static;
+    max-width: none;
+    padding: 18px;
   }
 
-  .graphic-block{
+  .cover-gate-inner{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .cover-gate-title{
     position: absolute;
-    max-width: 160px;
-    font-size: 10px;
-    padding: 10px 12px;
+    left: -1%;
+    bottom: 2%;
+    font-size: 31vw;
+    line-height: 0.8;
   }
 
-  .graphic-block.block-1{ top: 10%; right: 4%; }
-  .graphic-block.block-2{ top: 43%; left: 5%; }
-  .graphic-block.block-3{ bottom: 8%; right: 8%; }
+  .cover-gate-accent{
+    right: 9%;
+    bottom: 24%;
+    font-size: 16vw;
+  }
+
+  .archive-hero{
+    min-height: 62vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .archive-hero-big{
+    position: absolute;
+    left: -1%;
+    bottom: 4%;
+    font-size: 28vw;
+  }
+
+  .archive-hero-accent{
+    right: 8%;
+    bottom: 23%;
+    font-size: 16vw;
+  }
+
+  .archive-hero-rule-v,
+  .archive-hero-rule-h{
+    display: none;
+  }
+
+  .image-frame{
+    min-height: 68vh;
+    padding: 16px;
+  }
+
+  .stack-wrap{
+    padding: 16px;
+  }
 }
 </style>
 </head>
@@ -511,7 +705,15 @@ a{
 <body class="locked">
 
 <div class="cover-gate" id="coverGate" aria-label="Enter archive">
-  <div class="cover-gate-title">UNGADRAKEN</div>
+  <div class="cover-gate-inner">
+    <div class="cover-gate-meta">
+      ungadraken archive<br>
+      editorial / fashion / personal work<br>
+      image index / ongoing selection
+    </div>
+    <div class="cover-gate-title">face<br>face</div>
+    <div class="cover-gate-accent">to</div>
+  </div>
 </div>
 
 <div class="site" id="site">
@@ -547,7 +749,8 @@ a{
 
           <div class="section-copy">
             Photographer working across editorial, fashion and image-based work.
-            Focus on atmosphere, surface, gesture, styling and contemporary visual language.
+            A focus on atmosphere, surface, sequencing, gesture, styling and contemporary image language.
+            This archive is arranged as separate entries rather than one continuous scroll, so each section carries its own pace and identity.
           </div>
 
           <div class="meta-row">
@@ -558,33 +761,42 @@ a{
             <a href="#contact">Contact</a>
           </div>
 
-          <div class="graphic-field">
-            <div class="graphic-line line-1"></div>
-            <div class="graphic-line line-2"></div>
+          <div class="archive-hero">
+            <div class="archive-hero-rule-v"></div>
+            <div class="archive-hero-rule-h"></div>
 
-            <div class="graphic-word word-1">IMAGE</div>
-            <div class="graphic-word word-2">SURFACE</div>
-            <div class="graphic-word word-3">INDEX</div>
-            <div class="graphic-word word-4">ARCHIVE</div>
-
-            <div class="graphic-block block-1">
-              Editorial / fashion / image / film
+            <div class="archive-hero-meta">
+              the ungadraken archive<br><br>
+              editorial selections<br>
+              fashion studies<br>
+              personal work<br><br>
+              ongoing visual index
             </div>
 
-            <div class="graphic-block block-2">
-              Sequence / fragment / atmosphere / gesture
-            </div>
-
-            <div class="graphic-block block-3">
-              Selected entries arranged as separate pages
-            </div>
+            <div class="archive-hero-big">face<br>face</div>
+            <div class="archive-hero-accent">to</div>
           </div>
 
-          <div class="graphic-note-grid">
-            <div class="graphic-note">Editorial</div>
-            <div class="graphic-note">Fashion</div>
-            <div class="graphic-note">Personal work</div>
-            <div class="graphic-note">Archive format</div>
+          <div class="archive-index">
+            <a href="#editorial">
+              <span>01</span>
+              <strong>Editorial</strong>
+            </a>
+
+            <a href="#fashion">
+              <span>02</span>
+              <strong>Fashion</strong>
+            </a>
+
+            <a href="#personal-work">
+              <span>03</span>
+              <strong>Personal work</strong>
+            </a>
+
+            <a href="#archive-format">
+              <span>04</span>
+              <strong>Archive format</strong>
+            </a>
           </div>
         </div>
       </div>
@@ -598,10 +810,36 @@ a{
         </div>
 
         <div class="section-main">
-          <h2 class="section-title">EDITORIAL</h2>
+          <div class="category-shell">
+            <div class="category-intro">
+              <div>
+                <div class="category-kicker">Selected category</div>
+                <h2 class="category-heading">EDITORIAL</h2>
+                <div class="category-copy">
+                  A page for editorial image-making, built around atmosphere, sequencing and visual tension.
+                  This section is meant to read as its own entry in the archive rather than a continuation of the home page.
+                </div>
+              </div>
 
-          <div class="stack-wrap">
-            <div class="image-stack" id="editorial-stack" aria-label="Editorial images"></div>
+              <div class="category-info">
+                <div class="category-info-block">
+                  <strong>Focus</strong>
+                  image / atmosphere / sequence
+                </div>
+                <div class="category-info-block">
+                  <strong>Format</strong>
+                  selected stills arranged one by one
+                </div>
+                <div class="category-info-block">
+                  <strong>Archive note</strong>
+                  centered display / isolated viewing
+                </div>
+              </div>
+            </div>
+
+            <div class="stack-wrap">
+              <div class="image-stack" id="editorial-stack" aria-label="Editorial images"></div>
+            </div>
           </div>
         </div>
       </div>
@@ -615,10 +853,36 @@ a{
         </div>
 
         <div class="section-main">
-          <h2 class="section-title">FASHION</h2>
+          <div class="category-shell">
+            <div class="category-intro">
+              <div>
+                <div class="category-kicker">Selected category</div>
+                <h2 class="category-heading">FASHION</h2>
+                <div class="category-copy">
+                  A page for styling, silhouette, texture and surface.
+                  The structure stays related to the rest of the archive, but this section has its own tone and identity through spacing, framing and pacing.
+                </div>
+              </div>
 
-          <div class="stack-wrap">
-            <div class="image-stack" id="fashion-stack" aria-label="Fashion images"></div>
+              <div class="category-info">
+                <div class="category-info-block">
+                  <strong>Focus</strong>
+                  styling / surface / body / texture
+                </div>
+                <div class="category-info-block">
+                  <strong>Format</strong>
+                  image-led / slow browsing
+                </div>
+                <div class="category-info-block">
+                  <strong>Archive note</strong>
+                  each image centered in its own frame
+                </div>
+              </div>
+            </div>
+
+            <div class="stack-wrap">
+              <div class="image-stack" id="fashion-stack" aria-label="Fashion images"></div>
+            </div>
           </div>
         </div>
       </div>
@@ -632,10 +896,36 @@ a{
         </div>
 
         <div class="section-main">
-          <h2 class="section-title">PERSONAL WORK</h2>
+          <div class="category-shell">
+            <div class="category-intro">
+              <div>
+                <div class="category-kicker">Selected category</div>
+                <h2 class="category-heading">PERSONAL WORK</h2>
+                <div class="category-copy">
+                  A more intimate part of the archive, holding fragments, observations and personal image-making.
+                  It keeps the same system as the rest of the site but feels quieter and slightly more open.
+                </div>
+              </div>
 
-          <div class="stack-wrap">
-            <div class="image-stack" id="personal-stack" aria-label="Personal work images"></div>
+              <div class="category-info">
+                <div class="category-info-block">
+                  <strong>Focus</strong>
+                  fragments / memory / image notes
+                </div>
+                <div class="category-info-block">
+                  <strong>Format</strong>
+                  isolated stills / archive entry
+                </div>
+                <div class="category-info-block">
+                  <strong>Archive note</strong>
+                  separate page identity
+                </div>
+              </div>
+            </div>
+
+            <div class="stack-wrap">
+              <div class="image-stack" id="personal-stack" aria-label="Personal work images"></div>
+            </div>
           </div>
         </div>
       </div>
@@ -649,10 +939,36 @@ a{
         </div>
 
         <div class="section-main">
-          <h2 class="section-title">ARCHIVE FORMAT</h2>
+          <div class="category-shell">
+            <div class="category-intro">
+              <div>
+                <div class="category-kicker">Selected category</div>
+                <h2 class="category-heading">ARCHIVE FORMAT</h2>
+                <div class="category-copy">
+                  A section for the archive’s own logic: repetition, variation, ordering and display.
+                  This page can hold images that describe the system itself, rather than fitting only under one category.
+                </div>
+              </div>
 
-          <div class="stack-wrap">
-            <div class="image-stack" id="archive-stack" aria-label="Archive format images"></div>
+              <div class="category-info">
+                <div class="category-info-block">
+                  <strong>Focus</strong>
+                  index / sequence / format / structure
+                </div>
+                <div class="category-info-block">
+                  <strong>Format</strong>
+                  archive study / reference selection
+                </div>
+                <div class="category-info-block">
+                  <strong>Archive note</strong>
+                  system inside the system
+                </div>
+              </div>
+            </div>
+
+            <div class="stack-wrap">
+              <div class="image-stack" id="archive-stack" aria-label="Archive format images"></div>
+            </div>
           </div>
         </div>
       </div>
@@ -666,28 +982,47 @@ a{
         </div>
 
         <div class="section-main">
-          <h2 class="section-title">CONTACT</h2>
+          <div class="contact-shell">
+            <div class="contact-top">
+              <div>
+                <h2 class="contact-lead">CONTACT / COLLABORATION / COMMISSION</h2>
+                <div class="contact-copy">
+                  For commissions, collaborations, editorial projects, image-based work and related inquiries, please get in touch by email or Instagram.
+                  This page is treated as a proper archive entry rather than a simple contact block, so it feels like part of the site instead of an afterthought.
+                </div>
+              </div>
 
-          <div class="contact-grid">
-            <div class="contact-card">
-              <h3>Email</h3>
-              <p>
-                <a href="mailto:ungadraken@gmail.com">ungadraken@gmail.com</a>
-              </p>
+              <div class="contact-aside">
+                ungadraken<br><br>
+                editorial / fashion / image<br>
+                collaborations<br>
+                commissions<br>
+                contact
+              </div>
             </div>
 
-            <div class="contact-card">
-              <h3>Instagram</h3>
-              <p>
-                <a href="https://www.instagram.com/exmag.eu/" target="_blank" rel="noopener">@exmag.eu</a>
-              </p>
-            </div>
-          </div>
+            <div class="contact-grid">
+              <div class="contact-card">
+                <h3>Email</h3>
+                <p>
+                  <a href="mailto:ungadraken@gmail.com">ungadraken@gmail.com</a>
+                </p>
+              </div>
 
-          <div class="contact-bottom">
-            <span>Collaboration</span>
-            <span>Commission</span>
-            <span>Contact</span>
+              <div class="contact-card">
+                <h3>Instagram</h3>
+                <p>
+                  <a href="https://www.instagram.com/exmag.eu/" target="_blank" rel="noopener">@exmag.eu</a>
+                </p>
+              </div>
+            </div>
+
+            <div class="contact-bottom">
+              <span>Collaboration</span>
+              <span>Commission</span>
+              <span>Editorial inquiries</span>
+              <span>Image-based work</span>
+            </div>
           </div>
         </div>
       </div>
@@ -741,12 +1076,17 @@ function loadImages(containerId, imageArray){
   container.innerHTML = "";
 
   imageArray.forEach(src => {
+    const frame = document.createElement("div");
+    frame.className = "image-frame";
+
     const img = new Image();
     img.alt = "";
     img.loading = "lazy";
-    img.onerror = () => { img.remove(); };
+    img.onerror = () => { frame.remove(); };
     img.src = src;
-    container.appendChild(img);
+
+    frame.appendChild(img);
+    container.appendChild(frame);
   });
 }
 
