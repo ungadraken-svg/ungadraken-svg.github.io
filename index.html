@@ -2,581 +2,623 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>UNGADRAKEN</title>
 
 <style>
 :root{
-  --bg: #f5f4ef;
-  --paper: #f1efe8;
-  --paper-2: #ebe7dd;
-  --white: #ffffff;
-  --black: #0a0a0a;
-  --text: #111111;
-  --muted: rgba(0,0,0,0.58);
-  --line: rgba(0,0,0,0.16);
-  --panel: rgba(0,0,0,0.03);
-  --red: #c91919;
-  --blue: #2046d1;
+  --bg:#ece8dc;
+  --paper:#f3efdf;
+  --paper-2:#e8e1cf;
+  --ink:#090909;
+  --line:rgba(0,0,0,.14);
+  --muted:rgba(0,0,0,.55);
+  --blue:#2046d1;
+  --red:#c91d1d;
+  --yellow:#e8df2b;
+  --pink:#ea3ea7;
+  --white:#ffffff;
 }
 
-*{
-  box-sizing: border-box;
-}
+*{ box-sizing:border-box; }
 
-html, body{
-  margin: 0;
-  padding: 0;
-  font-family: Helvetica, Arial, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  overflow-x: hidden;
-  scroll-behavior: smooth;
+html,body{
+  margin:0;
+  padding:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:Helvetica, Arial, sans-serif;
+  overflow-x:hidden;
+  scroll-behavior:smooth;
 }
 
 body{
-  position: relative;
+  position:relative;
 }
 
 body.locked{
-  overflow: hidden;
+  overflow:hidden;
 }
 
-/* PRINTED TEXTURE / GRAIN / SCRATCHES */
+a{
+  color:inherit;
+  text-decoration:none;
+}
+
+/* GLOBAL PRINT / GRAIN / SCRATCH */
 body::before{
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 1;
-  opacity: 0.12;
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:1;
+  opacity:.16;
   background-image:
-    radial-gradient(circle at 13% 19%, rgba(0,0,0,0.18) 0 1px, transparent 1.5px),
-    radial-gradient(circle at 77% 23%, rgba(0,0,0,0.12) 0 1px, transparent 1.6px),
-    radial-gradient(circle at 19% 73%, rgba(0,0,0,0.14) 0 1px, transparent 1.4px),
-    radial-gradient(circle at 68% 82%, rgba(0,0,0,0.10) 0 1px, transparent 1.5px),
-    radial-gradient(circle at 49% 58%, rgba(0,0,0,0.09) 0 1px, transparent 1.3px);
-  background-size: 13px 13px, 17px 17px, 15px 15px, 19px 19px, 11px 11px;
-  mix-blend-mode: multiply;
+    radial-gradient(circle at 12% 21%, rgba(0,0,0,.20) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 79% 15%, rgba(0,0,0,.13) 0 1px, transparent 1.4px),
+    radial-gradient(circle at 31% 82%, rgba(0,0,0,.12) 0 1px, transparent 1.7px),
+    radial-gradient(circle at 68% 73%, rgba(0,0,0,.10) 0 1px, transparent 1.4px);
+  background-size:13px 13px,17px 17px,16px 16px,19px 19px;
+  mix-blend-mode:multiply;
 }
 
 body::after{
   content:"";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 2;
-  opacity: 0.08;
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:2;
+  opacity:.09;
   background:
-    linear-gradient(92deg, transparent 0 8%, rgba(0,0,0,0.05) 8.15%, transparent 8.4%),
-    linear-gradient(96deg, transparent 0 33%, rgba(0,0,0,0.05) 33.1%, transparent 33.35%),
-    linear-gradient(88deg, transparent 0 69%, rgba(0,0,0,0.045) 69.1%, transparent 69.35%),
-    linear-gradient(transparent 0 87%, rgba(0,0,0,0.045) 87.1%, transparent 87.35%);
-  mix-blend-mode: multiply;
-}
-
-a{
-  color: inherit;
-  text-decoration: none;
+    linear-gradient(91deg, transparent 0 9%, rgba(0,0,0,.05) 9.12%, transparent 9.35%),
+    linear-gradient(87deg, transparent 0 47%, rgba(0,0,0,.04) 47.12%, transparent 47.3%),
+    linear-gradient(0deg, transparent 0 76%, rgba(0,0,0,.05) 76.08%, transparent 76.25%);
+  mix-blend-mode:multiply;
 }
 
 .site{
-  position: relative;
-  z-index: 3;
-  opacity: 0;
-  transition: opacity 0.35s ease;
+  position:relative;
+  z-index:3;
+  opacity:0;
+  transition:opacity .35s ease;
 }
 
 .site.active{
-  opacity: 1;
+  opacity:1;
 }
 
-/* COVER GATE */
+/* COVER */
 .cover-gate{
-  position: fixed;
-  inset: 0;
-  z-index: 50;
+  position:fixed;
+  inset:0;
+  z-index:50;
+  cursor:pointer;
+  overflow:hidden;
   background:
-    linear-gradient(to bottom, rgba(255,255,255,0.02), rgba(0,0,0,0.03)),
+    linear-gradient(180deg, rgba(255,255,255,.04), rgba(0,0,0,.04)),
     var(--paper);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  border-bottom: 2px solid var(--black);
-  overflow: hidden;
 }
 
 .cover-gate.hidden{
-  display: none;
+  display:none;
 }
 
 .cover-gate::before{
-  content: "";
-  position: absolute;
-  inset: 3.5vw;
-  border: 1px solid var(--line);
-  pointer-events: none;
+  content:"";
+  position:absolute;
+  inset:2.7vw;
+  border:1px solid var(--line);
 }
 
 .cover-gate::after{
-  content: "";
-  position: absolute;
-  inset: 0;
+  content:"";
+  position:absolute;
+  inset:0;
   background:
-    radial-gradient(circle at 17% 24%, rgba(32,70,209,0.14) 0 10%, transparent 28%),
-    radial-gradient(circle at 81% 73%, rgba(201,25,25,0.12) 0 11%, transparent 28%),
-    linear-gradient(180deg, transparent 0 78%, rgba(0,0,0,0.05) 78.1%, transparent 78.4%);
-  pointer-events: none;
-  mix-blend-mode: multiply;
+    radial-gradient(circle at 18% 26%, rgba(32,70,209,.16) 0 11%, transparent 26%),
+    radial-gradient(circle at 77% 66%, rgba(201,29,29,.14) 0 12%, transparent 28%),
+    radial-gradient(circle at 54% 54%, rgba(234,62,167,.13) 0 10%, transparent 22%);
+  mix-blend-mode:multiply;
+  pointer-events:none;
 }
 
-.cover-gate-inner{
-  position: relative;
-  width: min(1300px, 92vw);
-  height: min(800px, 88vh);
-  z-index: 2;
-  overflow: hidden;
+.cover-inner{
+  position:relative;
+  width:min(1500px,94vw);
+  height:100vh;
+  margin:0 auto;
 }
 
-.cover-gate-mark{
-  position: absolute;
-  top: 7%;
-  left: 3%;
-  font-size: 11px;
-  line-height: 1.45;
-  text-transform: uppercase;
-  letter-spacing: 0.11em;
+.cover-small-left,
+.cover-small-right,
+.cover-enter{
+  position:absolute;
+  z-index:2;
+  font-size:11px;
+  line-height:1.35;
+  text-transform:uppercase;
+  letter-spacing:.12em;
 }
 
-.cover-gate-note{
-  position: absolute;
-  top: 8%;
-  right: 4%;
-  max-width: 220px;
-  font-size: 11px;
-  line-height: 1.45;
-  text-transform: uppercase;
-  letter-spacing: 0.11em;
-  text-align: right;
+.cover-small-left{
+  left:2.5%;
+  top:4.5%;
 }
 
-.cover-gate-title{
-  position: absolute;
-  left: -1.4%;
-  bottom: -4%;
-  font-size: clamp(92px, 20vw, 300px);
-  line-height: 0.8;
-  letter-spacing: -0.1em;
-  font-weight: 900;
-  text-transform: uppercase;
-  color: var(--black);
+.cover-small-right{
+  right:2.5%;
+  top:4.5%;
+  text-align:right;
 }
 
-.cover-gate-bar{
-  position: absolute;
-  left: 0;
-  bottom: 16%;
-  width: 100%;
-  height: 1px;
-  background: rgba(0,0,0,0.14);
+.cover-enter{
+  right:2.5%;
+  bottom:4.5%;
+  text-align:right;
 }
 
-.cover-gate-blue{
-  position: absolute;
-  right: 17%;
-  top: 23%;
-  width: 150px;
-  height: 150px;
-  border-radius: 999px;
-  background: rgba(32,70,209,0.9);
-  filter: blur(26px);
-  opacity: 0.28;
-  mix-blend-mode: multiply;
+.cover-rule-top,
+.cover-rule-bottom{
+  position:absolute;
+  left:0;
+  width:100%;
+  height:1px;
+  background:rgba(0,0,0,.18);
 }
 
-.cover-gate-red{
-  position: absolute;
-  left: 16%;
-  bottom: 22%;
-  width: 180px;
-  height: 180px;
-  border-radius: 999px;
-  background: rgba(201,25,25,0.88);
-  filter: blur(34px);
-  opacity: 0.2;
-  mix-blend-mode: multiply;
+.cover-rule-top{ top:12%; }
+.cover-rule-bottom{ bottom:12%; }
+
+.cover-blue-bar{
+  position:absolute;
+  left:8%;
+  top:20%;
+  width:22vw;
+  max-width:320px;
+  height:10vw;
+  max-height:150px;
+  background:var(--blue);
+  opacity:.82;
+  transform:rotate(-9deg);
+  mix-blend-mode:multiply;
 }
 
-.cover-gate-enter{
-  position: absolute;
-  right: 3%;
-  bottom: 5%;
-  font-size: 11px;
-  line-height: 1.45;
-  text-transform: uppercase;
-  letter-spacing: 0.11em;
+.cover-red-star,
+.cover-pink-star{
+  position:absolute;
+  width:240px;
+  aspect-ratio:1/1;
+  clip-path:polygon(
+    50% 0%, 60% 35%, 100% 25%, 72% 50%, 100% 75%, 60% 65%,
+    50% 100%, 40% 65%, 0% 75%, 28% 50%, 0% 25%, 40% 35%
+  );
+  mix-blend-mode:multiply;
+  opacity:.78;
 }
 
-/* ARCHIVE */
+.cover-red-star{
+  background:var(--red);
+  right:12%;
+  top:16%;
+  transform:rotate(-10deg);
+}
+
+.cover-pink-star{
+  background:var(--pink);
+  left:26%;
+  bottom:18%;
+  width:180px;
+  opacity:.55;
+  transform:rotate(15deg);
+}
+
+.cover-title{
+  position:absolute;
+  left:1.5%;
+  right:1.5%;
+  bottom:9%;
+  font-size:clamp(56px, 16vw, 255px);
+  line-height:.78;
+  letter-spacing:-.10em;
+  font-weight:900;
+  text-transform:uppercase;
+  word-break:break-word;
+}
+
+.cover-title span{
+  display:block;
+  max-width:100%;
+  overflow-wrap:anywhere;
+}
+
+/* HEADER */
 .archive{
-  min-height: 100vh;
-  background:
-    linear-gradient(to bottom, rgba(255,255,255,0.06), rgba(0,0,0,0.02)),
-    var(--bg);
+  min-height:100vh;
 }
 
 .archive-header{
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  background: rgba(245,244,239,0.93);
-  backdrop-filter: blur(7px);
-  border-bottom: 1px solid var(--line);
+  position:sticky;
+  top:0;
+  z-index:30;
+  backdrop-filter:blur(8px);
+  background:rgba(236,232,220,.92);
+  border-bottom:1px solid var(--line);
 }
 
 .archive-header-inner{
-  max-width: 1440px;
-  margin: 0 auto;
-  padding: 14px 18px;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 18px;
-  flex-wrap: wrap;
+  max-width:1500px;
+  margin:0 auto;
+  padding:14px 18px;
+  display:flex;
+  justify-content:space-between;
+  gap:16px;
+  align-items:flex-start;
+  flex-wrap:wrap;
 }
 
 .archive-brand{
-  font-size: 12px;
-  line-height: 1.2;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
+  font-size:12px;
+  line-height:1.2;
+  text-transform:uppercase;
+  letter-spacing:.08em;
 }
 
 .archive-brand strong{
-  display: block;
-  font-size: 14px;
+  display:block;
+  font-size:14px;
 }
 
 .archive-nav{
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
 }
 
 .archive-nav a{
-  border-bottom: 1px solid transparent;
-  padding-bottom: 2px;
+  border:1px solid transparent;
+  padding:8px 11px;
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:.13em;
+  background:transparent;
 }
 
 .archive-nav a:hover,
 .archive-nav a.active{
-  border-bottom-color: var(--black);
+  border-color:var(--ink);
+  background:rgba(255,255,255,.45);
 }
 
+/* PAGES */
 .page-section{
-  display: none;
-  min-height: calc(100vh - 58px);
-  border-bottom: 1px solid var(--line);
-  padding: 36px 18px 42px;
+  display:none;
+  min-height:calc(100vh - 58px);
+  padding:26px 18px 42px;
 }
 
 .page-section.active{
-  display: block;
+  display:block;
 }
 
 .section-inner{
-  max-width: 1440px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 180px minmax(0, 1fr);
-  gap: 30px;
-}
-
-.section-label{
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  line-height: 1.25;
-  color: var(--muted);
-}
-
-.section-label strong{
-  display: block;
-  color: var(--black);
-  margin-bottom: 8px;
-}
-
-.section-main{
-  min-width: 0;
-}
-
-.section-title{
-  margin: 0;
-  font-size: clamp(42px, 8vw, 112px);
-  line-height: 0.9;
-  letter-spacing: -0.07em;
-  text-transform: uppercase;
-  font-weight: 900;
-}
-
-.section-copy{
-  max-width: 650px;
-  margin-top: 16px;
-  font-size: 15px;
-  line-height: 1.65;
-}
-
-.meta-row{
-  margin-top: 22px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px 16px;
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--muted);
-}
-
-.meta-row span,
-.meta-row a{
-  padding-bottom: 3px;
-  border-bottom: 1px solid rgba(0,0,0,0.16);
-}
-
-.meta-row a:hover{
-  border-bottom-color: var(--black);
-  color: var(--black);
+  max-width:1500px;
+  margin:0 auto;
 }
 
 /* HOME */
-.archive-hero{
-  margin-top: 28px;
-  min-height: 74vh;
-  border: 1px solid var(--line);
+.home-shell{
+  display:grid;
+  grid-template-columns:1.1fr .9fr;
+  gap:18px;
+  min-height:calc(100vh - 130px);
+}
+
+.home-left,
+.home-right{
+  position:relative;
+  border:1px solid var(--line);
+  overflow:hidden;
   background:
-    linear-gradient(135deg, rgba(255,255,255,0.15), rgba(0,0,0,0.03)),
-    var(--paper);
-  position: relative;
-  overflow: hidden;
-}
-
-.archive-hero::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  opacity:0.24;
-  background:
-    linear-gradient(90deg, transparent 0 14%, rgba(0,0,0,0.045) 14.1%, transparent 14.35%),
-    linear-gradient(transparent 0 62%, rgba(0,0,0,0.05) 62.1%, transparent 62.35%);
-  mix-blend-mode: multiply;
-}
-
-.archive-hero::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:
-    radial-gradient(circle at 18% 74%, rgba(201,25,25,0.14) 0 10%, transparent 26%),
-    radial-gradient(circle at 79% 18%, rgba(32,70,209,0.16) 0 9%, transparent 24%);
-  mix-blend-mode: multiply;
-}
-
-.archive-hero-rule-v{
-  position: absolute;
-  left: 61%;
-  top: 0;
-  width: 1px;
-  height: 100%;
-  background: rgba(0,0,0,0.08);
-}
-
-.archive-hero-rule-h{
-  position: absolute;
-  left: 0;
-  top: 54%;
-  width: 100%;
-  height: 1px;
-  background: rgba(0,0,0,0.08);
-}
-
-.archive-hero-meta{
-  position: absolute;
-  top: 6%;
-  right: 4%;
-  max-width: 210px;
-  font-size: 11px;
-  line-height: 1.48;
-  text-transform: uppercase;
-  letter-spacing: 0.11em;
-}
-
-.archive-hero-block{
-  position: absolute;
-  border: 1px solid rgba(0,0,0,0.13);
-  background: rgba(255,255,255,0.5);
-  backdrop-filter: blur(1px);
-  padding: 12px 14px;
-  font-size: 11px;
-  line-height: 1.45;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-}
-
-.archive-hero-block.block-1{
-  left: 6%;
-  top: 11%;
-}
-
-.archive-hero-block.block-2{
-  left: 12%;
-  bottom: 12%;
-}
-
-.archive-hero-block.block-3{
-  right: 18%;
-  bottom: 16%;
-}
-
-.archive-hero-title{
-  position: absolute;
-  left: 3%;
-  bottom: 6%;
-  max-width: 920px;
-  font-size: clamp(58px, 11vw, 180px);
-  line-height: 0.83;
-  letter-spacing: -0.09em;
-  font-weight: 900;
-  text-transform: uppercase;
-}
-
-.archive-hero-title .blue{
-  color: var(--blue);
-}
-
-.archive-hero-title .red{
-  color: var(--red);
-}
-
-.archive-index{
-  margin-top: 16px;
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0,1fr));
-  gap: 12px;
-}
-
-.archive-index a{
-  border: 1px solid var(--line);
-  background: var(--white);
-  padding: 14px;
-  min-height: 90px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.archive-index a span{
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--muted);
-}
-
-.archive-index a strong{
-  font-size: 24px;
-  line-height: 1;
-  letter-spacing: -0.05em;
-  text-transform: uppercase;
-}
-
-/* CATEGORY PAGES */
-.category-shell{
-  margin-top: 22px;
-  border: 1px solid var(--line);
-  background:
-    linear-gradient(to bottom, rgba(255,255,255,0.04), rgba(0,0,0,0.03)),
+    linear-gradient(180deg, rgba(255,255,255,.05), rgba(0,0,0,.04)),
     var(--paper);
 }
 
-.category-intro{
-  display: grid;
-  grid-template-columns: minmax(0, 1.2fr) minmax(240px, 0.8fr);
-  gap: 20px;
-  padding: 20px;
-  border-bottom: 1px solid var(--line);
-  background: rgba(255,255,255,0.42);
+.home-left::before,
+.home-right::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:
+    radial-gradient(circle at 15% 22%, rgba(32,70,209,.12) 0 8%, transparent 25%),
+    radial-gradient(circle at 81% 72%, rgba(201,29,29,.11) 0 8%, transparent 26%);
+  mix-blend-mode:multiply;
 }
 
-.category-kicker{
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--muted);
-  margin-bottom: 8px;
+.home-left{
+  min-height:76vh;
 }
 
-.category-heading{
-  margin: 0;
-  font-size: clamp(42px, 7vw, 92px);
-  line-height: 0.9;
-  letter-spacing: -0.07em;
-  text-transform: uppercase;
-  font-weight: 900;
+.home-word{
+  position:absolute;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:-.09em;
+  line-height:.82;
 }
 
-.category-copy{
-  margin-top: 10px;
-  max-width: 520px;
-  font-size: 14px;
-  line-height: 1.55;
+.word-archive{
+  left:2.5%;
+  top:2%;
+  font-size:clamp(64px, 12vw, 180px);
 }
 
-.category-info{
-  border-left: 1px solid var(--line);
-  padding-left: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 12px;
+.word-image{
+  left:5%;
+  top:32%;
+  font-size:clamp(52px, 9vw, 132px);
+  color:var(--blue);
 }
 
-.category-info-block{
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  line-height: 1.45;
+.word-index{
+  left:13%;
+  bottom:6%;
+  font-size:clamp(70px, 13vw, 200px);
+  color:var(--red);
+}
+
+.home-note{
+  position:absolute;
+  font-size:11px;
+  line-height:1.35;
+  text-transform:uppercase;
+  letter-spacing:.13em;
+  padding:10px 12px;
+  border:1px solid var(--line);
+  background:rgba(255,255,255,.42);
+}
+
+.note-a{ right:4%; top:4%; }
+.note-b{ right:8%; bottom:9%; }
+.note-c{ left:6%; top:19%; }
+
+.home-shape-blue{
+  position:absolute;
+  right:10%;
+  top:24%;
+  width:22vw;
+  max-width:250px;
+  height:14vw;
+  max-height:150px;
+  background:var(--blue);
+  opacity:.9;
+  transform:rotate(9deg);
+  mix-blend-mode:multiply;
+}
+
+.home-shape-pink{
+  position:absolute;
+  right:18%;
+  bottom:20%;
+  width:190px;
+  aspect-ratio:1/1;
+  background:var(--pink);
+  clip-path:polygon(
+    50% 0%, 60% 35%, 100% 25%, 72% 50%, 100% 75%, 60% 65%,
+    50% 100%, 40% 65%, 0% 75%, 28% 50%, 0% 25%, 40% 35%
+  );
+  opacity:.78;
+  mix-blend-mode:multiply;
+}
+
+.home-right{
+  display:grid;
+  grid-template-rows:repeat(4, 1fr);
+  min-height:76vh;
+}
+
+.index-card{
+  position:relative;
+  display:flex;
+  align-items:flex-end;
+  padding:18px;
+  border-bottom:1px solid var(--line);
+  cursor:pointer;
+  overflow:hidden;
+}
+
+.index-card:last-child{
+  border-bottom:0;
+}
+
+.index-card::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(90deg, rgba(255,255,255,.02), rgba(0,0,0,.04));
+  opacity:0;
+  transition:opacity .2s ease;
+}
+
+.index-card:hover::before{
+  opacity:1;
+}
+
+.index-card .num{
+  position:absolute;
+  top:12px;
+  left:16px;
+  font-size:10px;
+  letter-spacing:.15em;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+
+.index-card .label{
+  position:relative;
+  z-index:1;
+  font-size:clamp(34px, 5vw, 76px);
+  line-height:.9;
+  letter-spacing:-.07em;
+  font-weight:900;
+  text-transform:uppercase;
+}
+
+.index-card.blue .label{ color:var(--blue); }
+.index-card.red .label{ color:var(--red); }
+
+/* CATEGORY POSTER */
+.poster-shell{
+  border:1px solid var(--line);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.04), rgba(0,0,0,.04)),
+    var(--paper);
+  overflow:hidden;
+}
+
+.poster-top{
+  position:relative;
+  min-height:54vh;
+  padding:20px;
+  border-bottom:1px solid var(--line);
+  overflow:hidden;
+}
+
+.poster-top::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(circle at 14% 22%, rgba(32,70,209,.14) 0 9%, transparent 24%),
+    radial-gradient(circle at 83% 71%, rgba(201,29,29,.14) 0 10%, transparent 24%);
+  mix-blend-mode:multiply;
+}
+
+.poster-word{
+  position:absolute;
+  left:2%;
+  bottom:3%;
+  right:2%;
+  font-size:clamp(62px, 14vw, 220px);
+  line-height:.8;
+  letter-spacing:-.10em;
+  font-weight:900;
+  text-transform:uppercase;
+  z-index:2;
+}
+
+.poster-meta{
+  position:absolute;
+  top:18px;
+  left:20px;
+  z-index:2;
+  font-size:11px;
+  line-height:1.4;
+  text-transform:uppercase;
+  letter-spacing:.13em;
+}
+
+.poster-tag{
+  position:absolute;
+  z-index:2;
+  font-size:11px;
+  line-height:1.35;
+  text-transform:uppercase;
+  letter-spacing:.13em;
+  padding:10px 12px;
+  border:1px solid var(--line);
+  background:rgba(255,255,255,.44);
+}
+
+.tag-1{ right:22px; top:22px; }
+.tag-2{ right:70px; bottom:22px; }
+
+.poster-shape-a,
+.poster-shape-b{
+  position:absolute;
+  mix-blend-mode:multiply;
+  z-index:1;
+}
+
+.poster-shape-a{
+  width:250px;
+  height:120px;
+  background:var(--blue);
+  right:18%;
+  top:22%;
+  transform:rotate(-11deg);
+  opacity:.82;
+}
+
+.poster-shape-b{
+  width:180px;
+  aspect-ratio:1/1;
+  background:var(--pink);
+  left:16%;
+  top:14%;
+  clip-path:polygon(
+    50% 0%, 60% 35%, 100% 25%, 72% 50%, 100% 75%, 60% 65%,
+    50% 100%, 40% 65%, 0% 75%, 28% 50%, 0% 25%, 40% 35%
+  );
+  opacity:.65;
+}
+
+.poster-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  padding:18px 20px;
+  border-bottom:1px solid var(--line);
+  background:rgba(255,255,255,.35);
+}
+
+.poster-actions button{
+  appearance:none;
+  border:1px solid var(--ink);
+  background:var(--white);
+  color:var(--ink);
+  padding:11px 14px;
+  font:inherit;
+  font-size:11px;
+  letter-spacing:.13em;
+  text-transform:uppercase;
+  cursor:pointer;
+}
+
+.poster-actions button:hover{
+  background:var(--ink);
+  color:var(--white);
 }
 
 .stack-wrap{
-  padding: 26px;
+  padding:24px;
   background:
-    linear-gradient(180deg, rgba(255,255,255,0.04), rgba(0,0,0,0.02)),
+    linear-gradient(180deg, rgba(255,255,255,.03), rgba(0,0,0,.03)),
     var(--paper-2);
 }
 
 .image-stack{
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 34px;
+  display:none;
+  flex-direction:column;
+  gap:28px;
+  align-items:center;
+}
+
+.image-stack.active{
+  display:flex;
 }
 
 .image-frame{
-  width: 100%;
-  min-height: 82vh;
-  border: 1px solid var(--line);
-  background: rgba(255,255,255,0.82);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
-  position: relative;
-  overflow: hidden;
+  width:100%;
+  min-height:84vh;
+  border:1px solid var(--line);
+  background:rgba(255,255,255,.82);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+  position:relative;
+  overflow:hidden;
 }
 
 .image-frame::before{
@@ -584,350 +626,312 @@ a{
   position:absolute;
   inset:0;
   background:
-    radial-gradient(circle at 14% 20%, rgba(32,70,209,0.06) 0 8%, transparent 22%),
-    radial-gradient(circle at 81% 78%, rgba(201,25,25,0.06) 0 8%, transparent 22%);
-  mix-blend-mode: multiply;
-  pointer-events: none;
+    radial-gradient(circle at 14% 20%, rgba(32,70,209,.06) 0 8%, transparent 22%),
+    radial-gradient(circle at 81% 78%, rgba(201,29,29,.06) 0 8%, transparent 22%);
+  mix-blend-mode:multiply;
 }
 
 .image-stack img{
-  display: block;
-  width: auto;
-  height: auto;
-  max-width: 100%;
-  max-height: 72vh;
-  object-fit: contain;
-  background: #fff;
-  margin: 0 auto;
-  position: relative;
-  z-index: 1;
+  display:block;
+  max-width:100%;
+  max-height:74vh;
+  width:auto;
+  height:auto;
+  object-fit:contain;
+  position:relative;
+  z-index:1;
+  background:#fff;
 }
 
 /* CONTACT */
 .contact-shell{
-  margin-top: 26px;
-  border: 1px solid var(--line);
+  border:1px solid var(--line);
   background:
-    linear-gradient(to bottom, rgba(255,255,255,0.05), rgba(0,0,0,0.03)),
+    linear-gradient(180deg, rgba(255,255,255,.04), rgba(0,0,0,.04)),
     var(--paper);
 }
 
 .contact-top{
-  display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
-  gap: 20px;
-  padding: 22px;
-  border-bottom: 1px solid var(--line);
-  background: rgba(255,255,255,0.35);
+  position:relative;
+  min-height:48vh;
+  padding:20px;
+  border-bottom:1px solid var(--line);
+  overflow:hidden;
 }
 
-.contact-lead{
-  margin: 0;
-  font-size: clamp(36px, 6vw, 76px);
-  line-height: 0.92;
-  letter-spacing: -0.065em;
-  text-transform: uppercase;
-  font-weight: 900;
+.contact-top::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(circle at 18% 24%, rgba(32,70,209,.12) 0 8%, transparent 23%),
+    radial-gradient(circle at 77% 68%, rgba(201,29,29,.12) 0 8%, transparent 23%);
+  mix-blend-mode:multiply;
 }
 
-.contact-copy{
-  margin-top: 12px;
-  max-width: 520px;
-  font-size: 15px;
-  line-height: 1.62;
+.contact-word{
+  position:absolute;
+  left:2%;
+  bottom:4%;
+  right:2%;
+  font-size:clamp(64px, 14vw, 210px);
+  line-height:.8;
+  letter-spacing:-.10em;
+  font-weight:900;
+  text-transform:uppercase;
+  z-index:2;
 }
 
-.contact-aside{
-  border-left: 1px solid var(--line);
-  padding-left: 20px;
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  line-height: 1.5;
+.contact-note{
+  position:absolute;
+  top:18px;
+  left:20px;
+  z-index:2;
+  font-size:11px;
+  line-height:1.4;
+  text-transform:uppercase;
+  letter-spacing:.13em;
+}
+
+.contact-star{
+  position:absolute;
+  right:10%;
+  top:20%;
+  width:220px;
+  aspect-ratio:1/1;
+  background:var(--pink);
+  clip-path:polygon(
+    50% 0%, 60% 35%, 100% 25%, 72% 50%, 100% 75%, 60% 65%,
+    50% 100%, 40% 65%, 0% 75%, 28% 50%, 0% 25%, 40% 35%
+  );
+  opacity:.72;
+  mix-blend-mode:multiply;
 }
 
 .contact-grid{
-  padding: 22px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 18px;
-  max-width: 920px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:0;
 }
 
 .contact-card{
-  border: 1px solid var(--line);
-  background: rgba(255,255,255,0.7);
-  padding: 16px;
-  min-height: 132px;
+  padding:22px;
+  min-height:170px;
+  border-right:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+  background:rgba(255,255,255,.42);
 }
 
-.contact-card h3{
-  margin: 0 0 12px;
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
+.contact-card:nth-child(2n){
+  border-right:0;
 }
 
-.contact-card p{
-  margin: 0;
-  font-size: 15px;
-  line-height: 1.6;
+.contact-label{
+  font-size:10px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-bottom:18px;
 }
 
-.contact-card a{
-  border-bottom: 1px solid rgba(0,0,0,0.28);
+.contact-value{
+  font-size:clamp(28px,4vw,54px);
+  line-height:.92;
+  letter-spacing:-.06em;
+  font-weight:900;
+  text-transform:uppercase;
+  word-break:break-word;
 }
 
-.contact-card a:hover{
-  border-bottom-color: var(--black);
-}
-
-.contact-bottom{
-  padding: 0 22px 22px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px 16px;
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--muted);
-}
-
-.contact-bottom span{
-  padding-bottom: 3px;
-  border-bottom: 1px solid rgba(0,0,0,0.16);
+.contact-value.small{
+  font-size:clamp(20px,3vw,34px);
+  line-height:1;
+  letter-spacing:-.04em;
 }
 
 .footer{
-  padding: 20px 18px 36px;
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
+  padding:18px 18px 34px;
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:.1em;
 }
 
 .footer-inner{
-  max-width: 1440px;
-  margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  flex-wrap: wrap;
-  color: var(--muted);
+  max-width:1500px;
+  margin:0 auto;
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap;
+  color:var(--muted);
 }
 
-@media (max-width: 1100px){
-  .archive-index{
-    grid-template-columns: 1fr 1fr;
+@media (max-width:1100px){
+  .home-shell{
+    grid-template-columns:1fr;
   }
 
-  .category-intro,
-  .contact-top{
-    grid-template-columns: 1fr;
-  }
-
-  .category-info,
-  .contact-aside{
-    border-left: 0;
-    padding-left: 0;
-    border-top: 1px solid var(--line);
-    padding-top: 18px;
-  }
-}
-
-@media (max-width: 900px){
-  .section-inner{
-    grid-template-columns: 1fr;
-    gap: 18px;
+  .home-right{
+    min-height:auto;
   }
 
   .contact-grid{
-    grid-template-columns: 1fr;
+    grid-template-columns:1fr;
   }
 
-  .archive-hero-title{
-    font-size: 18vw;
-    bottom: 7%;
+  .contact-card{
+    border-right:0;
   }
 }
 
-@media (max-width: 640px){
+@media (max-width:760px){
   .archive-header-inner{
-    flex-direction: column;
-    align-items: flex-start;
+    flex-direction:column;
+    align-items:flex-start;
   }
 
-  .archive-index{
-    grid-template-columns: 1fr;
+  .cover-title{
+    font-size:22vw;
+    line-height:.82;
+    left:3%;
+    right:3%;
+    bottom:10%;
+    letter-spacing:-.08em;
   }
 
-  .archive-hero-meta{
-    position: static;
-    max-width: none;
-    padding: 18px;
+  .cover-red-star,
+  .cover-pink-star{
+    transform:scale(.72);
   }
 
-  .archive-hero{
-    min-height: 66vh;
-  }
-
-  .archive-hero-rule-v,
-  .archive-hero-rule-h{
-    display: none;
-  }
-
-  .archive-hero-block.block-1{
-    left: 5%;
-    top: 8%;
-  }
-
-  .archive-hero-block.block-2{
-    left: 5%;
-    bottom: 28%;
-  }
-
-  .archive-hero-block.block-3{
-    right: 5%;
-    bottom: 13%;
-  }
-
-  .cover-gate-title{
-    font-size: 27vw;
-    left: -1%;
-    bottom: 2%;
-  }
-
-  .cover-gate-blue,
-  .cover-gate-red{
-    display: none;
+  .poster-top,
+  .contact-top,
+  .home-left{
+    min-height:46vh;
   }
 
   .image-frame{
-    min-height: 68vh;
-    padding: 16px;
+    min-height:62vh;
+    padding:16px;
   }
 
   .stack-wrap{
-    padding: 16px;
+    padding:16px;
+  }
+}
+
+@media (max-width:520px){
+  .cover-small-left,
+  .cover-small-right,
+  .cover-enter,
+  .poster-meta,
+  .poster-tag,
+  .home-note,
+  .contact-note{
+    font-size:10px;
+  }
+
+  .cover-rule-top,
+  .cover-rule-bottom{
+    display:none;
+  }
+
+  .cover-title{
+    font-size:25vw;
+    bottom:12%;
+  }
+
+  .word-archive{
+    font-size:20vw;
+  }
+
+  .word-image{
+    font-size:15vw;
+  }
+
+  .word-index{
+    font-size:22vw;
   }
 }
 </style>
 </head>
-
 <body class="locked">
 
 <div class="cover-gate" id="coverGate" aria-label="Enter archive">
-  <div class="cover-gate-inner">
-    <div class="cover-gate-mark">
-      archive / editorial / image
+  <div class="cover-inner">
+    <div class="cover-small-left">ungadraken<br>archive / image / editorial</div>
+    <div class="cover-small-right">printed internet<br>paper index<br>click to enter</div>
+
+    <div class="cover-rule-top"></div>
+    <div class="cover-rule-bottom"></div>
+
+    <div class="cover-blue-bar"></div>
+    <div class="cover-red-star"></div>
+    <div class="cover-pink-star"></div>
+
+    <div class="cover-title">
+      <span>UNGADRAKEN</span>
     </div>
 
-    <div class="cover-gate-note">
-      click to enter<br>
-      ungadraken archive
-    </div>
-
-    <div class="cover-gate-blue"></div>
-    <div class="cover-gate-red"></div>
-    <div class="cover-gate-bar"></div>
-
-    <div class="cover-gate-title">UNGADRAKEN</div>
-
-    <div class="cover-gate-enter">
-      enter
-    </div>
+    <div class="cover-enter">enter</div>
   </div>
 </div>
 
 <div class="site" id="site">
-  <main class="archive" id="archive">
+  <main class="archive">
 
     <header class="archive-header">
       <div class="archive-header-inner">
         <div class="archive-brand">
           <strong>UNGADRAKEN</strong>
-          Archive
+          archive
         </div>
 
         <nav class="archive-nav">
-          <a href="#archive-home" data-page="archive-home">Archive</a>
-          <a href="#editorial" data-page="editorial">Editorial</a>
-          <a href="#fashion" data-page="fashion">Fashion</a>
-          <a href="#personal-work" data-page="personal-work">Personal work</a>
-          <a href="#contact" data-page="contact">Contact</a>
+          <a href="#archive-home" data-page="archive-home">archive</a>
+          <a href="#editorial" data-page="editorial">editorial</a>
+          <a href="#fashion" data-page="fashion">fashion</a>
+          <a href="#personal-work" data-page="personal-work">personal</a>
+          <a href="#contact" data-page="contact">contact</a>
         </nav>
       </div>
     </header>
 
     <section class="page-section" id="archive-home" data-page>
       <div class="section-inner">
-        <div class="section-label">
-          <strong>Archive</strong>
-          UNGADRAKEN
-        </div>
+        <div class="home-shell">
+          <div class="home-left">
+            <div class="home-note note-a">index / still / surface</div>
+            <div class="home-note note-b">editorial / fashion / personal</div>
+            <div class="home-note note-c">ungadraken</div>
 
-        <div class="section-main">
-          <h2 class="section-title">AN ARCHIVE OF IMAGES</h2>
+            <div class="home-shape-blue"></div>
+            <div class="home-shape-pink"></div>
 
-          <div class="section-copy">
-            Editorial, fashion and personal image work arranged as separate entries.
+            <div class="home-word word-archive">archive</div>
+            <div class="home-word word-image">image</div>
+            <div class="home-word word-index">index</div>
           </div>
 
-          <div class="meta-row">
-            <a href="#editorial">Editorial</a>
-            <a href="#fashion">Fashion</a>
-            <a href="#personal-work">Personal work</a>
-            <a href="#contact">Contact</a>
-          </div>
-
-          <div class="archive-hero">
-            <div class="archive-hero-rule-v"></div>
-            <div class="archive-hero-rule-h"></div>
-
-            <div class="archive-hero-meta">
-              ungadraken archive<br><br>
-              editorial selections<br>
-              fashion studies<br>
-              personal work
-            </div>
-
-            <div class="archive-hero-block block-1">
-              printed image language
-            </div>
-
-            <div class="archive-hero-block block-2">
-              archive / editorial / surface
-            </div>
-
-            <div class="archive-hero-block block-3">
-              sequence / still / fragment
-            </div>
-
-            <div class="archive-hero-title">
-              IMAGE<br>
-              <span class="blue">ARCHIVE</span><br>
-              <span class="red">INDEX</span>
-            </div>
-          </div>
-
-          <div class="archive-index">
-            <a href="#editorial">
-              <span>01</span>
-              <strong>Editorial</strong>
+          <div class="home-right">
+            <a class="index-card" href="#editorial">
+              <span class="num">01</span>
+              <span class="label">editorial</span>
             </a>
 
-            <a href="#fashion">
-              <span>02</span>
-              <strong>Fashion</strong>
+            <a class="index-card blue" href="#fashion">
+              <span class="num">02</span>
+              <span class="label">fashion</span>
             </a>
 
-            <a href="#personal-work">
-              <span>03</span>
-              <strong>Personal work</strong>
+            <a class="index-card red" href="#personal-work">
+              <span class="num">03</span>
+              <span class="label">personal</span>
             </a>
 
-            <a href="#contact">
-              <span>04</span>
-              <strong>Contact</strong>
+            <a class="index-card" href="#contact">
+              <span class="num">04</span>
+              <span class="label">contact</span>
             </a>
           </div>
         </div>
@@ -936,31 +940,22 @@ a{
 
     <section class="page-section" id="editorial" data-page>
       <div class="section-inner">
-        <div class="section-label">
-          <strong>Editorial</strong>
-          Category
-        </div>
+        <div class="poster-shell">
+          <div class="poster-top">
+            <div class="poster-meta">archive entry 01</div>
+            <div class="poster-tag tag-1">still / sequence</div>
+            <div class="poster-tag tag-2">editorial</div>
+            <div class="poster-shape-a"></div>
+            <div class="poster-shape-b"></div>
+            <div class="poster-word">EDITORIAL</div>
+          </div>
 
-        <div class="section-main">
-          <div class="category-shell">
-            <div class="category-intro">
-              <div>
-                <div class="category-kicker">Selected category</div>
-                <h2 class="category-heading">EDITORIAL</h2>
-                <div class="category-copy">
-                  Selected editorial work.
-                </div>
-              </div>
+          <div class="poster-actions">
+            <button type="button" data-open-stack="editorial-stack">open images</button>
+          </div>
 
-              <div class="category-info">
-                <div class="category-info-block">Archive entry 01</div>
-                <div class="category-info-block">Image / sequence / still</div>
-              </div>
-            </div>
-
-            <div class="stack-wrap">
-              <div class="image-stack" id="editorial-stack" aria-label="Editorial images"></div>
-            </div>
+          <div class="stack-wrap">
+            <div class="image-stack" id="editorial-stack" aria-label="Editorial images"></div>
           </div>
         </div>
       </div>
@@ -968,31 +963,22 @@ a{
 
     <section class="page-section" id="fashion" data-page>
       <div class="section-inner">
-        <div class="section-label">
-          <strong>Fashion</strong>
-          Category
-        </div>
+        <div class="poster-shell">
+          <div class="poster-top">
+            <div class="poster-meta">archive entry 02</div>
+            <div class="poster-tag tag-1">surface / styling</div>
+            <div class="poster-tag tag-2">fashion</div>
+            <div class="poster-shape-a"></div>
+            <div class="poster-shape-b"></div>
+            <div class="poster-word">FASHION</div>
+          </div>
 
-        <div class="section-main">
-          <div class="category-shell">
-            <div class="category-intro">
-              <div>
-                <div class="category-kicker">Selected category</div>
-                <h2 class="category-heading">FASHION</h2>
-                <div class="category-copy">
-                  Selected fashion work.
-                </div>
-              </div>
+          <div class="poster-actions">
+            <button type="button" data-open-stack="fashion-stack">open images</button>
+          </div>
 
-              <div class="category-info">
-                <div class="category-info-block">Archive entry 02</div>
-                <div class="category-info-block">Surface / styling / image</div>
-              </div>
-            </div>
-
-            <div class="stack-wrap">
-              <div class="image-stack" id="fashion-stack" aria-label="Fashion images"></div>
-            </div>
+          <div class="stack-wrap">
+            <div class="image-stack" id="fashion-stack" aria-label="Fashion images"></div>
           </div>
         </div>
       </div>
@@ -1000,31 +986,22 @@ a{
 
     <section class="page-section" id="personal-work" data-page>
       <div class="section-inner">
-        <div class="section-label">
-          <strong>Personal work</strong>
-          Category
-        </div>
+        <div class="poster-shell">
+          <div class="poster-top">
+            <div class="poster-meta">archive entry 03</div>
+            <div class="poster-tag tag-1">fragment / memory</div>
+            <div class="poster-tag tag-2">personal</div>
+            <div class="poster-shape-a"></div>
+            <div class="poster-shape-b"></div>
+            <div class="poster-word">PERSONAL</div>
+          </div>
 
-        <div class="section-main">
-          <div class="category-shell">
-            <div class="category-intro">
-              <div>
-                <div class="category-kicker">Selected category</div>
-                <h2 class="category-heading">PERSONAL WORK</h2>
-                <div class="category-copy">
-                  Selected personal work.
-                </div>
-              </div>
+          <div class="poster-actions">
+            <button type="button" data-open-stack="personal-stack">open images</button>
+          </div>
 
-              <div class="category-info">
-                <div class="category-info-block">Archive entry 03</div>
-                <div class="category-info-block">Fragment / memory / still</div>
-              </div>
-            </div>
-
-            <div class="stack-wrap">
-              <div class="image-stack" id="personal-stack" aria-label="Personal work images"></div>
-            </div>
+          <div class="stack-wrap">
+            <div class="image-stack" id="personal-stack" aria-label="Personal work images"></div>
           </div>
         </div>
       </div>
@@ -1032,48 +1009,36 @@ a{
 
     <section class="page-section" id="contact" data-page>
       <div class="section-inner">
-        <div class="section-label">
-          <strong>Contact</strong>
-          Inquiries
-        </div>
+        <div class="contact-shell">
+          <div class="contact-top">
+            <div class="contact-note">collaboration / commission / editorial</div>
+            <div class="contact-star"></div>
+            <div class="contact-word">CONTACT</div>
+          </div>
 
-        <div class="section-main">
-          <div class="contact-shell">
-            <div class="contact-top">
-              <div>
-                <h2 class="contact-lead">CONTACT</h2>
-                <div class="contact-copy">
-                  For commissions, collaborations and editorial inquiries.
-                </div>
-              </div>
-
-              <div class="contact-aside">
-                ungadraken<br><br>
-                editorial / fashion / image<br>
-                collaboration / commission
+          <div class="contact-grid">
+            <div class="contact-card">
+              <div class="contact-label">email</div>
+              <div class="contact-value small">
+                <a href="mailto:ungadraken@gmail.com">ungadraken@gmail.com</a>
               </div>
             </div>
 
-            <div class="contact-grid">
-              <div class="contact-card">
-                <h3>Email</h3>
-                <p>
-                  <a href="mailto:ungadraken@gmail.com">ungadraken@gmail.com</a>
-                </p>
-              </div>
-
-              <div class="contact-card">
-                <h3>Instagram</h3>
-                <p>
-                  <a href="https://www.instagram.com/exmag.eu/" target="_blank" rel="noopener">@exmag.eu</a>
-                </p>
+            <div class="contact-card">
+              <div class="contact-label">instagram</div>
+              <div class="contact-value small">
+                <a href="https://www.instagram.com/ungadrakenstudios/" target="_blank" rel="noopener">@ungadrakenstudios</a>
               </div>
             </div>
 
-            <div class="contact-bottom">
-              <span>Collaboration</span>
-              <span>Commission</span>
-              <span>Editorial inquiries</span>
+            <div class="contact-card">
+              <div class="contact-label">work</div>
+              <div class="contact-value">commission</div>
+            </div>
+
+            <div class="contact-card">
+              <div class="contact-label">work</div>
+              <div class="contact-value">collaboration</div>
             </div>
           </div>
         </div>
@@ -1085,7 +1050,7 @@ a{
   <footer class="footer">
     <div class="footer-inner">
       <div>© <span id="year"></span> UNGADRAKEN</div>
-      <div>Archive</div>
+      <div>archive</div>
     </div>
   </footer>
 </div>
@@ -1097,6 +1062,7 @@ const coverGate = document.getElementById("coverGate");
 const site = document.getElementById("site");
 const pageSections = [...document.querySelectorAll("[data-page]")];
 const navLinks = [...document.querySelectorAll(".archive-nav a")];
+const openStackButtons = [...document.querySelectorAll("[data-open-stack]")];
 
 const editorialImages = [
   "elsablommakall.jpeg",
@@ -1128,7 +1094,7 @@ function loadImages(containerId, imageArray){
     const img = new Image();
     img.alt = "";
     img.loading = "lazy";
-    img.onerror = () => { frame.remove(); };
+    img.onerror = () => frame.remove();
     img.src = src;
 
     frame.appendChild(img);
@@ -1139,6 +1105,30 @@ function loadImages(containerId, imageArray){
 loadImages("editorial-stack", editorialImages);
 loadImages("fashion-stack", fashionImages);
 loadImages("personal-stack", personalImages);
+
+function hideAllStacks(){
+  document.querySelectorAll(".image-stack").forEach(stack => {
+    stack.classList.remove("active");
+  });
+}
+
+openStackButtons.forEach(button => {
+  button.addEventListener("click", () => {
+    const targetId = button.dataset.openStack;
+    const target = document.getElementById(targetId);
+    if (!target) return;
+
+    const isActive = target.classList.contains("active");
+    hideAllStacks();
+
+    if (!isActive) {
+      target.classList.add("active");
+      setTimeout(() => {
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 40);
+    }
+  });
+});
 
 function showPage(pageId){
   const validPage = document.getElementById(pageId) ? pageId : "archive-home";
