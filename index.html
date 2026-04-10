@@ -7,27 +7,28 @@
 
 <style>
 :root{
-  --bg:#e9e8e4;
-  --paper:#eceae6;
-  --paper-2:#f6f4ef;
+  --bg:#f1eee8;
+  --paper:#f6f3ed;
+  --paper-2:#fcfaf6;
   --ink:#0a0a0a;
-  --line:rgba(0,0,0,.18);
-  --muted:rgba(0,0,0,.56);
+  --line:rgba(0,0,0,.16);
+  --line-strong:rgba(0,0,0,.28);
+  --muted:rgba(0,0,0,.58);
 
-  --icy:#b3e5fc;
-  --berry:#c1121f;
-  --signal-yellow:#f3ea19;
-  --soft-red:#d40f22;
-  --soft-blue:#8ed8f8;
-  --poster-white:#f5f4ef;
+  /* new palette from your references */
+  --powder-blue:#dbe8f2;
+  --ice-blue:#d7e6ef;
+  --acid-green:#b9f26b;
+  --hot-pink:#f6b2d6;
+  --signal-pink:#ef5fae;
+  --poster-red:#cb1236;
+  --deep-blue:#124bb7;
+  --deep-green:#0d5d2d;
+  --mustard:#867400;
   --white:#ffffff;
+  --soft-black:#111111;
 
-  --lime:#c9ff2f;
-  --pink:#ef57bb;
-  --blue-strong:#2f5ef5;
-  --orange:#f3a347;
-
-  --tracking-display:.028em;
+  --tracking-display:.018em;
   --tracking-ui:.14em;
   --tracking-small:.12em;
 
@@ -56,8 +57,35 @@ body{
   position:relative;
 }
 
-body.locked{
-  overflow:hidden;
+/* print / grain / scratches */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:1;
+  opacity:.11;
+  background-image:
+    radial-gradient(circle at 8% 14%, rgba(0,0,0,.10) 0 1px, transparent 1.7px),
+    radial-gradient(circle at 83% 22%, rgba(0,0,0,.07) 0 1px, transparent 1.6px),
+    radial-gradient(circle at 31% 78%, rgba(0,0,0,.08) 0 1px, transparent 1.9px),
+    radial-gradient(circle at 65% 64%, rgba(0,0,0,.06) 0 1px, transparent 1.5px);
+  background-size:12px 12px, 17px 17px, 15px 15px, 20px 20px;
+  mix-blend-mode:multiply;
+}
+
+body::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:2;
+  opacity:.06;
+  background:
+    linear-gradient(90deg, transparent 0 10%, rgba(0,0,0,.035) 10.12%, transparent 10.26%),
+    linear-gradient(87deg, transparent 0 47%, rgba(0,0,0,.03) 47.16%, transparent 47.3%),
+    linear-gradient(0deg, transparent 0 78%, rgba(0,0,0,.03) 78.08%, transparent 78.22%);
+  mix-blend-mode:multiply;
 }
 
 img{
@@ -71,49 +99,13 @@ a{
   text-decoration:none;
 }
 
-/* GLOBAL PRINT / GRAIN / SCRATCH */
-body::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  z-index:1;
-  opacity:.12;
-  background-image:
-    radial-gradient(circle at 12% 21%, rgba(0,0,0,.14) 0 1px, transparent 1.6px),
-    radial-gradient(circle at 79% 15%, rgba(0,0,0,.10) 0 1px, transparent 1.5px),
-    radial-gradient(circle at 31% 82%, rgba(0,0,0,.08) 0 1px, transparent 1.7px),
-    radial-gradient(circle at 68% 73%, rgba(0,0,0,.08) 0 1px, transparent 1.5px);
-  background-size:13px 13px,17px 17px,16px 16px,19px 19px;
-  mix-blend-mode:multiply;
-}
-
-body::after{
-  content:"";
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  z-index:2;
-  opacity:.07;
-  background:
-    linear-gradient(91deg, transparent 0 9%, rgba(0,0,0,.04) 9.12%, transparent 9.35%),
-    linear-gradient(87deg, transparent 0 47%, rgba(0,0,0,.04) 47.12%, transparent 47.3%),
-    linear-gradient(0deg, transparent 0 76%, rgba(0,0,0,.04) 76.08%, transparent 76.25%);
-  mix-blend-mode:multiply;
-}
-
 .site{
   position:relative;
   z-index:3;
-  opacity:0;
-  transition:opacity .35s ease;
-}
-
-.site.active{
   opacity:1;
 }
 
-/* SHARED GRAPHICS */
+/* shapes */
 .star-shape,
 .star-shape-soft,
 .star-shape-wide,
@@ -175,7 +167,7 @@ body::after{
   );
 }
 
-/* lightning mask replacing former skulls, class kept so JS/layout stays intact */
+/* lightning */
 .skull-shape{
   position:absolute;
   pointer-events:auto;
@@ -194,15 +186,14 @@ body::after{
   position:absolute;
   inset:0;
   pointer-events:none;
-  opacity:.34;
+  opacity:.30;
   background-image:
-    linear-gradient(rgba(0,0,0,.14) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,0,0,.14) 1px, transparent 1px);
-  background-size:56px 56px;
+    linear-gradient(rgba(0,0,0,.12) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,.12) 1px, transparent 1px);
+  background-size:58px 58px;
   z-index:0;
 }
 
-/* DRAG / TILT SHAPES */
 .floating-shape{
   position:absolute;
   z-index:1;
@@ -211,8 +202,9 @@ body::after{
   touch-action:none;
   cursor:grab;
   will-change:transform;
-  transition:box-shadow .2s ease, filter .2s ease;
-  filter:drop-shadow(0 8px 14px rgba(0,0,0,.12));
+  filter:
+    drop-shadow(0 10px 12px rgba(0,0,0,.10))
+    drop-shadow(0 1px 0 rgba(255,255,255,.30));
 }
 
 .floating-shape:active{
@@ -220,8 +212,10 @@ body::after{
 }
 
 .floating-shape.dragging{
-  z-index:6;
-  filter:drop-shadow(0 18px 22px rgba(0,0,0,.22));
+  z-index:8;
+  filter:
+    drop-shadow(0 18px 22px rgba(0,0,0,.22))
+    drop-shadow(0 1px 0 rgba(255,255,255,.42));
 }
 
 .text-layer{
@@ -229,35 +223,15 @@ body::after{
   z-index:4;
 }
 
-/* CHROME / 3D DISPLAY TEXT */
-.cover-title,
+/* type treatment */
 .home-word,
 .poster-word,
 .contact-word{
-  -webkit-text-stroke:1px rgba(255,255,255,.18);
   text-shadow:
-    0 1px 0 rgba(255,255,255,.9),
-    0 2px 0 rgba(255,255,255,.55),
-    0 3px 0 rgba(255,255,255,.25),
-    0 4px 0 rgba(0,0,0,.08),
-    0 5px 0 rgba(0,0,0,.12),
-    0 6px 0 rgba(0,0,0,.14),
-    0 10px 18px rgba(0,0,0,.18);
-  filter:drop-shadow(0 6px 10px rgba(255,255,255,.08));
-}
-
-.cover-title{
-  background-image:
-    linear-gradient(180deg,
-      rgba(255,255,255,.85) 0%,
-      rgba(255,255,255,.28) 16%,
-      currentColor 32%,
-      rgba(255,255,255,.18) 48%,
-      currentColor 64%,
-      rgba(0,0,0,.08) 100%);
-  -webkit-background-clip:text;
-  background-clip:text;
-  -webkit-text-fill-color:transparent;
+    0 1px 0 rgba(255,255,255,.72),
+    0 2px 0 rgba(255,255,255,.42),
+    0 4px 0 rgba(0,0,0,.06),
+    0 7px 14px rgba(0,0,0,.12);
 }
 
 .word-image,
@@ -266,126 +240,18 @@ body::after{
 .contact-word{
   background-image:
     linear-gradient(180deg,
-      rgba(255,255,255,.82) 0%,
-      rgba(255,255,255,.20) 15%,
-      currentColor 34%,
-      rgba(255,255,255,.16) 48%,
+      rgba(255,255,255,.88) 0%,
+      rgba(255,255,255,.28) 14%,
+      currentColor 35%,
+      rgba(255,255,255,.15) 48%,
       currentColor 66%,
-      rgba(0,0,0,.07) 100%);
+      rgba(0,0,0,.06) 100%);
   -webkit-background-clip:text;
   background-clip:text;
   -webkit-text-fill-color:transparent;
 }
 
-/* COVER */
-.cover-gate{
-  position:fixed;
-  inset:0;
-  z-index:50;
-  cursor:pointer;
-  overflow:hidden;
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.03), rgba(0,0,0,.02)),
-    var(--paper);
-}
-
-.cover-gate.hidden{
-  display:none;
-}
-
-.cover-gate::before{
-  content:"";
-  position:absolute;
-  inset:clamp(10px, 2.7vw, 36px);
-  border:1px solid var(--line);
-}
-
-.cover-inner{
-  position:relative;
-  width:min(var(--site-max),94vw);
-  height:100vh;
-  margin:0 auto;
-}
-
-.cover-grid{
-  position:absolute;
-  inset:8% 2% 8% 2%;
-  opacity:.28;
-  background-image:
-    linear-gradient(rgba(0,0,0,.14) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,0,0,.14) 1px, transparent 1px);
-  background-size:84px 84px;
-}
-
-.cover-rule-top,
-.cover-rule-bottom{
-  position:absolute;
-  left:0;
-  width:100%;
-  height:1px;
-  background:rgba(0,0,0,.2);
-}
-
-.cover-rule-top{ top:12%; }
-.cover-rule-bottom{ bottom:12%; }
-
-.cover-berry-block{
-  position:absolute;
-  left:0;
-  right:0;
-  bottom:0;
-  height:33vh;
-  background:var(--berry);
-}
-
-.cover-blue-field{
-  position:absolute;
-  top:0;
-  left:0;
-  right:0;
-  height:45vh;
-  background:linear-gradient(180deg, var(--icy), #a5daf4);
-}
-
-.cover-yellow-burst{
-  width:min(40vw,560px);
-  left:50%;
-  top:48%;
-  background:var(--signal-yellow);
-}
-
-.cover-title{
-  position:absolute;
-  left:3%;
-  right:3%;
-  top:15%;
-  font-size:clamp(44px, 10.8vw, 180px);
-  line-height:.9;
-  letter-spacing:-.015em;
-  font-weight:900;
-  text-transform:uppercase;
-  color:var(--berry);
-  text-align:center;
-  z-index:4;
-  white-space:nowrap;
-}
-
-.cover-sub{
-  position:absolute;
-  left:50%;
-  bottom:14%;
-  transform:translateX(-50%);
-  z-index:4;
-  font-size:11px;
-  letter-spacing:var(--tracking-ui);
-  text-transform:uppercase;
-  color:var(--poster-white);
-  border:1px solid rgba(255,255,255,.55);
-  padding:10px 14px;
-  background:rgba(255,255,255,.06);
-}
-
-/* HEADER */
+/* header */
 .archive{
   min-height:100vh;
 }
@@ -395,7 +261,7 @@ body::after{
   top:0;
   z-index:30;
   backdrop-filter:blur(8px);
-  background:rgba(233,232,228,.92);
+  background:rgba(241,238,232,.88);
   border-bottom:1px solid var(--line);
 }
 
@@ -412,7 +278,7 @@ body::after{
 
 .archive-brand{
   font-size:12px;
-  line-height:1.15;
+  line-height:1.12;
   text-transform:uppercase;
   letter-spacing:var(--tracking-ui);
 }
@@ -442,10 +308,10 @@ body::after{
 .archive-nav a:hover,
 .archive-nav a.active{
   border-color:var(--ink);
-  background:rgba(255,255,255,.32);
+  background:rgba(255,255,255,.42);
 }
 
-/* PAGES */
+/* page sections */
 .page-section{
   display:none;
   min-height:calc(100vh - 58px);
@@ -464,7 +330,7 @@ body::after{
 /* HOME */
 .home-shell{
   display:grid;
-  grid-template-columns:minmax(0,1.18fr) minmax(0,.82fr);
+  grid-template-columns:minmax(0,1.16fr) minmax(0,.84fr);
   gap:18px;
   min-height:calc(100vh - 130px);
 }
@@ -479,7 +345,8 @@ body::after{
 
 .home-left{
   min-height:78vh;
-  background:linear-gradient(180deg, var(--icy) 0 53%, var(--paper) 53% 100%);
+  background:
+    linear-gradient(180deg, var(--powder-blue) 0 54%, var(--paper) 54% 100%);
 }
 
 .home-left::after{
@@ -488,8 +355,8 @@ body::after{
   left:0;
   right:0;
   bottom:0;
-  height:34%;
-  background:var(--berry);
+  height:35%;
+  background:var(--poster-red);
   z-index:0;
 }
 
@@ -505,50 +372,45 @@ body::after{
   font-weight:900;
   text-transform:uppercase;
   line-height:.88;
-  color:var(--ink);
   z-index:4;
-  letter-spacing:-.02em;
+  letter-spacing:-.035em;
 }
 
 .word-image{
   left:4%;
   top:6%;
-  font-size:clamp(62px, 10.6vw, 168px);
-  color:var(--berry);
+  font-size:clamp(62px, 10.3vw, 166px);
+  color:var(--poster-red);
 }
 
 .word-archive{
   left:4%;
   bottom:7%;
-  font-size:clamp(62px, 10.2vw, 164px);
-  color:var(--poster-white);
-}
-
-.home-manifesto{
-  display:none;
+  font-size:clamp(62px, 10vw, 160px);
+  color:var(--white);
 }
 
 .home-blue-bar{
   position:absolute;
-  right:9%;
-  top:21%;
+  right:8%;
+  top:22%;
   width:min(26vw,360px);
   height:min(8.6vw,118px);
-  background:linear-gradient(90deg, #4bb5ea, #2f5ef5);
+  background:linear-gradient(90deg, var(--deep-blue), #2b67df);
 }
 
 .home-yellow-burst{
   width:min(28vw,420px);
-  left:58%;
+  left:57%;
   top:48%;
-  background:var(--signal-yellow);
+  background:var(--acid-green);
 }
 
 .home-red-star{
   width:min(18vw,240px);
   left:18%;
   top:42%;
-  background:#e65ab4;
+  background:var(--hot-pink);
 }
 
 .home-skull-lime{
@@ -556,7 +418,7 @@ body::after{
   height:min(17vw,240px);
   left:68%;
   top:12%;
-  color:var(--lime);
+  color:var(--acid-green);
 }
 
 .home-skull-pink{
@@ -564,7 +426,7 @@ body::after{
   height:min(15vw,210px);
   left:8%;
   top:56%;
-  color:var(--pink);
+  color:var(--signal-pink);
 }
 
 .home-black-note{
@@ -590,7 +452,7 @@ body::after{
   overflow:hidden;
   min-width:0;
   background:
-    linear-gradient(180deg, rgba(255,255,255,.05), rgba(0,0,0,.02)),
+    linear-gradient(180deg, rgba(255,255,255,.06), rgba(0,0,0,.015)),
     var(--paper);
 }
 
@@ -612,15 +474,15 @@ body::after{
   content:"";
   position:absolute;
   inset:0;
-  opacity:.24;
+  opacity:.18;
   background-image:
-    linear-gradient(rgba(0,0,0,.12) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,0,0,.12) 1px, transparent 1px);
-  background-size:46px 46px;
+    linear-gradient(rgba(0,0,0,.11) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,.11) 1px, transparent 1px);
+  background-size:44px 44px;
 }
 
 .index-card:hover{
-  background:var(--poster-white);
+  background:var(--paper-2);
 }
 
 .index-card .num{
@@ -639,7 +501,7 @@ body::after{
   z-index:2;
   font-size:clamp(28px, 5vw, 72px);
   line-height:.92;
-  letter-spacing:-.03em;
+  letter-spacing:-.04em;
   font-weight:900;
   text-transform:uppercase;
   color:var(--ink);
@@ -648,22 +510,22 @@ body::after{
 
 .index-card:nth-child(1){
   background:
-    linear-gradient(180deg, rgba(179,229,252,.36), rgba(255,255,255,.22)),
+    linear-gradient(180deg, rgba(215,230,239,.46), rgba(255,255,255,.18)),
     var(--paper);
 }
 .index-card:nth-child(2){
   background:
-    linear-gradient(180deg, rgba(193,18,31,.08), rgba(255,255,255,.12)),
+    linear-gradient(180deg, rgba(203,18,54,.10), rgba(255,255,255,.14)),
     var(--paper);
 }
 .index-card:nth-child(3){
   background:
-    linear-gradient(180deg, rgba(243,234,25,.18), rgba(255,255,255,.12)),
+    linear-gradient(180deg, rgba(185,242,107,.14), rgba(255,255,255,.12)),
     var(--paper);
 }
 .index-card:nth-child(4){
   background:
-    linear-gradient(180deg, rgba(201,255,47,.16), rgba(255,255,255,.18)),
+    linear-gradient(180deg, rgba(239,95,174,.10), rgba(255,255,255,.14)),
     var(--paper);
 }
 
@@ -680,14 +542,11 @@ body::after{
   padding:20px;
   border-bottom:1px solid var(--line);
   overflow:hidden;
-  background:
-    linear-gradient(135deg, rgba(255,255,255,.36), rgba(255,255,255,0) 38%),
-    linear-gradient(180deg, rgba(179,229,252,.18), rgba(255,255,255,.02)),
-    var(--paper);
+  background:var(--paper);
 }
 
 .poster-top .grid-overlay{
-  opacity:.24;
+  opacity:.20;
 }
 
 .poster-top::before{
@@ -695,8 +554,8 @@ body::after{
   position:absolute;
   inset:0;
   background:
-    radial-gradient(circle at 18% 18%, rgba(255,255,255,.12) 0 14%, transparent 26%),
-    radial-gradient(circle at 82% 72%, rgba(0,0,0,.04) 0 12%, transparent 26%);
+    radial-gradient(circle at 18% 18%, rgba(255,255,255,.16) 0 14%, transparent 26%),
+    radial-gradient(circle at 82% 72%, rgba(0,0,0,.035) 0 12%, transparent 26%);
   z-index:0;
 }
 
@@ -706,22 +565,22 @@ body::after{
   bottom:7%;
   right:3%;
   font-size:clamp(52px, 12vw, 210px);
-  line-height:.86;
-  letter-spacing:-.04em;
+  line-height:.85;
+  letter-spacing:-.055em;
   font-weight:900;
   text-transform:uppercase;
   z-index:4;
-  color:var(--ink);
+  color:var(--soft-black);
   white-space:nowrap;
   max-width:88%;
 }
 
 .poster-word.word-editorial{
-  font-size:clamp(52px, 11vw, 186px);
+  font-size:clamp(52px, 11vw, 184px);
 }
 
 .poster-word.word-personal{
-  font-size:clamp(52px, 11.3vw, 195px);
+  font-size:clamp(52px, 11.3vw, 194px);
 }
 
 .poster-word.word-fashion{
@@ -750,7 +609,7 @@ body::after{
 .poster-shape-a{
   width:clamp(140px, 18vw, 280px);
   height:clamp(70px, 8vw, 130px);
-  background:linear-gradient(90deg, #3257eb, #4666ef);
+  background:linear-gradient(90deg, var(--deep-blue), #2d6ae2);
   right:12%;
   top:22%;
 }
@@ -759,21 +618,21 @@ body::after{
   width:clamp(110px, 15vw, 220px);
   left:10%;
   top:22%;
-  background:var(--pink);
+  background:var(--signal-pink);
 }
 
 .poster-shape-c{
   width:clamp(76px, 9vw, 145px);
   right:36%;
   bottom:26%;
-  background:var(--signal-yellow);
+  background:var(--acid-green);
 }
 
 .poster-shape-d{
   width:clamp(70px, 8vw, 132px);
   left:22%;
   bottom:24%;
-  background:var(--orange);
+  background:var(--poster-red);
 }
 
 .poster-skull-lime{
@@ -781,7 +640,7 @@ body::after{
   height:clamp(96px, 12vw, 170px);
   right:7%;
   bottom:15%;
-  color:var(--lime);
+  color:var(--acid-green);
 }
 
 .poster-skull-pink{
@@ -789,7 +648,7 @@ body::after{
   height:clamp(82px, 10vw, 145px);
   right:27%;
   top:12%;
-  color:var(--pink);
+  color:var(--signal-pink);
 }
 
 .poster-skull-blue{
@@ -797,28 +656,30 @@ body::after{
   height:clamp(86px, 10vw, 148px);
   left:34%;
   top:12%;
-  color:var(--blue-strong);
+  color:var(--deep-blue);
 }
 
 .editorial-bg{
   background:
-    linear-gradient(140deg, rgba(179,229,252,.34), rgba(255,255,255,0) 36%),
-    linear-gradient(180deg, rgba(239,87,187,.08), rgba(255,255,255,.05)),
-    var(--paper);
+    linear-gradient(180deg, var(--ice-blue) 0 54%, var(--paper) 54% 100%);
 }
 
 .fashion-bg{
   background:
-    linear-gradient(140deg, rgba(201,255,47,.25), rgba(255,255,255,0) 34%),
-    linear-gradient(180deg, rgba(47,94,245,.08), rgba(255,255,255,.05)),
-    var(--paper);
+    linear-gradient(180deg, rgba(203,18,54,.94) 0 56%, var(--paper) 56% 100%);
+}
+
+.fashion-bg .poster-word{
+  color:var(--white);
 }
 
 .personal-bg{
   background:
-    linear-gradient(140deg, rgba(243,234,25,.22), rgba(255,255,255,0) 34%),
-    linear-gradient(180deg, rgba(239,87,187,.10), rgba(255,255,255,.05)),
-    var(--paper);
+    linear-gradient(180deg, var(--deep-blue) 0 58%, var(--mustard) 58% 100%);
+}
+
+.personal-bg .poster-word{
+  color:var(--acid-green);
 }
 
 .poster-actions{
@@ -828,8 +689,8 @@ body::after{
   padding:18px 20px;
   border-bottom:1px solid var(--line);
   background:
-    linear-gradient(90deg, rgba(201,255,47,.12), rgba(239,87,187,.08), rgba(47,94,245,.08)),
-    rgba(255,255,255,.5);
+    linear-gradient(90deg, rgba(215,230,239,.34), rgba(246,178,214,.18), rgba(185,242,107,.18)),
+    rgba(255,255,255,.54);
 }
 
 .poster-actions button{
@@ -853,7 +714,7 @@ body::after{
 .stack-wrap{
   padding:24px;
   background:
-    linear-gradient(180deg, rgba(255,255,255,.84), rgba(249,249,247,.95)),
+    linear-gradient(180deg, rgba(255,255,255,.92), rgba(252,250,246,.96)),
     var(--paper-2);
 }
 
@@ -871,8 +732,8 @@ body::after{
 .image-frame{
   width:100%;
   min-height:84vh;
-  border:1px solid rgba(0,0,0,.12);
-  background:rgba(255,255,255,.98);
+  border:1px solid rgba(0,0,0,.10);
+  background:rgba(255,255,255,.99);
   display:flex;
   align-items:center;
   justify-content:center;
@@ -886,8 +747,8 @@ body::after{
   position:absolute;
   inset:0;
   background:
-    radial-gradient(circle at 14% 20%, rgba(0,0,0,.025) 0 8%, transparent 22%),
-    radial-gradient(circle at 81% 78%, rgba(0,0,0,.02) 0 8%, transparent 22%);
+    radial-gradient(circle at 14% 20%, rgba(0,0,0,.018) 0 8%, transparent 22%),
+    radial-gradient(circle at 81% 78%, rgba(0,0,0,.018) 0 8%, transparent 22%);
 }
 
 .image-stack img{
@@ -910,39 +771,22 @@ body::after{
 
 .contact-top{
   position:relative;
-  min-height:50vh;
-  padding:20px;
+  min-height:48vh;
+  padding:22px;
   border-bottom:1px solid var(--line);
   overflow:hidden;
   background:
-    linear-gradient(145deg, rgba(201,255,47,.22), rgba(255,255,255,0) 28%),
-    linear-gradient(180deg, var(--icy) 0 52%, rgba(239,87,187,.12) 52% 100%);
+    linear-gradient(180deg, var(--hot-pink) 0 60%, var(--paper) 60% 100%);
 }
 
-.contact-top::after{
-  content:none;
-}
-
-.contact-word{
-  position:absolute;
-  left:3%;
-  bottom:6%;
-  right:3%;
-  font-size:clamp(52px, 13vw, 210px);
-  line-height:.86;
-  letter-spacing:-.04em;
-  font-weight:900;
-  text-transform:uppercase;
-  z-index:4;
-  color:var(--ink);
-  white-space:nowrap;
-  max-width:86%;
+.contact-top .grid-overlay{
+  opacity:.18;
 }
 
 .contact-note{
   position:absolute;
-  top:18px;
-  left:20px;
+  top:20px;
+  left:22px;
   z-index:4;
   font-size:11px;
   line-height:1.4;
@@ -951,60 +795,75 @@ body::after{
   max-width:min(80%, 420px);
 }
 
+.contact-word{
+  position:absolute;
+  left:22px;
+  bottom:18px;
+  z-index:4;
+  font-size:clamp(56px, 12vw, 200px);
+  line-height:.84;
+  letter-spacing:-.06em;
+  font-weight:900;
+  text-transform:uppercase;
+  color:var(--white);
+  white-space:nowrap;
+  text-align:left;
+}
+
 .contact-star{
-  right:10%;
-  top:19%;
+  right:9%;
+  top:18%;
   width:clamp(120px, 16vw, 220px);
-  background:var(--signal-yellow);
+  background:var(--acid-green);
 }
 
 .contact-star-two{
-  left:16%;
-  top:16%;
+  left:20%;
+  top:14%;
   width:clamp(80px, 10vw, 130px);
-  background:var(--pink);
+  background:var(--powder-blue);
 }
 
 .contact-star-three{
-  right:31%;
-  bottom:24%;
+  right:29%;
+  bottom:20%;
   width:clamp(55px, 7vw, 98px);
-  background:#1f58ff;
+  background:var(--poster-red);
 }
 
 .contact-skull-lime{
   width:clamp(56px, 7vw, 92px);
   height:clamp(96px, 12vw, 160px);
-  right:16%;
-  bottom:16%;
-  color:var(--lime);
+  right:15%;
+  bottom:13%;
+  color:var(--acid-green);
 }
 
 .contact-skull-pink{
   width:clamp(42px, 5vw, 72px);
   height:clamp(82px, 10vw, 136px);
-  left:32%;
-  top:14%;
-  color:var(--pink);
+  left:33%;
+  top:16%;
+  color:var(--poster-red);
 }
 
 .contact-grid{
   display:grid;
-  grid-template-columns:1fr 1fr;
+  grid-template-columns:repeat(4, 1fr);
   gap:0;
 }
 
 .contact-card{
   padding:22px;
-  min-height:170px;
+  min-height:190px;
   border-right:1px solid var(--line);
-  border-bottom:1px solid var(--line);
+  border-bottom:0;
   background:
-    linear-gradient(135deg, rgba(255,255,255,.54), rgba(201,255,47,.06)),
-    rgba(255,255,255,.58);
+    linear-gradient(135deg, rgba(255,255,255,.68), rgba(255,255,255,.44)),
+    rgba(255,255,255,.60);
 }
 
-.contact-card:nth-child(2n){
+.contact-card:last-child{
   border-right:0;
 }
 
@@ -1017,18 +876,16 @@ body::after{
 }
 
 .contact-value{
-  font-size:clamp(24px,4vw,54px);
-  line-height:1;
-  letter-spacing:-.03em;
+  font-size:clamp(18px, 1.95vw, 28px);
+  line-height:1.02;
+  letter-spacing:-.02em;
   font-weight:900;
   text-transform:uppercase;
   word-break:break-word;
 }
 
-.contact-value.small{
-  font-size:clamp(18px,3vw,34px);
-  line-height:1.05;
-  letter-spacing:-.02em;
+.contact-value a{
+  display:inline-block;
 }
 
 .footer{
@@ -1059,11 +916,15 @@ body::after{
   }
 
   .contact-grid{
-    grid-template-columns:1fr;
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .contact-card:nth-child(2n){
+    border-right:0;
   }
 
   .contact-card{
-    border-right:0;
+    border-bottom:1px solid var(--line);
   }
 
   .home-left{
@@ -1096,15 +957,6 @@ body::after{
     flex:0 0 auto;
   }
 
-  .cover-title{
-    left:4%;
-    right:4%;
-    top:16%;
-    font-size:min(11.4vw, 72px);
-    letter-spacing:-.03em;
-    line-height:.92;
-  }
-
   .poster-top,
   .contact-top,
   .home-left{
@@ -1132,6 +984,20 @@ body::after{
   .home-black-note{
     max-width:48%;
   }
+
+  .contact-grid{
+    grid-template-columns:1fr;
+  }
+
+  .contact-card{
+    border-right:0;
+    border-bottom:1px solid var(--line);
+    min-height:140px;
+  }
+
+  .contact-card:last-child{
+    border-bottom:0;
+  }
 }
 
 /* MOBILE */
@@ -1156,37 +1022,6 @@ body::after{
   .poster-meta,
   .contact-note{
     font-size:10px;
-  }
-
-  .cover-rule-top,
-  .cover-rule-bottom{
-    display:none;
-  }
-
-  .cover-grid{
-    inset:7% 3% 7% 3%;
-    background-size:48px 48px;
-  }
-
-  .cover-title{
-    left:4%;
-    right:4%;
-    top:15%;
-    font-size:min(10.9vw, 56px);
-    letter-spacing:-.035em;
-    line-height:.92;
-    white-space:nowrap;
-  }
-
-  .cover-sub{
-    bottom:11%;
-    font-size:10px;
-    padding:9px 12px;
-  }
-
-  .cover-yellow-burst{
-    width:74vw;
-    top:48%;
   }
 
   .home-left{
@@ -1227,13 +1062,13 @@ body::after{
   }
 
   .word-image{
-    font-size:16.2vw;
+    font-size:16vw;
     top:7%;
     left:4%;
   }
 
   .word-archive{
-    font-size:15vw;
+    font-size:14.8vw;
     left:4%;
     bottom:6%;
   }
@@ -1278,22 +1113,21 @@ body::after{
     line-height:.88;
     white-space:nowrap;
     max-width:68%;
-    transform-origin:left bottom;
   }
 
   .poster-word.word-editorial{
     font-size:13vw;
-    letter-spacing:-.055em;
+    letter-spacing:-.06em;
   }
 
   .poster-word.word-personal{
     font-size:13.6vw;
-    letter-spacing:-.055em;
+    letter-spacing:-.06em;
   }
 
   .poster-word.word-fashion{
     font-size:14vw;
-    letter-spacing:-.05em;
+    letter-spacing:-.055em;
   }
 
   .poster-shape-a{
@@ -1365,7 +1199,7 @@ body::after{
   }
 
   .contact-top{
-    min-height:38vh;
+    min-height:36vh;
     padding:16px;
   }
 
@@ -1376,11 +1210,11 @@ body::after{
   }
 
   .contact-word{
-    font-size:15vw;
-    left:4%;
-    bottom:7%;
-    letter-spacing:-.055em;
-    max-width:68%;
+    left:16px;
+    bottom:14px;
+    font-size:14.5vw;
+    letter-spacing:-.06em;
+    max-width:70%;
   }
 
   .contact-star{
@@ -1391,7 +1225,7 @@ body::after{
 
   .contact-star-two{
     width:16vw;
-    left:12%;
+    left:14%;
     top:18%;
   }
 
@@ -1417,15 +1251,11 @@ body::after{
 
   .contact-card{
     padding:16px;
-    min-height:130px;
+    min-height:122px;
   }
 
   .contact-value{
-    font-size:clamp(20px, 8vw, 32px);
-  }
-
-  .contact-value.small{
-    font-size:clamp(16px, 5.5vw, 24px);
+    font-size:clamp(18px, 6vw, 24px);
   }
 
   .footer-inner{
@@ -1445,17 +1275,12 @@ body::after{
     font-size:10px;
   }
 
-  .cover-title{
-    font-size:min(10.2vw, 48px);
-    letter-spacing:-.04em;
-  }
-
   .word-image{
     font-size:15.2vw;
   }
 
   .word-archive{
-    font-size:14.2vw;
+    font-size:14vw;
   }
 
   .poster-word.word-editorial{
@@ -1471,30 +1296,12 @@ body::after{
   }
 
   .contact-word{
-    font-size:14.2vw;
+    font-size:14vw;
   }
 }
 </style>
 </head>
-<body class="locked">
-
-<div class="cover-gate" id="coverGate" aria-label="Enter archive">
-  <div class="cover-inner">
-    <div class="cover-grid"></div>
-    <div class="cover-rule-top"></div>
-    <div class="cover-rule-bottom"></div>
-
-    <div class="cover-blue-field"></div>
-    <div class="cover-berry-block"></div>
-    <div class="cover-yellow-burst star-shape-burst floating-shape" data-depth="0.45" data-rotate="-7"></div>
-
-    <div class="cover-title">
-      <span>UNGADRAKEN</span>
-    </div>
-
-    <div class="cover-sub">tap to enter archive</div>
-  </div>
-</div>
+<body>
 
 <div class="site" id="site">
   <main class="archive">
@@ -1519,14 +1326,14 @@ body::after{
     <section class="page-section" id="archive-home" data-page>
       <div class="section-inner">
         <div class="home-shell">
-          <div class="home-left">
+          <div class="home-left physics-zone">
             <div class="grid-overlay"></div>
 
-            <div class="home-blue-bar floating-shape" data-depth="0.38" data-rotate="-9"></div>
-            <div class="home-red-star star-shape-soft floating-shape" data-depth="0.52" data-rotate="-10"></div>
-            <div class="home-yellow-burst star-shape-burst floating-shape" data-depth="0.62" data-rotate="8"></div>
-            <div class="home-skull-lime skull-shape floating-shape" data-depth="0.72" data-rotate="12"></div>
-            <div class="home-skull-pink skull-shape floating-shape" data-depth="0.55" data-rotate="-14"></div>
+            <div class="home-blue-bar floating-shape" data-depth="0.34" data-rotate="-7"></div>
+            <div class="home-red-star star-shape-soft floating-shape" data-depth="0.48" data-rotate="-11"></div>
+            <div class="home-yellow-burst star-shape-burst floating-shape" data-depth="0.58" data-rotate="8"></div>
+            <div class="home-skull-lime skull-shape floating-shape" data-depth="0.64" data-rotate="12"></div>
+            <div class="home-skull-pink skull-shape floating-shape" data-depth="0.52" data-rotate="-14"></div>
 
             <div class="home-word word-image">IMAGE</div>
             <div class="home-black-note">UNGADRAKEN / IMAGE ARCHIVE / SELECT ENTRY</div>
@@ -1561,17 +1368,17 @@ body::after{
     <section class="page-section" id="editorial" data-page>
       <div class="section-inner">
         <div class="poster-shell">
-          <div class="poster-top editorial-bg">
+          <div class="poster-top editorial-bg physics-zone">
             <div class="grid-overlay"></div>
             <div class="poster-meta">ARCHIVE ENTRY 01</div>
 
-            <div class="poster-shape-a floating-shape" data-depth="0.40" data-rotate="-9"></div>
-            <div class="poster-shape-b star-shape-soft floating-shape" data-depth="0.56" data-rotate="-10"></div>
-            <div class="poster-shape-c star-shape-burst floating-shape" data-depth="0.62" data-rotate="7"></div>
-            <div class="poster-shape-d star-shape-spike floating-shape" data-depth="0.48" data-rotate="16"></div>
-            <div class="poster-skull-lime skull-shape floating-shape" data-depth="0.74" data-rotate="9"></div>
-            <div class="poster-skull-pink skull-shape floating-shape" data-depth="0.66" data-rotate="-16"></div>
-            <div class="poster-skull-blue skull-shape floating-shape" data-depth="0.50" data-rotate="6"></div>
+            <div class="poster-shape-a floating-shape" data-depth="0.38" data-rotate="-7"></div>
+            <div class="poster-shape-b star-shape-soft floating-shape" data-depth="0.52" data-rotate="-10"></div>
+            <div class="poster-shape-c star-shape-burst floating-shape" data-depth="0.60" data-rotate="7"></div>
+            <div class="poster-shape-d star-shape-spike floating-shape" data-depth="0.44" data-rotate="16"></div>
+            <div class="poster-skull-lime skull-shape floating-shape" data-depth="0.66" data-rotate="9"></div>
+            <div class="poster-skull-pink skull-shape floating-shape" data-depth="0.54" data-rotate="-16"></div>
+            <div class="poster-skull-blue skull-shape floating-shape" data-depth="0.42" data-rotate="6"></div>
 
             <div class="poster-word word-editorial">EDITORIAL</div>
           </div>
@@ -1590,17 +1397,17 @@ body::after{
     <section class="page-section" id="fashion" data-page>
       <div class="section-inner">
         <div class="poster-shell">
-          <div class="poster-top fashion-bg">
+          <div class="poster-top fashion-bg physics-zone">
             <div class="grid-overlay"></div>
             <div class="poster-meta">ARCHIVE ENTRY 02</div>
 
-            <div class="poster-shape-a floating-shape" data-depth="0.40" data-rotate="-8"></div>
-            <div class="poster-shape-b star-shape-wide floating-shape" data-depth="0.54" data-rotate="-10"></div>
-            <div class="poster-shape-c star-shape-burst floating-shape" data-depth="0.68" data-rotate="8"></div>
-            <div class="poster-shape-d star-shape-spike floating-shape" data-depth="0.47" data-rotate="15"></div>
-            <div class="poster-skull-lime skull-shape floating-shape" data-depth="0.78" data-rotate="-12"></div>
-            <div class="poster-skull-pink skull-shape floating-shape" data-depth="0.64" data-rotate="12"></div>
-            <div class="poster-skull-blue skull-shape floating-shape" data-depth="0.50" data-rotate="-6"></div>
+            <div class="poster-shape-a floating-shape" data-depth="0.38" data-rotate="-8"></div>
+            <div class="poster-shape-b star-shape-wide floating-shape" data-depth="0.50" data-rotate="-10"></div>
+            <div class="poster-shape-c star-shape-burst floating-shape" data-depth="0.62" data-rotate="8"></div>
+            <div class="poster-shape-d star-shape-spike floating-shape" data-depth="0.42" data-rotate="15"></div>
+            <div class="poster-skull-lime skull-shape floating-shape" data-depth="0.68" data-rotate="-12"></div>
+            <div class="poster-skull-pink skull-shape floating-shape" data-depth="0.54" data-rotate="12"></div>
+            <div class="poster-skull-blue skull-shape floating-shape" data-depth="0.40" data-rotate="-6"></div>
 
             <div class="poster-word word-fashion">FASHION</div>
           </div>
@@ -1619,17 +1426,17 @@ body::after{
     <section class="page-section" id="personal-work" data-page>
       <div class="section-inner">
         <div class="poster-shell">
-          <div class="poster-top personal-bg">
+          <div class="poster-top personal-bg physics-zone">
             <div class="grid-overlay"></div>
             <div class="poster-meta">ARCHIVE ENTRY 03</div>
 
-            <div class="poster-shape-a floating-shape" data-depth="0.40" data-rotate="-9"></div>
-            <div class="poster-shape-b star-shape-soft floating-shape" data-depth="0.52" data-rotate="-11"></div>
-            <div class="poster-shape-c star-shape-burst floating-shape" data-depth="0.66" data-rotate="9"></div>
-            <div class="poster-shape-d star-shape-spike floating-shape" data-depth="0.48" data-rotate="16"></div>
-            <div class="poster-skull-lime skull-shape floating-shape" data-depth="0.76" data-rotate="10"></div>
-            <div class="poster-skull-pink skull-shape floating-shape" data-depth="0.62" data-rotate="-10"></div>
-            <div class="poster-skull-blue skull-shape floating-shape" data-depth="0.46" data-rotate="5"></div>
+            <div class="poster-shape-a floating-shape" data-depth="0.38" data-rotate="-9"></div>
+            <div class="poster-shape-b star-shape-soft floating-shape" data-depth="0.50" data-rotate="-11"></div>
+            <div class="poster-shape-c star-shape-burst floating-shape" data-depth="0.60" data-rotate="9"></div>
+            <div class="poster-shape-d star-shape-spike floating-shape" data-depth="0.44" data-rotate="16"></div>
+            <div class="poster-skull-lime skull-shape floating-shape" data-depth="0.66" data-rotate="10"></div>
+            <div class="poster-skull-pink skull-shape floating-shape" data-depth="0.52" data-rotate="-10"></div>
+            <div class="poster-skull-blue skull-shape floating-shape" data-depth="0.40" data-rotate="5"></div>
 
             <div class="poster-word word-personal">PERSONAL</div>
           </div>
@@ -1648,14 +1455,15 @@ body::after{
     <section class="page-section" id="contact" data-page>
       <div class="section-inner">
         <div class="contact-shell">
-          <div class="contact-top">
+          <div class="contact-top physics-zone">
+            <div class="grid-overlay"></div>
             <div class="contact-note">COLLABORATION / COMMISSION / EDITORIAL</div>
 
-            <div class="contact-star star-shape-burst floating-shape" data-depth="0.66" data-rotate="-8"></div>
-            <div class="contact-star-two star-shape-soft floating-shape" data-depth="0.52" data-rotate="10"></div>
-            <div class="contact-star-three star-shape-diamond floating-shape" data-depth="0.44" data-rotate="18"></div>
-            <div class="contact-skull-lime skull-shape floating-shape" data-depth="0.76" data-rotate="10"></div>
-            <div class="contact-skull-pink skull-shape floating-shape" data-depth="0.58" data-rotate="-12"></div>
+            <div class="contact-star star-shape-burst floating-shape" data-depth="0.60" data-rotate="-8"></div>
+            <div class="contact-star-two star-shape-soft floating-shape" data-depth="0.48" data-rotate="10"></div>
+            <div class="contact-star-three star-shape-diamond floating-shape" data-depth="0.38" data-rotate="18"></div>
+            <div class="contact-skull-lime skull-shape floating-shape" data-depth="0.68" data-rotate="10"></div>
+            <div class="contact-skull-pink skull-shape floating-shape" data-depth="0.50" data-rotate="-12"></div>
 
             <div class="contact-word">CONTACT</div>
           </div>
@@ -1663,15 +1471,15 @@ body::after{
           <div class="contact-grid">
             <div class="contact-card">
               <div class="contact-label">EMAIL</div>
-              <div class="contact-value small">
-                <a href="mailto:ungadraken@gmail.com">ungadraken@gmail.com</a>
+              <div class="contact-value">
+                <a href="mailto:ungadraken@gmail.com">UNGADRAKEN@GMAIL.COM</a>
               </div>
             </div>
 
             <div class="contact-card">
               <div class="contact-label">INSTAGRAM</div>
-              <div class="contact-value small">
-                <a href="https://www.instagram.com/ungadrakenstudios/" target="_blank" rel="noopener">@ungadrakenstudios</a>
+              <div class="contact-value">
+                <a href="https://www.instagram.com/ungadrakenstudios/" target="_blank" rel="noopener">@UNGADRAKENSTUDIOS</a>
               </div>
             </div>
 
@@ -1706,8 +1514,6 @@ body::after{
 <script>
 document.getElementById("year").textContent = new Date().getFullYear();
 
-const coverGate = document.getElementById("coverGate");
-const site = document.getElementById("site");
 const pageSections = [...document.querySelectorAll("[data-page]")];
 const navLinks = [...document.querySelectorAll(".archive-nav a")];
 const openStackButtons = [...document.querySelectorAll("[data-open-stack]")];
@@ -1792,123 +1598,222 @@ function showPage(pageId){
 
   hideAllStacks();
   window.scrollTo({ top: 0, behavior: "auto" });
-}
 
-function openArchiveTo(pageId = "archive-home"){
-  coverGate.classList.add("hidden");
-  site.classList.add("active");
-  document.body.classList.remove("locked");
-  showPage(pageId);
-  history.replaceState(null, "", "#" + pageId);
+  setTimeout(() => {
+    initializeFloatingShapes(true);
+  }, 80);
 }
-
-coverGate.addEventListener("click", () => {
-  openArchiveTo("archive-home");
-});
 
 window.addEventListener("hashchange", () => {
   const pageId = window.location.hash.replace("#", "") || "archive-home";
-  if (coverGate.classList.contains("hidden")) {
-    showPage(pageId);
-  }
+  showPage(pageId);
 });
 
 window.addEventListener("load", () => {
-  const pageId = window.location.hash.replace("#", "");
-  if (pageId && document.getElementById(pageId)) {
-    coverGate.classList.add("hidden");
-    site.classList.add("active");
-    document.body.classList.remove("locked");
-    showPage(pageId);
-  }
+  const pageId = window.location.hash.replace("#", "") || "archive-home";
+  showPage(pageId);
 });
 
-/* DRAG + TILT */
+/* FLOATING PHYSICS */
 const floatingShapes = [...document.querySelectorAll(".floating-shape")];
-const tiltState = { x: 0, y: 0 };
+const physicsState = {
+  gravityX: 0,
+  gravityY: 0.02,
+  pointerTiltX: 0,
+  pointerTiltY: 0
+};
+
 let activeShape = null;
-let dragData = null;
-
-floatingShapes.forEach(shape => {
-  const rotate = parseFloat(shape.dataset.rotate || 0);
-  const depth = parseFloat(shape.dataset.depth || 0.5);
-
-  shape.dataset.baseRotate = rotate;
-  shape.dataset.depth = depth;
-  shape.dataset.dragX = 0;
-  shape.dataset.dragY = 0;
-
-  applyShapeTransform(shape);
-  shape.addEventListener("pointerdown", startDrag);
-});
-
-function applyShapeTransform(shape){
-  const dragX = parseFloat(shape.dataset.dragX || 0);
-  const dragY = parseFloat(shape.dataset.dragY || 0);
-  const rotate = parseFloat(shape.dataset.baseRotate || 0);
-  const depth = parseFloat(shape.dataset.depth || 0.5);
-
-  const tx = dragX + tiltState.x * depth;
-  const ty = dragY + tiltState.y * depth;
-
-  shape.style.transform = `translate3d(${tx}px, ${ty}px, 0) rotate(${rotate}deg)`;
-}
-
-function updateAllShapeTransforms(){
-  floatingShapes.forEach(applyShapeTransform);
-}
-
-function startDrag(e){
-  activeShape = e.currentTarget;
-  activeShape.classList.add("dragging");
-
-  const currentX = parseFloat(activeShape.dataset.dragX || 0);
-  const currentY = parseFloat(activeShape.dataset.dragY || 0);
-
-  dragData = {
-    startPointerX: e.clientX,
-    startPointerY: e.clientY,
-    startDragX: currentX,
-    startDragY: currentY
-  };
-
-  activeShape.setPointerCapture?.(e.pointerId);
-}
-
-function onPointerMove(e){
-  if (!activeShape || !dragData) return;
-
-  const dx = e.clientX - dragData.startPointerX;
-  const dy = e.clientY - dragData.startPointerY;
-
-  activeShape.dataset.dragX = dragData.startDragX + dx;
-  activeShape.dataset.dragY = dragData.startDragY + dy;
-
-  applyShapeTransform(activeShape);
-}
-
-function stopDrag(){
-  if (!activeShape) return;
-  activeShape.classList.remove("dragging");
-  activeShape = null;
-  dragData = null;
-}
-
-window.addEventListener("pointermove", onPointerMove);
-window.addEventListener("pointerup", stopDrag);
-window.addEventListener("pointercancel", stopDrag);
-window.addEventListener("pointerleave", stopDrag);
+let dragPointerId = null;
+let lastDragX = 0;
+let lastDragY = 0;
+let lastDragTime = 0;
 
 function clamp(value, min, max){
   return Math.max(min, Math.min(max, value));
 }
 
+function initializeFloatingShapes(force = false){
+  floatingShapes.forEach(shape => {
+    if (shape._physics && !force) return;
+
+    const zone = shape.closest(".physics-zone") || shape.parentElement;
+    const zoneRect = zone.getBoundingClientRect();
+    const shapeRect = shape.getBoundingClientRect();
+
+    let x = shapeRect.left - zoneRect.left;
+    let y = shapeRect.top - zoneRect.top;
+
+    if (force && shape._physics){
+      x = clamp(shape._physics.x, 0, Math.max(0, zone.clientWidth - shape.offsetWidth));
+      y = clamp(shape._physics.y, 0, Math.max(0, zone.clientHeight - shape.offsetHeight));
+    }
+
+    shape._physics = {
+      zone,
+      x,
+      y,
+      vx: (Math.random() - 0.5) * 0.8,
+      vy: (Math.random() - 0.5) * 0.8,
+      rotate: parseFloat(shape.dataset.rotate || 0),
+      depth: parseFloat(shape.dataset.depth || 0.5),
+      drift: (Math.random() - 0.5) * 0.03,
+      bob: Math.random() * Math.PI * 2,
+      isDragging: false
+    };
+
+    shape.style.left = "0px";
+    shape.style.top = "0px";
+    renderShape(shape);
+  });
+}
+
+function renderShape(shape){
+  if (!shape._physics) return;
+  const p = shape._physics;
+
+  const bobX = Math.sin(performance.now() * 0.0009 + p.bob) * (1.6 + p.depth * 1.4);
+  const bobY = Math.cos(performance.now() * 0.0011 + p.bob) * (1.2 + p.depth * 1.6);
+
+  shape.style.transform =
+    `translate3d(${p.x + bobX}px, ${p.y + bobY}px, 0) rotate(${p.rotate}deg)`;
+}
+
+function stepPhysics(){
+  const timeNow = performance.now();
+
+  floatingShapes.forEach(shape => {
+    if (!shape._physics) return;
+    const p = shape._physics;
+    const zone = p.zone;
+
+    if (!document.body.contains(zone) || !document.body.contains(shape)) return;
+
+    const zoneW = zone.clientWidth;
+    const zoneH = zone.clientHeight;
+    const shapeW = shape.offsetWidth;
+    const shapeH = shape.offsetHeight;
+
+    if (!p.isDragging) {
+      const gx = physicsState.gravityX * (0.18 + p.depth * 0.18);
+      const gy = physicsState.gravityY * (0.36 + p.depth * 0.22);
+
+      p.vx += gx + p.drift;
+      p.vy += gy;
+
+      p.vx *= 0.988;
+      p.vy *= 0.988;
+
+      p.x += p.vx;
+      p.y += p.vy;
+
+      const maxX = Math.max(0, zoneW - shapeW);
+      const maxY = Math.max(0, zoneH - shapeH);
+
+      if (p.x <= 0) {
+        p.x = 0;
+        p.vx *= -0.82;
+      } else if (p.x >= maxX) {
+        p.x = maxX;
+        p.vx *= -0.82;
+      }
+
+      if (p.y <= 0) {
+        p.y = 0;
+        p.vy *= -0.82;
+      } else if (p.y >= maxY) {
+        p.y = maxY;
+        p.vy *= -0.82;
+      }
+    }
+
+    renderShape(shape);
+  });
+
+  requestAnimationFrame(stepPhysics);
+}
+
+function startDrag(e){
+  const shape = e.currentTarget;
+  if (!shape._physics) return;
+
+  activeShape = shape;
+  dragPointerId = e.pointerId;
+  shape._physics.isDragging = true;
+  shape.classList.add("dragging");
+
+  const p = shape._physics;
+  const zoneRect = p.zone.getBoundingClientRect();
+
+  const pointerX = e.clientX - zoneRect.left;
+  const pointerY = e.clientY - zoneRect.top;
+
+  shape._dragOffsetX = pointerX - p.x;
+  shape._dragOffsetY = pointerY - p.y;
+
+  lastDragX = e.clientX;
+  lastDragY = e.clientY;
+  lastDragTime = performance.now();
+
+  shape.setPointerCapture?.(e.pointerId);
+}
+
+function onPointerMove(e){
+  if (!activeShape || !activeShape._physics || dragPointerId !== e.pointerId) return;
+
+  const p = activeShape._physics;
+  const zoneRect = p.zone.getBoundingClientRect();
+  const maxX = Math.max(0, p.zone.clientWidth - activeShape.offsetWidth);
+  const maxY = Math.max(0, p.zone.clientHeight - activeShape.offsetHeight);
+
+  const pointerX = e.clientX - zoneRect.left;
+  const pointerY = e.clientY - zoneRect.top;
+
+  const newX = clamp(pointerX - activeShape._dragOffsetX, 0, maxX);
+  const newY = clamp(pointerY - activeShape._dragOffsetY, 0, maxY);
+
+  const now = performance.now();
+  const dt = Math.max(16, now - lastDragTime);
+
+  p.vx = ((e.clientX - lastDragX) / dt) * 4.2;
+  p.vy = ((e.clientY - lastDragY) / dt) * 4.2;
+  p.x = newX;
+  p.y = newY;
+
+  lastDragX = e.clientX;
+  lastDragY = e.clientY;
+  lastDragTime = now;
+
+  renderShape(activeShape);
+}
+
+function stopDrag(e){
+  if (!activeShape) return;
+  if (e && dragPointerId !== null && e.pointerId !== undefined && e.pointerId !== dragPointerId) return;
+
+  activeShape.classList.remove("dragging");
+  activeShape._physics.isDragging = false;
+  activeShape = null;
+  dragPointerId = null;
+}
+
+floatingShapes.forEach(shape => {
+  shape.addEventListener("pointerdown", startDrag);
+});
+
+window.addEventListener("pointermove", onPointerMove);
+window.addEventListener("pointerup", stopDrag);
+window.addEventListener("pointercancel", stopDrag);
+
 function setTiltFromPointer(x, y){
   const nx = (x / window.innerWidth) - 0.5;
   const ny = (y / window.innerHeight) - 0.5;
-  tiltState.x = clamp(nx * 20, -10, 10);
-  tiltState.y = clamp(ny * 20, -10, 10);
-  updateAllShapeTransforms();
+
+  physicsState.pointerTiltX = clamp(nx * 0.22, -0.16, 0.16);
+  physicsState.pointerTiltY = clamp(ny * 0.24, -0.12, 0.18);
+
+  physicsState.gravityX = physicsState.pointerTiltX;
+  physicsState.gravityY = 0.03 + physicsState.pointerTiltY;
 }
 
 window.addEventListener("mousemove", e => {
@@ -1918,18 +1823,16 @@ window.addEventListener("mousemove", e => {
 });
 
 window.addEventListener("mouseleave", () => {
-  tiltState.x = 0;
-  tiltState.y = 0;
-  updateAllShapeTransforms();
+  physicsState.gravityX *= 0.35;
+  physicsState.gravityY = 0.03;
 });
 
 function handleOrientation(event){
-  const gamma = clamp(event.gamma || 0, -20, 20);
-  const beta = clamp(event.beta || 0, -20, 20);
+  const gamma = clamp(event.gamma || 0, -25, 25);
+  const beta = clamp(event.beta || 0, -25, 25);
 
-  tiltState.x = gamma * 0.6;
-  tiltState.y = beta * 0.35;
-  updateAllShapeTransforms();
+  physicsState.gravityX = gamma * 0.012;
+  physicsState.gravityY = 0.02 + beta * 0.008;
 }
 
 let orientationStarted = false;
@@ -1954,7 +1857,12 @@ async function enableDeviceOrientation(){
 window.addEventListener("touchstart", enableDeviceOrientation, { once:true, passive:true });
 window.addEventListener("click", enableDeviceOrientation, { once:true });
 
-window.addEventListener("resize", updateAllShapeTransforms);
+window.addEventListener("resize", () => {
+  initializeFloatingShapes(true);
+});
+
+initializeFloatingShapes();
+requestAnimationFrame(stepPhysics);
 </script>
 </body>
 </html>
