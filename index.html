@@ -3,35 +3,33 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>UNGADRAKEN — Internet Archive</title>
+<title>UNGADRAKEN</title>
 <style>
 :root{
-  --bg:#e8e5de;
-  --paper:#f5f2ea;
-  --paper-2:#fbf8f1;
-  --blue:#1d39d8;
-  --blue-2:#2f58ff;
-  --red:#c9192e;
-  --green:#9cf159;
-  --yellow:#efe67c;
-  --pink:#f2b5d4;
-  --ink:#111111;
-  --line:rgba(0,0,0,.18);
-  --line-strong:rgba(0,0,0,.35);
-  --muted:rgba(0,0,0,.6);
+  --bg:#e7e4dd;
+  --paper:#f5f3ee;
+  --paper-2:#fbfaf7;
+  --panel:#dfe4ea;
+  --panel-2:#d2d7de;
+  --bar:#cfcac2;
+  --blue:#2b46c7;
+  --blue-dark:#1f3291;
+  --gray:#727983;
+  --gray-dark:#4f5560;
+  --ink:#141414;
+  --line:rgba(0,0,0,.20);
+  --line-strong:rgba(0,0,0,.34);
+  --muted:rgba(0,0,0,.62);
 
-  --site-max:1500px;
+  --site-max:1480px;
   --page-pad:clamp(12px,2vw,24px);
   --section-gap:clamp(14px,1.8vw,24px);
 
-  --ui:clamp(10px,.72vw,12px);
-  --meta:clamp(11px,.78vw,13px);
-  --copy:clamp(13px,.9vw,16px);
-  --title:clamp(34px,7.4vw,130px);
-  --hero:clamp(56px,13vw,220px);
+  --ui:clamp(10px,.74vw,12px);
+  --copy:clamp(13px,.95vw,16px);
+  --title:clamp(34px,7vw,110px);
 
   --mono:"Courier New", Courier, monospace;
-  --sans:Helvetica, Arial, sans-serif;
 }
 
 *{box-sizing:border-box;}
@@ -44,6 +42,8 @@ body{
   font-kerning:none;
   font-variant-ligatures:none;
   position:relative;
+  letter-spacing:.12em;
+  line-height:1.45;
 }
 
 body::before{
@@ -52,11 +52,11 @@ body::before{
   inset:0;
   pointer-events:none;
   z-index:1;
-  opacity:.08;
+  opacity:.07;
   background-image:
-    radial-gradient(circle at 20% 30%, rgba(0,0,0,.16) 0 1px, transparent 1.6px),
-    radial-gradient(circle at 78% 65%, rgba(0,0,0,.12) 0 1px, transparent 1.8px),
-    radial-gradient(circle at 44% 82%, rgba(0,0,0,.1) 0 1px, transparent 1.7px),
+    radial-gradient(circle at 20% 30%, rgba(0,0,0,.15) 0 1px, transparent 1.7px),
+    radial-gradient(circle at 78% 65%, rgba(0,0,0,.11) 0 1px, transparent 1.9px),
+    radial-gradient(circle at 44% 82%, rgba(0,0,0,.09) 0 1px, transparent 1.8px),
     linear-gradient(90deg, transparent 0 11%, rgba(0,0,0,.03) 11.15%, transparent 11.3%),
     linear-gradient(0deg, transparent 0 77%, rgba(0,0,0,.03) 77.1%, transparent 77.3%);
   background-size:13px 13px, 17px 17px, 15px 15px, 100% 100%, 100% 100%;
@@ -65,7 +65,7 @@ body::before{
 
 a{color:inherit;text-decoration:none;}
 img{display:block;max-width:100%;height:auto;}
-button,input{font:inherit;}
+button{font:inherit;}
 
 .site{position:relative;z-index:2;}
 .shell{max-width:var(--site-max);margin:0 auto;padding:0 var(--page-pad);}
@@ -74,8 +74,8 @@ button,input{font:inherit;}
   position:sticky;
   top:0;
   z-index:40;
-  background:rgba(232,229,222,.92);
-  backdrop-filter:blur(6px);
+  background:rgba(231,228,221,.94);
+  backdrop-filter:blur(5px);
   border-bottom:1px solid var(--line-strong);
 }
 .topbar-inner{
@@ -87,35 +87,28 @@ button,input{font:inherit;}
   gap:10px;
   align-items:start;
 }
-.brand{
-  min-width:0;
-}
-.brand-main{
-  font-size:clamp(13px,1vw,15px);
-  letter-spacing:.18em;
+.brand-main,
+.brand-sub,
+.nav a,
+.menu-toggle,
+.window-bar,
+.section-code,
+.poster-meta,
+.contact-label,
+.footer-inner{
   text-transform:uppercase;
-}
-.brand-sub{
-  margin-top:3px;
-  font-size:var(--ui);
   letter-spacing:.16em;
-  text-transform:uppercase;
-  color:var(--muted);
+  line-height:1.35;
 }
-.nav{
-  display:flex;
-  flex-wrap:wrap;
-  justify-content:flex-end;
-  gap:6px;
-}
+.brand-main{font-size:clamp(13px,1vw,15px);}
+.brand-sub{margin-top:3px;font-size:var(--ui);color:var(--muted);}
+.nav{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:6px;}
 .nav a,
 .menu-toggle{
   border:1px solid var(--line-strong);
   background:var(--paper-2);
   padding:8px 10px;
   font-size:var(--ui);
-  text-transform:uppercase;
-  letter-spacing:.16em;
 }
 .nav a.active,
 .nav a:hover,
@@ -133,24 +126,19 @@ button,input{font:inherit;}
   justify-content:space-between;
   gap:10px;
   padding:8px 10px;
-  background:#d9d6cf;
+  background:var(--bar);
   border-bottom:1px solid var(--line-strong);
   font-size:var(--ui);
-  letter-spacing:.12em;
-  text-transform:uppercase;
 }
 .window-dots{display:flex;gap:5px;}
 .window-dots span{width:10px;height:10px;border:1px solid var(--line-strong);background:#f7f4ec;display:block;}
 
-.page{
-  display:none;
-  padding:var(--section-gap) 0 28px;
-}
+.page{display:none;padding:var(--section-gap) 0 28px;}
 .page.active{display:block;}
 
 .hero-grid{
   display:grid;
-  grid-template-columns:minmax(0,1.2fr) minmax(320px,.8fr);
+  grid-template-columns:minmax(0,1.18fr) minmax(320px,.82fr);
   gap:var(--section-gap);
   min-height:calc(100vh - 110px);
 }
@@ -165,17 +153,10 @@ button,input{font:inherit;}
   overflow:hidden;
 }
 
-.hero-panel{
-  min-height:72vh;
-  background:
-    linear-gradient(180deg, #dde7ef 0 58%, var(--paper-2) 58% 100%);
-}
-.hero-panel::after{
-  content:"";
-  position:absolute;
-  left:0;right:0;bottom:0;
-  height:26%;
-  background:var(--red);
+.hero-panel,
+.poster-top,
+.contact-top{
+  background:linear-gradient(180deg, var(--panel) 0 61%, var(--paper-2) 61% 100%);
 }
 
 .gridlines,
@@ -185,95 +166,50 @@ button,input{font:inherit;}
   pointer-events:none;
 }
 .gridlines{
-  opacity:.18;
+  opacity:.16;
   background-image:
-    linear-gradient(rgba(0,0,0,.12) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,0,0,.12) 1px, transparent 1px);
+    linear-gradient(rgba(0,0,0,.10) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,.10) 1px, transparent 1px);
   background-size:42px 42px;
 }
 .scanlines{
-  opacity:.08;
-  background-image:linear-gradient(transparent 0 46%, rgba(0,0,0,.25) 46% 48%, transparent 48% 100%);
+  opacity:.07;
+  background-image:linear-gradient(transparent 0 46%, rgba(0,0,0,.20) 46% 48%, transparent 48% 100%);
   background-size:100% 4px;
 }
 
+.hero-panel{min-height:72vh;padding:16px;}
 .hero-copy,
 .poster-copy,
-.contact-copy{position:relative;z-index:4;}
-
-.hero-kicker{
-  position:absolute;
-  top:16px;
-  left:16px;
+.contact-copy{position:relative;z-index:3;}
+.section-code{
   font-size:var(--ui);
-  letter-spacing:.16em;
-  text-transform:uppercase;
+  color:var(--muted);
+  margin-bottom:14px;
 }
-.hero-word{
-  position:absolute;
-  left:3%;
-  right:3%;
-  line-height:.82;
-  font-weight:700;
+.hero-title,
+.poster-title,
+.contact-title,
+.index-name,
+.contact-value{
   text-transform:uppercase;
-  letter-spacing:-.08em;
-  white-space:nowrap;
+  letter-spacing:.12em;
+  line-height:1.12;
 }
-.hero-word.top{
-  top:7%;
-  font-size:var(--hero);
+.hero-title{
+  font-size:var(--title);
   color:var(--blue);
+  max-width:7ch;
+  margin:0;
 }
-.hero-word.bottom{
-  bottom:5%;
-  font-size:clamp(46px,12vw,200px);
-  color:#fff;
-}
-.hero-note{
-  position:absolute;
-  right:16px;
-  bottom:33%;
-  max-width:220px;
-  font-size:var(--ui);
-  line-height:1.45;
+.hero-summary{
+  margin:18px 0 0;
+  max-width:34rem;
+  font-size:var(--copy);
+  line-height:1.55;
   text-transform:uppercase;
-  letter-spacing:.14em;
-  text-align:right;
+  letter-spacing:.12em;
 }
-
-.shape,
-.bolt{
-  position:absolute;
-  z-index:3;
-  pointer-events:auto;
-  user-select:none;
-  touch-action:none;
-  cursor:grab;
-  will-change:transform;
-  filter:drop-shadow(0 10px 12px rgba(0,0,0,.14));
-}
-.shape.dragging,
-.bolt.dragging{cursor:grabbing;filter:drop-shadow(0 18px 18px rgba(0,0,0,.24));}
-.star{clip-path:polygon(50% 0%,60% 35%,100% 25%,72% 50%,100% 75%,60% 65%,50% 100%,40% 65%,0% 75%,28% 50%,0% 25%,40% 35%);}
-.burst{clip-path:polygon(50% 0%,57% 18%,70% 4%,68% 24%,90% 10%,78% 32%,100% 30%,82% 46%,100% 50%,82% 54%,100% 70%,78% 68%,90% 90%,68% 76%,70% 96%,57% 82%,50% 100%,43% 82%,30% 96%,32% 76%,10% 90%,22% 68%,0% 70%,18% 54%,0% 50%,18% 46%,0% 30%,22% 32%,10% 10%,32% 24%,30% 4%,43% 18%);}
-.diamond{clip-path:polygon(50% 0%,60% 24%,84% 16%,76% 40%,100% 50%,76% 60%,84% 84%,60% 76%,50% 100%,40% 76%,16% 84%,24% 60%,0% 50%,24% 40%,16% 16%,40% 24%);}
-.bolt{
-  background:currentColor;
-  -webkit-mask-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'><path d='M146 8L48 136h62l-18 112 116-150h-68l6-90z'/></svg>");
-  mask-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'><path d='M146 8L48 136h62l-18 112 116-150h-68l6-90z'/></svg>");
-  -webkit-mask-repeat:no-repeat;
-  mask-repeat:no-repeat;
-  -webkit-mask-size:contain;
-  mask-size:contain;
-  -webkit-mask-position:center;
-  mask-position:center;
-}
-
-.hero-bar{right:7%;top:19%;width:min(26vw,300px);height:min(7vw,84px);background:var(--blue-2);}
-.hero-star{left:14%;top:42%;width:min(18vw,210px);background:var(--pink);aspect-ratio:1;}
-.hero-burst{right:16%;top:52%;width:min(20vw,240px);background:var(--green);aspect-ratio:1;}
-.hero-bolt-a{left:70%;top:12%;width:min(9vw,86px);height:min(16vw,150px);color:var(--green);}
-.hero-bolt-b{left:8%;top:60%;width:min(8vw,74px);height:min(14vw,130px);color:var(--red);}
 
 .index-panel{
   min-height:72vh;
@@ -289,81 +225,49 @@ button,input{font:inherit;}
   border-bottom:1px solid var(--line-strong);
   min-height:120px;
   overflow:hidden;
+  background:linear-gradient(180deg, rgba(255,255,255,.46), rgba(210,215,222,.20)), var(--paper);
 }
 .index-link:last-child{border-bottom:0;}
 .index-link::before{
   content:"";
-  position:absolute;inset:0;
-  opacity:.18;
+  position:absolute;
+  inset:0;
+  opacity:.14;
   background-image:
-    linear-gradient(rgba(0,0,0,.1) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,0,0,.1) 1px, transparent 1px);
+    linear-gradient(rgba(0,0,0,.10) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,.10) 1px, transparent 1px);
   background-size:36px 36px;
 }
-.index-link:nth-child(1){background:linear-gradient(180deg, rgba(47,88,255,.08), rgba(255,255,255,.4)), var(--paper);}
-.index-link:nth-child(2){background:linear-gradient(180deg, rgba(201,25,46,.09), rgba(255,255,255,.42)), var(--paper);}
-.index-link:nth-child(3){background:linear-gradient(180deg, rgba(156,241,89,.11), rgba(255,255,255,.42)), var(--paper);}
-.index-link:nth-child(4){background:linear-gradient(180deg, rgba(242,181,212,.14), rgba(255,255,255,.42)), var(--paper);}
 .index-link:hover{background:var(--blue);color:#fff;}
 .index-num,
-.index-name{position:relative;z-index:2;text-transform:uppercase;}
-.index-num{position:absolute;top:12px;left:16px;font-size:var(--ui);letter-spacing:.16em;color:var(--muted);}
-.index-link:hover .index-num{color:rgba(255,255,255,.8);}
-.index-name{font-size:clamp(28px,5vw,64px);line-height:.9;letter-spacing:-.06em;font-weight:700;}
+.index-name{position:relative;z-index:2;}
+.index-num{position:absolute;top:12px;left:16px;font-size:var(--ui);color:var(--muted);}
+.index-link:hover .index-num{color:rgba(255,255,255,.82);}
+.index-name{font-size:clamp(22px,3.8vw,46px);font-weight:700;}
 
 .poster{background:var(--paper);}
 .poster-top{
   position:relative;
-  min-height:54vh;
+  min-height:38vh;
   border-bottom:1px solid var(--line-strong);
   overflow:hidden;
+  padding:16px;
 }
-.poster-top.editorial{background:linear-gradient(180deg, #dfe7ef 0 58%, var(--paper-2) 58% 100%);}
-.poster-top.commercial{background:linear-gradient(180deg, var(--red) 0 58%, var(--paper-2) 58% 100%);}
-.poster-top.personal{background:linear-gradient(180deg, var(--blue) 0 56%, #e8dd8c 56% 100%);}
 .poster-meta{
-  position:absolute;
-  top:16px;left:16px;
-  z-index:4;
+  position:relative;
+  z-index:3;
   font-size:var(--ui);
-  letter-spacing:.16em;
-  text-transform:uppercase;
+  color:var(--muted);
+  margin-bottom:16px;
 }
 .poster-title{
-  position:absolute;
-  left:3%;
-  bottom:6%;
-  z-index:4;
-  font-size:var(--hero);
-  line-height:.84;
+  position:relative;
+  z-index:3;
+  font-size:clamp(30px,6vw,78px);
+  color:var(--blue);
   font-weight:700;
-  letter-spacing:-.08em;
-  text-transform:uppercase;
-  white-space:nowrap;
+  margin:0;
 }
-.poster-top.commercial .poster-title{color:#fff;}
-.poster-top.personal .poster-title{color:var(--green);}
-.poster-top.editorial .poster-title{color:var(--ink);}
-.poster-note{
-  position:absolute;
-  right:18px;
-  top:18px;
-  z-index:4;
-  max-width:230px;
-  text-align:right;
-  font-size:var(--ui);
-  line-height:1.45;
-  letter-spacing:.14em;
-  text-transform:uppercase;
-}
-
-.poster-a{right:10%;top:18%;width:min(24vw,260px);height:min(6.5vw,74px);background:var(--blue-2);}
-.poster-b{left:10%;top:20%;width:min(14vw,150px);aspect-ratio:1;background:var(--pink);}
-.poster-c{right:30%;bottom:22%;width:min(10vw,110px);aspect-ratio:1;background:var(--green);}
-.poster-d{left:22%;bottom:18%;width:min(8vw,84px);aspect-ratio:1;background:var(--red);}
-.poster-e{right:8%;bottom:12%;width:min(7vw,72px);height:min(14vw,128px);color:var(--green);}
-.poster-f{right:25%;top:11%;width:min(5vw,54px);height:min(10vw,90px);color:var(--red);}
-.poster-g{left:35%;top:10%;width:min(5vw,54px);height:min(10vw,90px);color:var(--blue);}
 
 .poster-controls{
   padding:14px 16px;
@@ -371,20 +275,18 @@ button,input{font:inherit;}
   flex-wrap:wrap;
   gap:10px;
   border-bottom:1px solid var(--line-strong);
-  background:linear-gradient(90deg, rgba(255,255,255,.7), rgba(47,88,255,.06), rgba(242,181,212,.09));
+  background:linear-gradient(90deg, rgba(255,255,255,.72), rgba(210,215,222,.38));
 }
-.button,
 .poster-controls button{
   appearance:none;
   border:1px solid var(--line-strong);
   background:#fff;
   padding:10px 12px;
   font-size:var(--ui);
-  letter-spacing:.16em;
   text-transform:uppercase;
+  letter-spacing:.16em;
   cursor:pointer;
 }
-.button:hover,
 .poster-controls button:hover{background:var(--blue);color:#fff;border-color:var(--blue);}
 
 .stack-shell{padding:16px;background:var(--paper-2);}
@@ -402,9 +304,12 @@ button,input{font:inherit;}
 }
 .image-card::before{
   content:"";
-  position:absolute;inset:0;
+  position:absolute;
+  inset:0;
   opacity:.06;
-  background-image:linear-gradient(rgba(0,0,0,.14) 1px, transparent 1px),linear-gradient(90deg, rgba(0,0,0,.14) 1px, transparent 1px);
+  background-image:
+    linear-gradient(rgba(0,0,0,.14) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,.14) 1px, transparent 1px);
   background-size:28px 28px;
 }
 .image-card img{position:relative;z-index:1;max-height:78vh;width:auto;height:auto;object-fit:contain;}
@@ -412,42 +317,20 @@ button,input{font:inherit;}
 .contact-panel{background:var(--paper);}
 .contact-top{
   position:relative;
-  min-height:42vh;
+  min-height:28vh;
   border-bottom:1px solid var(--line-strong);
   overflow:hidden;
-  background:linear-gradient(180deg, var(--pink) 0 60%, var(--paper-2) 60% 100%);
-}
-.contact-kicker{
-  position:absolute;
-  left:16px;top:16px;
-  z-index:4;
-  max-width:260px;
-  font-size:var(--ui);
-  letter-spacing:.16em;
-  line-height:1.45;
-  text-transform:uppercase;
+  padding:16px;
 }
 .contact-title{
-  position:absolute;
-  left:3%;bottom:8%;
-  z-index:4;
-  font-size:var(--hero);
-  line-height:.84;
+  position:relative;
+  z-index:3;
+  font-size:clamp(30px,6vw,78px);
+  color:var(--blue);
   font-weight:700;
-  letter-spacing:-.08em;
-  text-transform:uppercase;
-  color:#fff;
+  margin:0;
 }
-.contact-star-a{right:9%;top:18%;width:min(15vw,180px);aspect-ratio:1;background:var(--green);}
-.contact-star-b{left:18%;top:15%;width:min(10vw,108px);aspect-ratio:1;background:#dce8f0;}
-.contact-star-c{right:28%;bottom:19%;width:min(7vw,74px);aspect-ratio:1;background:var(--red);}
-.contact-bolt-a{right:15%;bottom:14%;width:min(6vw,60px);height:min(11vw,110px);color:var(--green);}
-.contact-bolt-b{left:32%;top:16%;width:min(5vw,52px);height:min(9vw,86px);color:var(--red);}
-
-.contact-grid{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-}
+.contact-grid{display:grid;grid-template-columns:repeat(4,1fr);}
 .contact-box{
   min-height:180px;
   padding:18px;
@@ -455,26 +338,15 @@ button,input{font:inherit;}
   background:linear-gradient(135deg, rgba(255,255,255,.68), rgba(255,255,255,.42));
 }
 .contact-box:last-child{border-right:0;}
-.contact-label{
-  font-size:var(--ui);
-  letter-spacing:.16em;
-  text-transform:uppercase;
-  color:var(--muted);
-  margin-bottom:16px;
-}
+.contact-label{font-size:var(--ui);color:var(--muted);margin-bottom:16px;}
 .contact-value{
-  font-family:var(--sans);
-  font-size:clamp(18px,2vw,28px);
-  line-height:1.02;
-  letter-spacing:-.03em;
-  text-transform:uppercase;
-  font-weight:800;
+  font-size:clamp(18px,2vw,26px);
+  font-weight:700;
+  font-family:var(--mono);
   word-break:break-word;
 }
 
-.footer{
-  padding:0 0 24px;
-}
+.footer{padding:0 0 24px;}
 .footer-inner{
   max-width:var(--site-max);
   margin:0 auto;
@@ -484,8 +356,6 @@ button,input{font:inherit;}
   gap:10px;
   flex-wrap:wrap;
   font-size:var(--ui);
-  letter-spacing:.16em;
-  text-transform:uppercase;
   color:var(--muted);
 }
 
@@ -503,20 +373,13 @@ button,input{font:inherit;}
   .nav{display:none;justify-content:flex-start;}
   .nav.open{display:flex;}
   .page{padding-top:12px;}
-  .poster-top,.contact-top,.hero-panel{min-height:46vh;}
+  .hero-panel,.poster-top,.contact-top{min-height:auto;}
   .image-card{min-height:56vh;}
-  .hero-note,.poster-note{max-width:180px;}
 }
 
 @media (max-width:620px){
-  :root{--hero:clamp(42px,15vw,110px);}
-  .hero-word.top{font-size:15vw;}
-  .hero-word.bottom{font-size:14vw;}
-  .poster-title,.contact-title{font-size:14vw;}
-  .hero-note{font-size:10px;max-width:42%;bottom:32%;right:12px;}
-  .poster-note{display:none;}
   .index-link{min-height:96px;padding:14px;}
-  .index-name{font-size:clamp(22px,8vw,38px);}
+  .index-name{font-size:clamp(20px,8vw,34px);}
   .poster-controls button{width:100%;}
   .stack-shell{padding:12px;}
   .image-card{min-height:46vh;padding:12px;}
@@ -524,13 +387,12 @@ button,input{font:inherit;}
   .contact-grid{grid-template-columns:1fr;}
   .contact-box{border-right:0;border-bottom:1px solid var(--line-strong);min-height:126px;}
   .contact-box:last-child{border-bottom:0;}
-  .contact-kicker{max-width:58%;}
 }
 
 @media (max-width:420px){
   .nav a,.menu-toggle{padding:7px 8px;font-size:10px;}
   .window-bar{font-size:10px;}
-  .hero-kicker,.poster-meta,.contact-kicker,.hero-note{font-size:10px;}
+  .hero-summary{font-size:12px;}
 }
 </style>
 </head>
@@ -540,7 +402,7 @@ button,input{font:inherit;}
     <div class="topbar-inner">
       <div class="brand">
         <div class="brand-main">UNGADRAKEN</div>
-        <div class="brand-sub">image archive / fashion / editorial / commercial / personal</div>
+        <div class="brand-sub">EDITORIAL / COMMERCIAL / PERSONAL</div>
       </div>
       <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
       <nav class="nav" id="site-nav">
@@ -556,24 +418,18 @@ button,input{font:inherit;}
   <main class="shell">
     <section class="page" id="home" data-page>
       <div class="window-bar screen">
-        <span>Archive Browser</span>
+        <span>UNGADRAKEN</span>
         <div class="window-dots"><span></span><span></span><span></span></div>
       </div>
       <div class="hero-grid">
-        <div class="hero-panel physics-zone screen">
+        <div class="hero-panel screen">
           <div class="gridlines"></div>
           <div class="scanlines"></div>
           <div class="hero-copy">
-            <div class="hero-kicker">UNGADRAKEN / Internet Image Archive / Since Now</div>
-            <div class="hero-word top">IMAGE</div>
-            <div class="hero-note">fashion photography / personal work / commercial projects / selected archive</div>
-            <div class="hero-word bottom">ARCHIVE</div>
+            <div class="section-code">01 / ARCHIVE</div>
+            <h1 class="hero-title">IMAGE ARCHIVE</h1>
+            <p class="hero-summary">FASHION PHOTOGRAPHY, EDITORIAL WORK, PERSONAL STUDIES, AND COMMERCIAL PROJECTS.</p>
           </div>
-          <div class="shape hero-bar" data-depth="0.34" data-rotate="-5"></div>
-          <div class="shape star hero-star" data-depth="0.52" data-rotate="-12"></div>
-          <div class="shape burst hero-burst" data-depth="0.62" data-rotate="8"></div>
-          <div class="bolt hero-bolt-a" data-depth="0.68" data-rotate="10"></div>
-          <div class="bolt hero-bolt-b" data-depth="0.54" data-rotate="-10"></div>
         </div>
 
         <div class="index-panel screen">
@@ -599,20 +455,14 @@ button,input{font:inherit;}
 
     <section class="page" id="editorial" data-page>
       <div class="poster screen">
-        <div class="window-bar"><span>Entry 01 / Editorial</span><div class="window-dots"><span></span><span></span><span></span></div></div>
-        <div class="poster-top editorial physics-zone">
+        <div class="window-bar"><span>Editorial</span><div class="window-dots"><span></span><span></span><span></span></div></div>
+        <div class="poster-top editorial">
           <div class="gridlines"></div>
           <div class="scanlines"></div>
-          <div class="poster-meta">Archive Entry 01</div>
-          <div class="poster-note">selected stories / fashion-led image making / editorial archive</div>
-          <div class="poster-title">EDITORIAL</div>
-          <div class="shape poster-a" data-depth="0.34" data-rotate="-5"></div>
-          <div class="shape star poster-b" data-depth="0.52" data-rotate="-10"></div>
-          <div class="shape burst poster-c" data-depth="0.60" data-rotate="8"></div>
-          <div class="shape diamond poster-d" data-depth="0.44" data-rotate="15"></div>
-          <div class="bolt poster-e" data-depth="0.66" data-rotate="8"></div>
-          <div class="bolt poster-f" data-depth="0.50" data-rotate="-12"></div>
-          <div class="bolt poster-g" data-depth="0.42" data-rotate="7"></div>
+          <div class="poster-copy">
+            <div class="poster-meta">01 / EDITORIAL</div>
+            <h2 class="poster-title">EDITORIAL</h2>
+          </div>
         </div>
         <div class="poster-controls">
           <button type="button" data-open-stack="editorial-stack">Open Images</button>
@@ -625,20 +475,14 @@ button,input{font:inherit;}
 
     <section class="page" id="commercial" data-page>
       <div class="poster screen">
-        <div class="window-bar"><span>Entry 02 / Commercial</span><div class="window-dots"><span></span><span></span><span></span></div></div>
-        <div class="poster-top commercial physics-zone">
+        <div class="window-bar"><span>Commercial</span><div class="window-dots"><span></span><span></span><span></span></div></div>
+        <div class="poster-top commercial">
           <div class="gridlines"></div>
           <div class="scanlines"></div>
-          <div class="poster-meta">Archive Entry 02</div>
-          <div class="poster-note">campaign work / client-facing image making / selected commissions</div>
-          <div class="poster-title">COMMERCIAL</div>
-          <div class="shape poster-a" data-depth="0.34" data-rotate="-6"></div>
-          <div class="shape star poster-b" data-depth="0.52" data-rotate="-10"></div>
-          <div class="shape burst poster-c" data-depth="0.60" data-rotate="8"></div>
-          <div class="shape diamond poster-d" data-depth="0.44" data-rotate="15"></div>
-          <div class="bolt poster-e" data-depth="0.66" data-rotate="8"></div>
-          <div class="bolt poster-f" data-depth="0.50" data-rotate="-12"></div>
-          <div class="bolt poster-g" data-depth="0.42" data-rotate="7"></div>
+          <div class="poster-copy">
+            <div class="poster-meta">02 / COMMERCIAL</div>
+            <h2 class="poster-title">COMMERCIAL</h2>
+          </div>
         </div>
         <div class="poster-controls">
           <button type="button" data-open-stack="commercial-stack">Open Images</button>
@@ -651,20 +495,14 @@ button,input{font:inherit;}
 
     <section class="page" id="personal" data-page>
       <div class="poster screen">
-        <div class="window-bar"><span>Entry 03 / Personal</span><div class="window-dots"><span></span><span></span><span></span></div></div>
-        <div class="poster-top personal physics-zone">
+        <div class="window-bar"><span>Personal</span><div class="window-dots"><span></span><span></span><span></span></div></div>
+        <div class="poster-top personal">
           <div class="gridlines"></div>
           <div class="scanlines"></div>
-          <div class="poster-meta">Archive Entry 03</div>
-          <div class="poster-note">private archive / studies / fragments / ongoing image diary</div>
-          <div class="poster-title">PERSONAL</div>
-          <div class="shape poster-a" data-depth="0.34" data-rotate="-6"></div>
-          <div class="shape star poster-b" data-depth="0.52" data-rotate="-10"></div>
-          <div class="shape burst poster-c" data-depth="0.60" data-rotate="8"></div>
-          <div class="shape diamond poster-d" data-depth="0.44" data-rotate="15"></div>
-          <div class="bolt poster-e" data-depth="0.66" data-rotate="8"></div>
-          <div class="bolt poster-f" data-depth="0.50" data-rotate="-12"></div>
-          <div class="bolt poster-g" data-depth="0.42" data-rotate="7"></div>
+          <div class="poster-copy">
+            <div class="poster-meta">03 / PERSONAL</div>
+            <h2 class="poster-title">PERSONAL</h2>
+          </div>
         </div>
         <div class="poster-controls">
           <button type="button" data-open-stack="personal-stack">Open Images</button>
@@ -677,17 +515,14 @@ button,input{font:inherit;}
 
     <section class="page" id="contact" data-page>
       <div class="contact-panel screen">
-        <div class="window-bar"><span>Contact / Bookings / Collaboration</span><div class="window-dots"><span></span><span></span><span></span></div></div>
-        <div class="contact-top physics-zone">
+        <div class="window-bar"><span>Contact</span><div class="window-dots"><span></span><span></span><span></span></div></div>
+        <div class="contact-top">
           <div class="gridlines"></div>
           <div class="scanlines"></div>
-          <div class="contact-kicker">Commission / Collaboration / Fashion / Editorial</div>
-          <div class="contact-title">CONTACT</div>
-          <div class="shape burst contact-star-a" data-depth="0.60" data-rotate="-8"></div>
-          <div class="shape star contact-star-b" data-depth="0.48" data-rotate="10"></div>
-          <div class="shape diamond contact-star-c" data-depth="0.40" data-rotate="16"></div>
-          <div class="bolt contact-bolt-a" data-depth="0.66" data-rotate="10"></div>
-          <div class="bolt contact-bolt-b" data-depth="0.50" data-rotate="-12"></div>
+          <div class="contact-copy">
+            <div class="poster-meta">04 / CONTACT</div>
+            <h2 class="contact-title">CONTACT</h2>
+          </div>
         </div>
         <div class="contact-grid">
           <div class="contact-box">
@@ -714,7 +549,6 @@ button,input{font:inherit;}
   <footer class="footer">
     <div class="footer-inner">
       <div>© <span id="year"></span> UNGADRAKEN</div>
-      <div>Responsive archive portfolio / mobile + desktop</div>
     </div>
   </footer>
 </div>
@@ -795,7 +629,6 @@ function showPage(pageId){
 
   closeStacks();
   window.scrollTo({ top: 0, behavior: "auto" });
-  setTimeout(() => initializeFloating(true), 80);
 }
 
 window.addEventListener("hashchange", () => {
@@ -821,195 +654,6 @@ stackButtons.forEach((button) => {
     }
   });
 });
-
-const floaters = [...document.querySelectorAll(".shape, .bolt")];
-const physics = { gravityX: 0, gravityY: 0.03 };
-let active = null;
-let pointerId = null;
-let lastX = 0;
-let lastY = 0;
-let lastTime = 0;
-
-function clamp(value, min, max){
-  return Math.max(min, Math.min(max, value));
-}
-
-function initializeFloating(force = false){
-  floaters.forEach((el) => {
-    if (el._p && !force) return;
-
-    const zone = el.closest(".physics-zone") || el.parentElement;
-    const zoneRect = zone.getBoundingClientRect();
-    const rect = el.getBoundingClientRect();
-
-    let x = rect.left - zoneRect.left;
-    let y = rect.top - zoneRect.top;
-
-    if (force && el._p) {
-      x = clamp(el._p.x, 0, Math.max(0, zone.clientWidth - el.offsetWidth));
-      y = clamp(el._p.y, 0, Math.max(0, zone.clientHeight - el.offsetHeight));
-    }
-
-    el._p = {
-      zone,
-      x,
-      y,
-      vx:(Math.random() - 0.5) * 0.6,
-      vy:(Math.random() - 0.5) * 0.6,
-      rotate: parseFloat(el.dataset.rotate || 0),
-      depth: parseFloat(el.dataset.depth || 0.5),
-      drift:(Math.random() - 0.5) * 0.02,
-      bob:Math.random() * Math.PI * 2,
-      dragging:false
-    };
-
-    el.style.left = "0px";
-    el.style.top = "0px";
-    render(el);
-  });
-}
-
-function render(el){
-  const p = el._p;
-  if (!p) return;
-  const t = performance.now();
-  const bobX = Math.sin(t * 0.001 + p.bob) * (1 + p.depth * 1.5);
-  const bobY = Math.cos(t * 0.0012 + p.bob) * (1 + p.depth * 1.3);
-  el.style.transform = `translate3d(${p.x + bobX}px, ${p.y + bobY}px, 0) rotate(${p.rotate}deg)`;
-}
-
-function step(){
-  floaters.forEach((el) => {
-    const p = el._p;
-    if (!p) return;
-
-    const zoneW = p.zone.clientWidth;
-    const zoneH = p.zone.clientHeight;
-    const elW = el.offsetWidth;
-    const elH = el.offsetHeight;
-
-    if (!p.dragging) {
-      p.vx += physics.gravityX * (0.18 + p.depth * 0.18) + p.drift;
-      p.vy += physics.gravityY * (0.18 + p.depth * 0.22);
-      p.vx *= 0.988;
-      p.vy *= 0.988;
-      p.x += p.vx;
-      p.y += p.vy;
-
-      const maxX = Math.max(0, zoneW - elW);
-      const maxY = Math.max(0, zoneH - elH);
-
-      if (p.x <= 0) { p.x = 0; p.vx *= -0.82; }
-      else if (p.x >= maxX) { p.x = maxX; p.vx *= -0.82; }
-
-      if (p.y <= 0) { p.y = 0; p.vy *= -0.82; }
-      else if (p.y >= maxY) { p.y = maxY; p.vy *= -0.82; }
-    }
-
-    render(el);
-  });
-
-  requestAnimationFrame(step);
-}
-
-function dragStart(e){
-  const el = e.currentTarget;
-  const p = el._p;
-  if (!p) return;
-
-  active = el;
-  pointerId = e.pointerId;
-  p.dragging = true;
-  el.classList.add("dragging");
-
-  const zoneRect = p.zone.getBoundingClientRect();
-  const px = e.clientX - zoneRect.left;
-  const py = e.clientY - zoneRect.top;
-  el._offsetX = px - p.x;
-  el._offsetY = py - p.y;
-
-  lastX = e.clientX;
-  lastY = e.clientY;
-  lastTime = performance.now();
-  el.setPointerCapture?.(e.pointerId);
-}
-
-function dragMove(e){
-  if (!active || pointerId !== e.pointerId || !active._p) return;
-  const p = active._p;
-  const zoneRect = p.zone.getBoundingClientRect();
-  const maxX = Math.max(0, p.zone.clientWidth - active.offsetWidth);
-  const maxY = Math.max(0, p.zone.clientHeight - active.offsetHeight);
-
-  const px = e.clientX - zoneRect.left;
-  const py = e.clientY - zoneRect.top;
-  p.x = clamp(px - active._offsetX, 0, maxX);
-  p.y = clamp(py - active._offsetY, 0, maxY);
-
-  const now = performance.now();
-  const dt = Math.max(16, now - lastTime);
-  p.vx = ((e.clientX - lastX) / dt) * 4;
-  p.vy = ((e.clientY - lastY) / dt) * 4;
-  lastX = e.clientX;
-  lastY = e.clientY;
-  lastTime = now;
-  render(active);
-}
-
-function dragEnd(e){
-  if (!active) return;
-  if (e && e.pointerId !== undefined && pointerId !== null && e.pointerId !== pointerId) return;
-  active.classList.remove("dragging");
-  active._p.dragging = false;
-  active = null;
-  pointerId = null;
-}
-
-floaters.forEach((el) => el.addEventListener("pointerdown", dragStart));
-window.addEventListener("pointermove", dragMove);
-window.addEventListener("pointerup", dragEnd);
-window.addEventListener("pointercancel", dragEnd);
-
-window.addEventListener("mousemove", (e) => {
-  if (!window.matchMedia("(pointer:fine)").matches || active) return;
-  const nx = (e.clientX / window.innerWidth) - 0.5;
-  const ny = (e.clientY / window.innerHeight) - 0.5;
-  physics.gravityX = clamp(nx * 0.22, -0.14, 0.14);
-  physics.gravityY = 0.03 + clamp(ny * 0.2, -0.08, 0.14);
-});
-
-window.addEventListener("mouseleave", () => {
-  physics.gravityX *= 0.35;
-  physics.gravityY = 0.03;
-});
-
-function orientationMove(event){
-  const gamma = clamp(event.gamma || 0, -25, 25);
-  const beta = clamp(event.beta || 0, -25, 25);
-  physics.gravityX = gamma * 0.012;
-  physics.gravityY = 0.02 + beta * 0.008;
-}
-
-let orientationEnabled = false;
-async function enableOrientation(){
-  if (orientationEnabled) return;
-  orientationEnabled = true;
-  if (typeof DeviceOrientationEvent !== "undefined" && typeof DeviceOrientationEvent.requestPermission === "function") {
-    try {
-      const permission = await DeviceOrientationEvent.requestPermission();
-      if (permission === "granted") window.addEventListener("deviceorientation", orientationMove, true);
-    } catch {}
-  } else if ("DeviceOrientationEvent" in window) {
-    window.addEventListener("deviceorientation", orientationMove, true);
-  }
-}
-
-window.addEventListener("touchstart", enableOrientation, { once:true, passive:true });
-window.addEventListener("click", enableOrientation, { once:true });
-window.addEventListener("resize", () => initializeFloating(true));
-
-initializeFloating();
-requestAnimationFrame(step);
 </script>
 </body>
 </html>
