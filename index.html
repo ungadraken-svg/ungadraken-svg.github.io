@@ -1,676 +1,1856 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>UNGADRAKEN</title>
-<style>
-:root{
-  --bg:#e7e4dd;
-  --paper:#f4f1ea;
-  --paper-2:#f8f6f0;
-  --panel:#ece9e2;
-  --bar:#d2cdc4;
-  --ink:#2a2926;
-  --line:rgba(54,50,45,.26);
-  --line-strong:rgba(44,40,36,.42);
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UNGADRAKEN Desktop</title>
+    <meta name="description" content="UNGADRAKEN portfolio desktop." />
+    <style>
+      :root {
+        --desktop-sky: #5ea2ff;
+        --desktop-sky-dark: #2d68cf;
+        --desktop-hill: #7fbe2d;
+        --desktop-hill-dark: #4a8d11;
+        --window: #ece9d8;
+        --window-dark: #d4d0c8;
+        --window-line: #808080;
+        --title-start: #0a2f92;
+        --title-end: #2f6be8;
+        --title-inactive: #7c7c7c;
+        --text: #000000;
+        --taskbar: #d4d0c8;
+        --taskbar-line: #8f8b84;
+        --button-face: #d4d0c8;
+        --button-highlight: #ffffff;
+        --button-shadow: #808080;
+        --button-dark-shadow: #404040;
+        --desktop-text: #ffffff;
+        --selection: rgba(10, 47, 146, 0.35);
+      }
 
-  --site-max:1480px;
-  --page-pad:clamp(12px,2vw,24px);
-  --section-gap:clamp(14px,1.8vw,24px);
+      * {
+        box-sizing: border-box;
+      }
 
-  --ui:clamp(10px,.74vw,12px);
-  --copy:clamp(12px,.9vw,14px);
-  --title:clamp(15px,1.45vw,20px);
-  --title-large:clamp(16px,1.7vw,22px);
+      html,
+      body {
+        height: 100%;
+      }
 
-  --mono:"Courier New", Courier, monospace;
-}
+      body {
+        margin: 0;
+        overflow: hidden;
+        color: var(--text);
+        font-family: Tahoma, "MS Sans Serif", Verdana, sans-serif;
+        font-size: 12px;
+        background: #000 url("assets/images/desktop-wallpaper.jpg") center center / cover no-repeat fixed;
+      }
 
-*{box-sizing:border-box;}
-html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);}
-html{scroll-behavior:smooth;}
-body{
-  font-family:var(--mono);
-  overflow-x:hidden;
-  text-rendering:geometricPrecision;
-  font-kerning:none;
-  font-variant-ligatures:none;
-  position:relative;
-  letter-spacing:.16em;
-  line-height:1.5;
-}
+      button,
+      input {
+        font: inherit;
+      }
 
-body::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  z-index:1;
-  opacity:.05;
-  background-image:
-    radial-gradient(circle at 20% 30%, rgba(0,0,0,.15) 0 1px, transparent 1.7px),
-    radial-gradient(circle at 78% 65%, rgba(0,0,0,.11) 0 1px, transparent 1.9px),
-    radial-gradient(circle at 44% 82%, rgba(0,0,0,.09) 0 1px, transparent 1.8px),
-    linear-gradient(90deg, transparent 0 11%, rgba(0,0,0,.03) 11.15%, transparent 11.3%),
-    linear-gradient(0deg, transparent 0 77%, rgba(0,0,0,.03) 77.1%, transparent 77.3%);
-  background-size:13px 13px, 17px 17px, 15px 15px, 100% 100%, 100% 100%;
-  mix-blend-mode:multiply;
-}
+      .desktop {
+        position: fixed;
+        inset: 0;
+        padding: 10px 10px 42px;
+      }
 
-a{color:inherit;text-decoration:none;}
-img{display:block;max-width:100%;height:auto;}
-button{font:inherit;}
+      .desktop-icons {
+        position: relative;
+        width: 100%;
+        height: calc(100vh - 52px);
+      }
 
-.site{position:relative;z-index:2;}
-.shell{max-width:var(--site-max);margin:0 auto;padding:0 var(--page-pad);}
+      .desktop-icon {
+        position: absolute;
+        width: 106px;
+        border: 1px solid transparent;
+        background: transparent;
+        color: var(--desktop-text);
+        display: grid;
+        justify-items: center;
+        align-content: start;
+        gap: 4px;
+        padding: 4px 2px;
+        text-align: center;
+        cursor: default;
+      }
 
-.topbar{
-  position:sticky;
-  top:0;
-  z-index:40;
-  background:rgba(231,228,221,.96);
-  backdrop-filter:blur(4px);
-  border-bottom:1px solid var(--line-strong);
-}
-.topbar-inner{
-  max-width:var(--site-max);
-  margin:0 auto;
-  padding:10px var(--page-pad);
-  display:grid;
-  grid-template-columns:1fr auto;
-  gap:10px;
-  align-items:start;
-}
-.brand-main,
-.brand-sub,
-.nav a,
-.menu-toggle,
-.window-bar,
-.section-code,
-.poster-meta,
-.contact-label,
-.footer-inner,
-.hero-summary,
-.hero-title,
-.poster-title,
-.contact-title,
-.index-name,
-.contact-value,
-.index-num{
-  text-transform:uppercase;
-  letter-spacing:.16em;
-  line-height:1.5;
-  font-family:var(--mono);
-  font-weight:400;
-  color:var(--ink);
-}
-.brand-main{font-size:clamp(13px,1vw,15px);}
-.brand-sub{margin-top:3px;font-size:var(--ui);}
-.nav{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:6px;}
-.nav a,
-.menu-toggle{
-  border:1px solid var(--line-strong);
-  background:var(--paper-2);
-  padding:8px 10px;
-  font-size:var(--ui);
-}
-.nav a.active,
-.nav a:hover,
-.menu-toggle:hover{background:var(--paper);color:var(--ink);border-color:var(--line-strong);}
-.menu-toggle{display:none;appearance:none;color:var(--ink);}
+      .desktop-icon.selected {
+        background: var(--selection);
+        border-color: rgba(255, 255, 255, 0.45);
+      }
 
-.frame,
-.screen,
-.text-frame,
-.index-link,
-.contact-box,
-.poster-controls button,
-.image-card,
-.hero-panel,
-.index-panel,
-.poster,
-.contact-panel,
-.poster-top,
-.contact-top,
-.stack-shell,
-.poster-controls{
-  position:relative;
-}
-.frame::after,
-.screen::after,
-.text-frame::after,
-.index-link::after,
-.contact-box::after,
-.poster-controls button::after,
-.image-card::after,
-.hero-panel::after,
-.index-panel::after,
-.poster::after,
-.contact-panel::after,
-.poster-top::after,
-.contact-top::after,
-.stack-shell::after,
-.poster-controls::after{
-  content:"";
-  position:absolute;
-  inset:4px;
-  border:1px solid rgba(44,40,36,.28);
-  pointer-events:none;
-}
+      .desktop-icon.preselected {
+        background: var(--selection);
+        border-color: rgba(255, 255, 255, 0.45);
+      }
 
-.screen{
-  border:1px solid var(--line-strong);
-  background:var(--paper);
-}
-.window-bar{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-  padding:8px 10px;
-  background:var(--bar);
-  border-bottom:1px solid var(--line-strong);
-  font-size:var(--ui);
-}
-.window-dots{display:flex;gap:5px;}
-.window-dots span{width:10px;height:10px;border:1px solid var(--line-strong);background:#f7f4ec;display:block;}
+      .desktop-icon:focus-visible {
+        outline: 1px dotted #fff;
+        outline-offset: -3px;
+      }
 
-.page{display:none;padding:var(--section-gap) 0 28px;}
-.page.active{display:block;}
+      .icon-label {
+        max-width: 102px;
+        line-height: 1.1;
+        text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.65);
+        font-size: 13px;
+      }
 
-.hero-grid{
-  display:grid;
-  grid-template-columns:minmax(0,1.18fr) minmax(320px,.82fr);
-  gap:var(--section-gap);
-  min-height:calc(100vh - 110px);
-}
+      .icon-art {
+        position: relative;
+        width: 47px;
+        height: 42px;
+      }
 
-.hero-panel,
-.index-panel,
-.poster,
-.contact-panel{
-  border:1px solid var(--line-strong);
-  background:var(--paper-2);
-  overflow:hidden;
-}
+      .icon-art.folder::before {
+        content: "";
+        position: absolute;
+        left: 3px;
+        top: 5px;
+        width: 18px;
+        height: 10px;
+        background: #f5df6f;
+        border: 1px solid #806400;
+        border-bottom: 0;
+      }
 
-.hero-panel,
-.poster-top,
-.contact-top,
-.index-panel,
-.index-link,
-.poster-controls,
-.stack-shell,
-.contact-box{
-  background:var(--paper-2);
-}
+      .icon-art.folder::after {
+        content: "";
+        position: absolute;
+        inset: 12px 1px 1px 1px;
+        background: linear-gradient(180deg, #fde89a 0%, #d8af20 100%);
+        border: 1px solid #806400;
+        border-radius: 1px;
+      }
 
-.gridlines,
-.scanlines{
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-}
-.gridlines{
-  opacity:.1;
-  background-image:
-    linear-gradient(rgba(0,0,0,.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,0,0,.08) 1px, transparent 1px);
-  background-size:42px 42px;
-}
-.scanlines{
-  opacity:.04;
-  background-image:linear-gradient(transparent 0 46%, rgba(0,0,0,.16) 46% 48%, transparent 48% 100%);
-  background-size:100% 4px;
-}
+      .icon-art.file::before {
+        content: "";
+        position: absolute;
+        inset: 1px 9px 1px 9px;
+        background: #fff;
+        border: 1px solid #666;
+        box-shadow: inset 0 -10px 0 #d6ecff;
+      }
 
-.hero-panel{min-height:72vh;padding:16px;}
-.hero-copy,
-.poster-copy,
-.contact-copy{position:relative;z-index:3;}
-.section-code{
-  font-size:var(--ui);
-  margin-bottom:14px;
-}
-.hero-title,
-.poster-title,
-.contact-title,
-.index-name,
-.contact-value{
-  font-size:var(--title-large);
-  margin:0;
-  max-width:none;
-}
-.hero-summary{
-  margin:18px 0 0;
-  max-width:40rem;
-  font-size:var(--copy);
-}
+      .icon-art.file::after {
+        content: "";
+        position: absolute;
+        right: 10px;
+        top: 1px;
+        border-left: 10px solid transparent;
+        border-bottom: 10px solid #d6ecff;
+      }
 
-.text-frame{
-  border:1px solid var(--line-strong);
-  padding:18px;
-  background:transparent;
-}
+      .icon-art.contact::before {
+        content: "";
+        position: absolute;
+        inset: 5px 5px auto 5px;
+        height: 29px;
+        background: #f3f3f3;
+        border: 1px solid #666;
+      }
 
-.index-panel{
-  min-height:72vh;
-  display:grid;
-  grid-template-rows:repeat(4,1fr);
-}
-.index-link{
-  display:flex;
-  align-items:flex-end;
-  padding:18px;
-  border-bottom:1px solid var(--line-strong);
-  min-height:120px;
-  overflow:hidden;
-}
-.index-link:last-child{border-bottom:0;}
-.index-link::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  opacity:.1;
-  background-image:
-    linear-gradient(rgba(0,0,0,.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,0,0,.08) 1px, transparent 1px);
-  background-size:36px 36px;
-}
-.index-link:hover{background:var(--paper);color:var(--ink);}
-.index-num,
-.index-name{position:relative;z-index:2;}
-.index-num{position:absolute;top:12px;left:16px;font-size:var(--ui);}
-.index-name{font-size:var(--title);}
+      .icon-art.contact::after {
+        content: "@";
+        position: absolute;
+        inset: 11px 0 0 0;
+        text-align: center;
+        font-weight: 700;
+        color: #1b4e9b;
+        font-size: 16px;
+      }
 
-.poster{background:var(--paper);}
-.poster-top{
-  min-height:30vh;
-  border-bottom:1px solid var(--line-strong);
-  overflow:hidden;
-  padding:16px;
-}
-.poster-meta{
-  position:relative;
-  z-index:3;
-  font-size:var(--ui);
-  margin-bottom:16px;
-}
-.poster-title{
-  position:relative;
-  z-index:3;
-}
+      .icon-art.app::before {
+        content: "";
+        position: absolute;
+        inset: 2px 5px 9px 5px;
+        background: linear-gradient(180deg, #b8d0ff 0%, #3870d8 100%);
+        border: 1px solid #163f87;
+      }
 
-.poster-controls{
-  padding:14px 16px;
-  display:flex;
-  flex-wrap:wrap;
-  gap:10px;
-  border-bottom:1px solid var(--line-strong);
-}
-.poster-controls button{
-  appearance:none;
-  border:1px solid var(--line-strong);
-  background:var(--paper);
-  padding:10px 12px;
-  font-size:var(--ui);
-  text-transform:uppercase;
-  letter-spacing:.16em;
-  cursor:pointer;
-  color:var(--ink);
-}
-.poster-controls button:hover{background:var(--paper);color:var(--ink);border-color:var(--line-strong);}
+      .icon-art.app::after {
+        content: "";
+        position: absolute;
+        left: 14px;
+        right: 14px;
+        bottom: 2px;
+        height: 5px;
+        background: #d4d0c8;
+        border: 1px solid #666;
+      }
 
-.stack-shell{padding:16px;}
-.image-stack{display:none;flex-direction:column;gap:18px;}
-.image-stack.active{display:flex;}
-.image-card{
-  border:1px solid var(--line-strong);
-  background:#fff;
-  min-height:72vh;
-  padding:18px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-.image-card::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  opacity:.04;
-  background-image:
-    linear-gradient(rgba(0,0,0,.10) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,0,0,.10) 1px, transparent 1px);
-  background-size:28px 28px;
-}
-.image-card img{position:relative;z-index:1;max-height:78vh;width:auto;height:auto;object-fit:contain;}
+      .icon-art.zip::before {
+        content: "";
+        position: absolute;
+        inset: 4px 9px 4px 9px;
+        background: #fff4b0;
+        border: 1px solid #8f7a00;
+      }
 
-.contact-panel{background:var(--paper);}
-.contact-top{
-  min-height:24vh;
-  border-bottom:1px solid var(--line-strong);
-  overflow:hidden;
-  padding:16px;
-}
-.contact-grid{display:grid;grid-template-columns:repeat(4,1fr);}
-.contact-box{
-  min-height:180px;
-  padding:18px;
-  border-right:1px solid var(--line-strong);
-}
-.contact-box:last-child{border-right:0;}
-.contact-label{font-size:var(--ui);margin-bottom:16px;}
-.contact-value{
-  font-size:clamp(12px,1.2vw,15px);
-  word-break:break-word;
-}
+      .icon-art.zip::after {
+        content: "";
+        position: absolute;
+        left: 21px;
+        top: 4px;
+        bottom: 4px;
+        width: 4px;
+        background: #7a7a7a;
+      }
 
-.footer{padding:0 0 24px;}
-.footer-inner{
-  max-width:var(--site-max);
-  margin:0 auto;
-  padding:0 var(--page-pad);
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
-  flex-wrap:wrap;
-  font-size:var(--ui);
-}
+      .window-layer {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+      }
 
-@media (max-width:1100px){
-  .hero-grid{grid-template-columns:1fr;min-height:auto;}
-  .hero-panel,.index-panel{min-height:auto;}
-  .contact-grid{grid-template-columns:repeat(2,1fr);}
-  .contact-box:nth-child(2n){border-right:0;}
-  .contact-box:nth-child(-n+2){border-bottom:1px solid var(--line-strong);}
-}
+      .window {
+        position: absolute;
+        min-width: 320px;
+        min-height: 220px;
+        background: var(--window);
+        border: 1px solid var(--window-line);
+        box-shadow:
+          inset 1px 1px 0 var(--button-highlight),
+          inset -1px -1px 0 var(--button-dark-shadow);
+        pointer-events: auto;
+      }
 
-@media (max-width:820px){
-  .topbar-inner{grid-template-columns:1fr;}
-  .menu-toggle{display:inline-block;justify-self:start;}
-  .nav{display:none;justify-content:flex-start;}
-  .nav.open{display:flex;}
-  .page{padding-top:12px;}
-  .hero-panel,.poster-top,.contact-top{min-height:auto;}
-  .image-card{min-height:56vh;}
-}
+      .window.hidden {
+        display: none;
+      }
 
-@media (max-width:620px){
-  .index-link{min-height:96px;padding:14px;}
-  .poster-controls button{width:100%;}
-  .stack-shell{padding:12px;}
-  .image-card{min-height:46vh;padding:12px;}
-  .image-card img{max-height:42vh;}
-  .contact-grid{grid-template-columns:1fr;}
-  .contact-box{border-right:0;border-bottom:1px solid var(--line-strong);min-height:126px;}
-  .contact-box:last-child{border-bottom:0;}
-}
+      .titlebar {
+        height: 28px;
+        padding: 3px 3px 3px 4px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        background: linear-gradient(90deg, var(--title-start), var(--title-end));
+        color: #fff;
+        cursor: move;
+        user-select: none;
+      }
 
-@media (max-width:420px){
-  .nav a,.menu-toggle{padding:7px 8px;font-size:10px;}
-  .window-bar{font-size:10px;}
-}
-</style>
-</head>
-<body>
-<div class="site">
-  <header class="topbar">
-    <div class="topbar-inner">
-      <div class="brand">
-        <div class="brand-main">UNGADRAKEN</div>
-        <div class="brand-sub">EDITORIAL / COMMERCIAL / PERSONAL</div>
-      </div>
-      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
-      <nav class="nav" id="site-nav">
-        <a href="#home" data-page-link="home">Home</a>
-        <a href="#editorial" data-page-link="editorial">Editorial</a>
-        <a href="#commercial" data-page-link="commercial">Commercial</a>
-        <a href="#personal" data-page-link="personal">Personal</a>
-        <a href="#contact" data-page-link="contact">Contact</a>
-      </nav>
+      .window.inactive .titlebar {
+        background: linear-gradient(90deg, var(--title-inactive), #b0b0b0);
+      }
+
+      .titlebar-left {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        min-width: 0;
+      }
+
+      .titlebar-text {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        font-weight: 700;
+      }
+
+      .titlebar-icon {
+        width: 16px;
+        height: 16px;
+        background: #fff;
+        border: 1px solid rgba(0, 0, 0, 0.55);
+      }
+
+      .window-controls {
+        display: flex;
+        gap: 2px;
+      }
+
+      .win-btn {
+        width: 22px;
+        height: 20px;
+        border: 1px solid var(--button-dark-shadow);
+        border-top-color: var(--button-highlight);
+        border-left-color: var(--button-highlight);
+        background: var(--button-face);
+        padding: 0;
+        display: grid;
+        place-items: center;
+        cursor: default;
+      }
+
+      .win-btn span {
+        display: block;
+        width: 10px;
+        height: 10px;
+        border-top: 2px solid #000;
+      }
+
+      .win-btn.close span {
+        border: 0;
+        position: relative;
+      }
+
+      .win-btn.close span::before,
+      .win-btn.close span::after {
+        content: "";
+        position: absolute;
+        left: 4px;
+        top: 0;
+        width: 2px;
+        height: 10px;
+        background: #000;
+      }
+
+      .win-btn.close span::before { transform: rotate(45deg); }
+      .win-btn.close span::after { transform: rotate(-45deg); }
+
+      .window-body {
+        display: grid;
+        grid-template-rows: auto auto 1fr auto;
+        height: calc(100% - 28px);
+      }
+
+      .menubar,
+      .toolbar,
+      .statusbar {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 4px 8px;
+        background: var(--window);
+        border-bottom: 1px solid #c7c7c7;
+      }
+
+      .statusbar {
+        border-top: 1px solid #c7c7c7;
+        border-bottom: 0;
+        justify-content: space-between;
+      }
+
+      .toolbar {
+        gap: 6px;
+      }
+
+      .tool-btn,
+      .address-box,
+      .sidebar-panel {
+        border: 1px solid #7f9db9;
+        background: #fff;
+      }
+
+      .tool-btn {
+        min-width: 48px;
+        padding: 2px 6px;
+        text-align: center;
+      }
+
+      .address-row {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 8px;
+        border-bottom: 1px solid #c7c7c7;
+      }
+
+      .address-box {
+        flex: 1;
+        padding: 3px 6px;
+        min-height: 24px;
+      }
+
+      .explorer {
+        display: grid;
+        grid-template-columns: 184px minmax(0, 1fr);
+        min-height: 0;
+        height: 100%;
+      }
+
+      .sidebar {
+        padding: 8px;
+        border-right: 1px solid #c7c7c7;
+        background: #f1f1f1;
+      }
+
+      .sidebar-panel {
+        padding: 8px;
+        min-height: 140px;
+      }
+
+      .sidebar-preview {
+        width: 48px;
+        height: 42px;
+        margin-bottom: 12px;
+        position: relative;
+        background: linear-gradient(180deg, #fde89a 0%, #d8af20 100%);
+        border: 1px solid #806400;
+      }
+
+      .sidebar-preview::before {
+        content: "";
+        position: absolute;
+        left: 2px;
+        top: -6px;
+        width: 16px;
+        height: 8px;
+        background: #f5df6f;
+        border: 1px solid #806400;
+        border-bottom: 0;
+      }
+
+      .sidebar-panel h3 {
+        margin: 0 0 6px;
+        font-size: 13px;
+      }
+
+      .folder-content {
+        background: #fff;
+        padding: 10px;
+        overflow: auto;
+      }
+
+      .file-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+        gap: 14px 10px;
+        align-content: start;
+      }
+
+      .file-item {
+        border: 1px solid transparent;
+        background: transparent;
+        display: grid;
+        justify-items: center;
+        gap: 6px;
+        padding: 6px 4px;
+        text-align: center;
+        cursor: default;
+      }
+
+      .file-item.selected {
+        background: #316ac5;
+        border-color: #316ac5;
+        color: #fff;
+      }
+
+      .thumb {
+        width: 76px;
+        height: 62px;
+        object-fit: cover;
+        border: 1px solid #808080;
+        background: #fff;
+      }
+
+      .thumb-placeholder {
+        width: 76px;
+        height: 62px;
+        border: 1px solid #808080;
+        background: linear-gradient(180deg, #ffffff 0%, #ece9d8 100%);
+        position: relative;
+      }
+
+      .thumb-placeholder.folder::before,
+      .thumb-placeholder.folder::after,
+      .thumb-placeholder.file::before,
+      .thumb-placeholder.file::after,
+      .thumb-placeholder.app::before,
+      .thumb-placeholder.app::after,
+      .thumb-placeholder.zip::before,
+      .thumb-placeholder.zip::after {
+        content: "";
+        position: absolute;
+      }
+
+      .thumb-placeholder.folder::before {
+        left: 12px;
+        top: 15px;
+        width: 20px;
+        height: 10px;
+        background: #f5df6f;
+        border: 1px solid #806400;
+        border-bottom: 0;
+      }
+
+      .thumb-placeholder.folder::after {
+        left: 10px;
+        right: 10px;
+        top: 24px;
+        bottom: 12px;
+        background: linear-gradient(180deg, #fde89a 0%, #d8af20 100%);
+        border: 1px solid #806400;
+      }
+
+      .thumb-placeholder.file::before {
+        inset: 8px 20px 8px 20px;
+        background: #fff;
+        border: 1px solid #666;
+        box-shadow: inset 0 -12px 0 #d6ecff;
+      }
+
+      .thumb-placeholder.file::after {
+        right: 20px;
+        top: 8px;
+        border-left: 12px solid transparent;
+        border-bottom: 12px solid #d6ecff;
+      }
+
+      .thumb-placeholder.app::before {
+        inset: 10px 14px 18px 14px;
+        background: linear-gradient(180deg, #b8d0ff 0%, #3870d8 100%);
+        border: 1px solid #163f87;
+      }
+
+      .thumb-placeholder.app::after {
+        left: 22px;
+        right: 22px;
+        bottom: 10px;
+        height: 6px;
+        background: #d4d0c8;
+        border: 1px solid #666;
+      }
+
+      .thumb-placeholder.zip::before {
+        inset: 10px 20px;
+        background: #fff4b0;
+        border: 1px solid #8f7a00;
+      }
+
+      .thumb-placeholder.zip::after {
+        left: 35px;
+        top: 10px;
+        bottom: 10px;
+        width: 5px;
+        background: #7a7a7a;
+      }
+
+      .viewer-body {
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+        height: calc(100% - 28px);
+      }
+
+      .viewer-toolbar {
+        display: flex;
+        justify-content: space-between;
+        gap: 8px;
+        padding: 6px 8px;
+        border-bottom: 1px solid #c7c7c7;
+      }
+
+      .viewer-stage {
+        background: #3f3f3f;
+        display: grid;
+        place-items: center;
+        padding: 10px;
+        overflow: auto;
+      }
+
+      .viewer-stage img {
+        display: block;
+        max-width: 100%;
+        max-height: 60vh;
+        width: auto;
+        height: auto;
+        border: 1px solid #000;
+        background: #fff;
+      }
+
+      .contact-panel {
+        padding: 14px;
+        display: grid;
+        gap: 12px;
+      }
+
+      .contact-panel a {
+        width: fit-content;
+        color: #003399;
+      }
+
+      .error-body {
+        padding: 16px 14px 12px;
+        display: grid;
+        gap: 16px;
+      }
+
+      .error-row {
+        display: grid;
+        grid-template-columns: 36px minmax(0, 1fr);
+        gap: 12px;
+        align-items: start;
+      }
+
+      .error-icon {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: #ffffff;
+        border: 2px solid #cc0000;
+        color: #cc0000;
+        display: grid;
+        place-items: center;
+        font-weight: 700;
+        font-size: 18px;
+      }
+
+      .error-actions {
+        display: flex;
+        justify-content: center;
+      }
+
+      .system-btn {
+        min-width: 78px;
+        padding: 4px 10px;
+        border: 1px solid var(--button-dark-shadow);
+        border-top-color: var(--button-highlight);
+        border-left-color: var(--button-highlight);
+        background: var(--button-face);
+      }
+
+      .taskbar {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 34px;
+        display: flex;
+        align-items: stretch;
+        gap: 6px;
+        padding: 3px 4px;
+        background: var(--taskbar);
+        border-top: 1px solid var(--button-highlight);
+      }
+
+      .start-btn,
+      .task-btn,
+      .tray {
+        border: 1px solid var(--button-dark-shadow);
+        border-top-color: var(--button-highlight);
+        border-left-color: var(--button-highlight);
+        background: var(--button-face);
+        display: flex;
+        align-items: center;
+      }
+
+      .start-btn {
+        padding: 0 12px;
+        font-weight: 700;
+      }
+
+      .task-buttons {
+        flex: 1;
+        display: flex;
+        gap: 4px;
+        min-width: 0;
+      }
+
+      .task-btn {
+        min-width: 160px;
+        max-width: 220px;
+        padding: 0 10px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+
+      .task-btn.inactive {
+        background: #c6c3bb;
+      }
+
+      .tray {
+        padding: 0 10px;
+        gap: 12px;
+      }
+
+      @media (max-width: 900px) {
+        body {
+          overflow: auto;
+        }
+
+        .desktop {
+          position: relative;
+          min-height: 100vh;
+          padding: 14px 12px 64px;
+        }
+
+        .desktop-icons {
+          display: grid;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          gap: 14px 8px;
+          height: auto;
+          min-height: calc(100vh - 120px);
+          align-content: start;
+        }
+
+        .window-layer {
+          position: relative;
+          display: grid;
+          gap: 12px;
+          margin-top: 16px;
+          pointer-events: auto;
+        }
+
+        .window {
+          position: relative !important;
+          top: auto !important;
+          left: auto !important;
+          right: auto !important;
+          bottom: auto !important;
+          width: 100% !important;
+          min-width: 0;
+          min-height: 0;
+        }
+
+        .desktop-icon {
+          position: relative;
+          left: auto !important;
+          top: auto !important;
+          width: 100%;
+          min-height: 88px;
+          justify-self: center;
+        }
+
+        .icon-label {
+          max-width: 88px;
+          font-size: 12px;
+        }
+
+        .taskbar {
+          gap: 6px;
+          padding: 2px 4px;
+        }
+
+        .start-btn {
+          min-width: 64px;
+          padding-inline: 10px;
+        }
+
+        .task-buttons {
+          min-width: 0;
+          overflow-x: auto;
+          scrollbar-width: none;
+        }
+
+        .task-buttons::-webkit-scrollbar {
+          display: none;
+        }
+
+        .tray {
+          padding: 0 4px;
+          gap: 6px;
+        }
+
+        .viewer-stage img {
+          max-height: 50vh;
+        }
+
+        .task-btn {
+          min-width: 88px;
+        }
+      }
+
+      @media (max-width: 560px) {
+        .desktop-icons {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .window-body {
+          padding: 8px;
+        }
+
+        .folder-layout {
+          grid-template-columns: 1fr;
+        }
+
+        .folder-sidebar {
+          min-height: 72px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="desktop">
+      <div class="desktop-icons" id="desktop-icons"></div>
+      <div class="window-layer" id="window-layer"></div>
     </div>
-  </header>
 
-  <main class="shell">
-    <section class="page" id="home" data-page>
-      <div class="window-bar screen">
-        <span>UNGADRAKEN</span>
-        <div class="window-dots"><span></span><span></span><span></span></div>
+    <div class="taskbar">
+      <button class="start-btn" type="button" id="start-btn">Start</button>
+      <div class="task-buttons" id="task-buttons"></div>
+      <div class="tray">
+        <button class="system-btn" type="button" id="lang-btn">EN</button>
+        <button class="system-btn" type="button" id="clock-btn"><span id="clock">08:01 PM</span></button>
       </div>
-      <div class="hero-grid">
-        <div class="hero-panel screen">
-          <div class="gridlines"></div>
-          <div class="scanlines"></div>
-          <div class="hero-copy">
-            <div class="section-code">01 / ARCHIVE</div>
-            <h1 class="hero-title">IMAGE ARCHIVE</h1>
-            <p class="hero-summary">FASHION PHOTOGRAPHY, EDITORIAL WORK, PERSONAL STUDIES, AND COMMERCIAL PROJECTS.</p>
-          </div>
-        </div>
-
-        <div class="index-panel screen">
-          <a class="index-link" href="#editorial">
-            <span class="index-num">01</span>
-            <span class="index-name">Editorial</span>
-          </a>
-          <a class="index-link" href="#commercial">
-            <span class="index-num">02</span>
-            <span class="index-name">Commercial</span>
-          </a>
-          <a class="index-link" href="#personal">
-            <span class="index-num">03</span>
-            <span class="index-name">Personal</span>
-          </a>
-          <a class="index-link" href="#contact">
-            <span class="index-num">04</span>
-            <span class="index-name">Contact</span>
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <section class="page" id="editorial" data-page>
-      <div class="poster screen">
-        <div class="window-bar"><span>Editorial</span><div class="window-dots"><span></span><span></span><span></span></div></div>
-        <div class="poster-top editorial">
-          <div class="gridlines"></div>
-          <div class="scanlines"></div>
-          <div class="poster-copy">
-            <div class="poster-meta">01 / EDITORIAL</div>
-            <h2 class="poster-title">EDITORIAL</h2>
-          </div>
-        </div>
-        <div class="poster-controls">
-          <button type="button" data-open-stack="editorial-stack">Open Images</button>
-        </div>
-        <div class="stack-shell">
-          <div class="image-stack" id="editorial-stack" aria-label="Editorial images"></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="page" id="commercial" data-page>
-      <div class="poster screen">
-        <div class="window-bar"><span>Commercial</span><div class="window-dots"><span></span><span></span><span></span></div></div>
-        <div class="poster-top commercial">
-          <div class="gridlines"></div>
-          <div class="scanlines"></div>
-          <div class="poster-copy">
-            <div class="poster-meta">02 / COMMERCIAL</div>
-            <h2 class="poster-title">COMMERCIAL</h2>
-          </div>
-        </div>
-        <div class="poster-controls">
-          <button type="button" data-open-stack="commercial-stack">Open Images</button>
-        </div>
-        <div class="stack-shell">
-          <div class="image-stack" id="commercial-stack" aria-label="Commercial images"></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="page" id="personal" data-page>
-      <div class="poster screen">
-        <div class="window-bar"><span>Personal</span><div class="window-dots"><span></span><span></span><span></span></div></div>
-        <div class="poster-top personal">
-          <div class="gridlines"></div>
-          <div class="scanlines"></div>
-          <div class="poster-copy">
-            <div class="poster-meta">03 / PERSONAL</div>
-            <h2 class="poster-title">PERSONAL</h2>
-          </div>
-        </div>
-        <div class="poster-controls">
-          <button type="button" data-open-stack="personal-stack">Open Images</button>
-        </div>
-        <div class="stack-shell">
-          <div class="image-stack" id="personal-stack" aria-label="Personal images"></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="page" id="contact" data-page>
-      <div class="contact-panel screen">
-        <div class="window-bar"><span>Contact</span><div class="window-dots"><span></span><span></span><span></span></div></div>
-        <div class="contact-top">
-          <div class="gridlines"></div>
-          <div class="scanlines"></div>
-          <div class="contact-copy">
-            <div class="poster-meta">04 / CONTACT</div>
-            <h2 class="contact-title">CONTACT</h2>
-          </div>
-        </div>
-        <div class="contact-grid">
-          <div class="contact-box">
-            <div class="contact-label">Email</div>
-            <div class="contact-value"><a href="mailto:ungadraken@gmail.com">UNGADRAKEN@GMAIL.COM</a></div>
-          </div>
-          <div class="contact-box">
-            <div class="contact-label">Instagram</div>
-            <div class="contact-value"><a href="https://www.instagram.com/ungadrakenstudios/" target="_blank" rel="noopener">@UNGADRAKENSTUDIOS</a></div>
-          </div>
-          <div class="contact-box">
-            <div class="contact-label">Work</div>
-            <div class="contact-value"><a href="mailto:ungadraken@gmail.com?subject=Commission">Commission</a></div>
-          </div>
-          <div class="contact-box">
-            <div class="contact-label">Work</div>
-            <div class="contact-value"><a href="mailto:ungadraken@gmail.com?subject=Collaboration">Collaboration</a></div>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer class="footer">
-    <div class="footer-inner">
-      <div>© <span id="year"></span> UNGADRAKEN</div>
     </div>
-  </footer>
-</div>
 
-<script>
-const year = document.getElementById("year");
-if (year) year.textContent = new Date().getFullYear();
+    <script>
+      const folders = [
+        {
+          id: "personal",
+          label: "Personal",
+          description: "Personal archive",
+          x: 28,
+          y: 34,
+          files: [
+            { name: "personal_01.jpg", src: "assets/images/personal-01.jpg" },
+            { name: "personal_02.jpg", src: "assets/images/personal-02.jpg" }
+          ]
+        },
+        {
+          id: "fashion",
+          label: "Fashion",
+          description: "Fashion archive",
+          x: 28,
+          y: 144,
+          files: [
+            { name: "fashion_01.jpg", src: "assets/images/fashion-01.jpg" },
+            { name: "fashion_02.jpg", src: "assets/images/fashion-02.jpg" },
+            { name: "fashion_03.jpg", src: "assets/images/fashion-03.jpg" }
+          ]
+        },
+        {
+          id: "editorial",
+          label: "Editorial",
+          description: "Editorial archive",
+          x: 28,
+          y: 254,
+          files: [
+            { name: "editorial_01.jpg", src: "assets/images/editorial-01.jpg" },
+            { name: "editorial_02.jpg", src: "assets/images/fashion-03.jpg" }
+          ]
+        },
+        {
+          id: "commercial",
+          label: "Commercial",
+          description: "Commercial archive",
+          x: 28,
+          y: 364,
+          files: [
+            { name: "commercial_01.jpg", src: "assets/images/commercial-01.jpg" },
+            { name: "commercial_02.jpg", src: "assets/images/commercial-02.jpg" }
+          ]
+        },
+        {
+          id: "studies",
+          label: "Studies",
+          description: "Studies archive",
+          x: 28,
+          y: 474,
+          files: [
+            { name: "studies_01.jpg", src: "assets/images/studies-01.jpg" },
+            { name: "studies_02.jpg", src: "assets/images/personal-01.jpg" }
+          ]
+        },
+        {
+          id: "contact",
+          label: "Contact",
+          description: "Contact",
+          type: "contact",
+          x: 150,
+          y: 34
+        },
+        {
+          id: "downloads",
+          label: "Downloads",
+          description: "Downloads",
+          type: "folder-fake",
+          errorTitle: "Downloads",
+          errorMessage: "Folder contents could not be loaded.",
+          x: 278,
+          y: 50
+        },
+        {
+          id: "clients",
+          label: "Clients",
+          description: "Clients",
+          type: "folder-fake",
+          errorTitle: "Clients",
+          errorMessage: "This directory is unavailable.",
+          x: 392,
+          y: 118
+        },
+        {
+          id: "trash",
+          label: "Trash",
+          description: "Trash",
+          type: "folder-fake",
+          errorTitle: "Trash",
+          errorMessage: "The Recycle Bin is corrupted.",
+          x: 270,
+          y: 198
+        },
+        {
+          id: "archive-zip",
+          label: "archive.zip",
+          description: "archive.zip",
+          type: "zip",
+          errorTitle: "Compressed Folder",
+          errorMessage: "Unable to extract archive.zip.",
+          x: 420,
+          y: 286
+        },
+        {
+          id: "notepad",
+          label: "notes.txt",
+          description: "notes.txt",
+          type: "file-fake",
+          errorTitle: "Notepad",
+          errorMessage: "The system cannot open notes.txt.",
+          x: 286,
+          y: 356
+        },
+        {
+          id: "browser",
+          label: "Explorer",
+          description: "Explorer",
+          type: "app",
+          errorTitle: "Internet Explorer",
+          errorMessage: "This application has performed an illegal operation.",
+          x: 442,
+          y: 452
+        },
+        {
+          id: "music",
+          label: "music.mp3",
+          description: "music.mp3",
+          type: "file-fake",
+          errorTitle: "Media Player",
+          errorMessage: "The requested media file could not be found.",
+          x: 554,
+          y: 42
+        },
+        {
+          id: "winamp",
+          label: "Winamp",
+          description: "Winamp",
+          type: "app",
+          errorTitle: "Winamp",
+          errorMessage: "Device not ready.",
+          x: 650,
+          y: 132
+        },
+        {
+          id: "scanner",
+          label: "Scanner",
+          description: "Scanner",
+          type: "app",
+          errorTitle: "Scanner",
+          errorMessage: "Scanner connection failed.",
+          x: 760,
+          y: 52
+        },
+        {
+          id: "secret",
+          label: "secret",
+          description: "secret",
+          type: "folder-fake",
+          errorTitle: "Secret",
+          errorMessage: "Access is denied.",
+          x: 560,
+          y: 230
+        },
+        {
+          id: "backup",
+          label: "backup.bak",
+          description: "backup.bak",
+          type: "file-fake",
+          errorTitle: "Backup",
+          errorMessage: "Backup file is unreadable.",
+          x: 676,
+          y: 322
+        },
+        {
+          id: "camera",
+          label: "camera.exe",
+          description: "camera.exe",
+          type: "app",
+          errorTitle: "Camera",
+          errorMessage: "A fatal exception occurred while starting camera.exe.",
+          x: 800,
+          y: 214
+        },
+        {
+          id: "family",
+          label: "Family",
+          description: "Family",
+          type: "folder-fake",
+          errorTitle: "Family",
+          errorMessage: "Family folder is currently offline.",
+          x: 944,
+          y: 44
+        },
+        {
+          id: "monte-carlo",
+          label: "Monte Carlo 2011",
+          description: "Monte Carlo 2011",
+          type: "folder-fake",
+          errorTitle: "Monte Carlo 2011",
+          errorMessage: "Network path was not found.",
+          x: 950,
+          y: 150
+        },
+        {
+          id: "exclusive",
+          label: "Exclusive",
+          description: "Exclusive",
+          type: "folder-fake",
+          errorTitle: "Exclusive",
+          errorMessage: "This folder is restricted.",
+          x: 1084,
+          y: 58
+        },
+        {
+          id: "swag",
+          label: "Swag",
+          description: "Swag",
+          type: "folder-fake",
+          errorTitle: "Swag",
+          errorMessage: "Swag directory is unavailable.",
+          x: 1078,
+          y: 176
+        },
+        {
+          id: "nudes",
+          label: "Nudes",
+          description: "Nudes",
+          type: "folder-fake",
+          errorTitle: "Nudes",
+          errorMessage: "Access to this folder has been blocked.",
+          x: 936,
+          y: 282
+        },
+        {
+          id: "rome",
+          label: "Rome Trip",
+          description: "Rome Trip",
+          type: "folder-fake",
+          errorTitle: "Rome Trip",
+          errorMessage: "The travel archive could not be opened.",
+          x: 1060,
+          y: 308
+        },
+        {
+          id: "paris",
+          label: "Paris",
+          description: "Paris",
+          type: "folder-fake",
+          errorTitle: "Paris",
+          errorMessage: "This folder is not accessible.",
+          x: 1182,
+          y: 82
+        },
+        {
+          id: "milan",
+          label: "Milan",
+          description: "Milan",
+          type: "folder-fake",
+          errorTitle: "Milan",
+          errorMessage: "Milan archive failed to initialize.",
+          x: 1186,
+          y: 200
+        },
+        {
+          id: "london",
+          label: "London",
+          description: "London",
+          type: "folder-fake",
+          errorTitle: "London",
+          errorMessage: "The system cannot locate London.",
+          x: 928,
+          y: 398
+        },
+        {
+          id: "vip-list",
+          label: "vip_list.doc",
+          description: "vip_list.doc",
+          type: "file-fake",
+          errorTitle: "vip_list.doc",
+          errorMessage: "Word document failed to load.",
+          x: 1046,
+          y: 426
+        },
+        {
+          id: "jewelry",
+          label: "Jewelry",
+          description: "Jewelry",
+          type: "folder-fake",
+          errorTitle: "Jewelry",
+          errorMessage: "The jewelry archive is locked.",
+          x: 1164,
+          y: 328
+        },
+        {
+          id: "furs",
+          label: "Furs",
+          description: "Furs",
+          type: "folder-fake",
+          errorTitle: "Furs",
+          errorMessage: "This folder cannot be opened right now.",
+          x: 936,
+          y: 520
+        },
+        {
+          id: "casino",
+          label: "Casino Night",
+          description: "Casino Night",
+          type: "folder-fake",
+          errorTitle: "Casino Night",
+          errorMessage: "Casino Night is missing dependencies.",
+          x: 1160,
+          y: 446
+        },
+        {
+          id: "hotel",
+          label: "Hotel",
+          description: "Hotel",
+          type: "folder-fake",
+          errorTitle: "Hotel",
+          errorMessage: "Hotel folder could not be mounted.",
+          x: 812,
+          y: 430
+        },
+        {
+          id: "looks",
+          label: "Looks",
+          description: "Looks",
+          type: "folder-fake",
+          errorTitle: "Looks",
+          errorMessage: "The Looks archive is unavailable.",
+          x: 678,
+          y: 520
+        },
+        {
+          id: "rare",
+          label: "rare_items.zip",
+          description: "rare_items.zip",
+          type: "zip",
+          errorTitle: "rare_items.zip",
+          errorMessage: "Compressed folder is invalid.",
+          x: 544,
+          y: 410
+        },
+        {
+          id: "boats",
+          label: "Boats",
+          description: "Boats",
+          type: "folder-fake",
+          errorTitle: "Boats",
+          errorMessage: "Boat archive not responding.",
+          x: 794,
+          y: 536
+        },
+        {
+          id: "saint-tropez",
+          label: "Saint Tropez",
+          description: "Saint Tropez",
+          type: "folder-fake",
+          errorTitle: "Saint Tropez",
+          errorMessage: "Saint Tropez has been moved or deleted.",
+          x: 1054,
+          y: 548
+        },
+        {
+          id: "eurotrash",
+          label: "eurotrash",
+          description: "eurotrash",
+          type: "folder-fake",
+          errorTitle: "eurotrash",
+          errorMessage: "eurotrash is not available on this drive.",
+          x: 652,
+          y: 618
+        }
+      ];
 
-const menuToggle = document.querySelector(".menu-toggle");
-const nav = document.getElementById("site-nav");
-if (menuToggle && nav) {
-  menuToggle.addEventListener("click", () => {
-    const open = nav.classList.toggle("open");
-    menuToggle.setAttribute("aria-expanded", String(open));
-  });
-}
+      const desktopIcons = document.getElementById("desktop-icons");
+      const windowLayer = document.getElementById("window-layer");
+      const taskButtons = document.getElementById("task-buttons");
+      const startBtn = document.getElementById("start-btn");
+      const langBtn = document.getElementById("lang-btn");
+      const clockBtn = document.getElementById("clock-btn");
+      const state = {
+        selectedDesktop: null,
+        windows: new Map(),
+        z: 50,
+        selectedFile: new Map()
+      };
 
-const pages = [...document.querySelectorAll("[data-page]")];
-const pageLinks = [...document.querySelectorAll("[data-page-link]")];
-const stackButtons = [...document.querySelectorAll("[data-open-stack]")];
+      const mockFolders = {
+        downloads: {
+          description: "Recent downloads",
+          entries: [
+            { id: "ref-sheet", name: "reference_sheet.jpg", type: "file", message: "Image preview is unavailable." },
+            { id: "casting", name: "casting_call.doc", type: "file", message: "The document is locked for editing." },
+            {
+              id: "moodboards",
+              name: "Moodboards",
+              type: "folder",
+              entries: [
+                { id: "blue-spring", name: "blue_spring_board.jpg", type: "file", message: "Preview mode only." },
+                { id: "hotel-light", name: "hotel_light_test.png", type: "file", message: "The image is no longer linked." },
+                { id: "tear-sheets", name: "tear_sheets.zip", type: "zip", message: "Archive preview is not supported." }
+              ]
+            }
+          ]
+        },
+        family: {
+          description: "Old family folders",
+          entries: [
+            {
+              id: "summer-2004",
+              name: "Summer 2004",
+              type: "folder",
+              entries: [
+                { id: "beach", name: "beach_scan_01.jpg", type: "file", message: "The scan is offline." },
+                { id: "camcorder", name: "camcorder_tape.mov", type: "file", message: "Codec missing." }
+              ]
+            },
+            { id: "christmas", name: "christmas_dinner.avi", type: "file", message: "This file requires QuickTime 6." },
+            { id: "album", name: "photo_album.zip", type: "zip", message: "Archive extraction failed." }
+          ]
+        },
+        "monte-carlo": {
+          description: "Travel archive",
+          entries: [
+            { id: "hotel-booking", name: "hotel_booking.pdf", type: "file", message: "Preview is not available." },
+            {
+              id: "night-outs",
+              name: "night_outs",
+              type: "folder",
+              entries: [
+                { id: "vip", name: "vip_table.txt", type: "file", message: "Text mode is not installed." },
+                { id: "receipts", name: "receipts_01.zip", type: "zip", message: "The archive is damaged." }
+              ]
+            },
+            { id: "marina", name: "marina_scan.jpg", type: "file", message: "The image location has changed." }
+          ]
+        },
+        exclusive: {
+          description: "Restricted luxury archive",
+          entries: [
+            { id: "guest-list", name: "guest_list.xls", type: "file", message: "Workbook cannot be opened in preview mode." },
+            {
+              id: "shopping",
+              name: "shopping_receipts",
+              type: "folder",
+              entries: [
+                { id: "fur-1", name: "fur_quote.doc", type: "file", message: "This file is read-only." },
+                { id: "jewel-1", name: "jewel_specs.txt", type: "file", message: "The text viewer could not start." }
+              ]
+            },
+            { id: "chauffeur", name: "chauffeur.exe", type: "app", message: "This program cannot run in DOS mode." }
+          ]
+        },
+        hotel: {
+          description: "Room folders",
+          entries: [
+            { id: "minibar", name: "minibar_bill.doc", type: "file", message: "Bill preview unavailable." },
+            { id: "lobby", name: "lobby_music.mp3", type: "file", message: "Audio device not responding." },
+            {
+              id: "room-service",
+              name: "room_service",
+              type: "folder",
+              entries: [
+                { id: "menu", name: "menu_scan.jpg", type: "file", message: "Image preview not supported." },
+                { id: "receipt", name: "late_checkout.txt", type: "file", message: "This note is empty." }
+              ]
+            }
+          ]
+        },
+        eurotrash: {
+          description: "eurotrash archive",
+          entries: [
+            { id: "lookbook", name: "lookbook_final_final.zip", type: "zip", message: "The compressed folder is incomplete." },
+            {
+              id: "party-pics",
+              name: "party_pics",
+              type: "folder",
+              entries: [
+                { id: "flash-1", name: "flash_001.jpg", type: "file", message: "Preview cache missing." },
+                { id: "flash-2", name: "flash_002.jpg", type: "file", message: "Preview cache missing." },
+                { id: "afterparty", name: "afterparty.mov", type: "file", message: "This movie file cannot be decoded." }
+              ]
+            },
+            { id: "manifesto", name: "manifesto.txt", type: "file", message: "This text file contains no readable characters." }
+          ]
+        }
+      };
 
-const editorialImages = [
-  "elsablommakall.jpeg",
-  "adamblommaljus.JPG"
-];
+      function winId(kind, id, extra = "") {
+        return `${kind}:${id}${extra ? `:${extra}` : ""}`;
+      }
 
-const commercialImages = [
-  "adamlljus.JPG",
-  "mammagrå.JPG"
-];
+      function getIconType(item) {
+        if (item.type === "contact") return "contact";
+        if (item.type === "app") return "app";
+        if (item.type === "zip") return "zip";
+        if (item.type === "file" || item.type === "file-fake") return "file";
+        return "folder";
+      }
 
-const personalImages = [
-  "DSC09711.JPG",
-  "mammakök.JPG",
-  "mammasnöstå.JPG",
-  "mammablå.JPG"
-];
+      function createGenericMockEntries(folder) {
+        if (folder.type === "folder-fake") {
+          return [
+            {
+              id: `${folder.id}-01`,
+              name: `${folder.label.toLowerCase().replace(/\s+/g, "_")}_01.jpg`,
+              type: "file",
+              message: `${folder.label} preview is not available.`
+            },
+            {
+              id: `${folder.id}-02`,
+              name: "notes.txt",
+              type: "file",
+              message: "The text viewer could not load this note."
+            },
+            {
+              id: `${folder.id}-03`,
+              name: "subfolder",
+              type: "folder",
+              entries: [
+                {
+                  id: `${folder.id}-03-a`,
+                  name: "index.dat",
+                  type: "file",
+                  message: "This system file cannot be opened."
+                },
+                {
+                  id: `${folder.id}-03-b`,
+                  name: "preview.jpg",
+                  type: "file",
+                  message: "Preview mode only."
+                }
+              ]
+            }
+          ];
+        }
 
-function buildStack(containerId, images){
-  const container = document.getElementById(containerId);
-  if (!container) return;
-  container.innerHTML = "";
+        return null;
+      }
 
-  images.forEach((src) => {
-    const card = document.createElement("div");
-    card.className = "image-card";
+      function openMockItem(folder) {
+        if (folder.type === "folder-fake") {
+          const config = mockFolders[folder.id];
+          const entries = config?.entries || createGenericMockEntries(folder);
+          const description = config?.description || folder.description;
+          openMockFolderWindow(folder.label, description, entries, folder.id);
+          return;
+        }
 
-    const img = new Image();
-    img.loading = "lazy";
-    img.decoding = "async";
-    img.alt = "";
-    img.src = src;
-    img.onerror = () => card.remove();
+        const message =
+          folder.errorMessage ||
+          (folder.type === "zip"
+            ? "Archive preview is not supported."
+            : folder.type === "app"
+              ? "This application cannot start in preview mode."
+              : "Preview mode only.");
 
-    card.appendChild(img);
-    container.appendChild(card);
-  });
-}
+        openMockPreview(
+          {
+            name: folder.label,
+            type: folder.type === "file-fake" ? "file" : folder.type,
+            message
+          },
+          folder.id,
+          0
+        );
+      }
 
-buildStack("editorial-stack", editorialImages);
-buildStack("commercial-stack", commercialImages);
-buildStack("personal-stack", personalImages);
+      function createDesktopIcon(folder) {
+        const button = document.createElement("button");
+        button.className = "desktop-icon";
+        if (folder.files || folder.type === "contact") {
+          button.classList.add("preselected");
+        }
+        button.dataset.iconId = folder.id;
+        button.style.left = `${folder.x}px`;
+        button.style.top = `${folder.y}px`;
+        button.innerHTML = `
+          <span class="icon-art ${getIconType(folder)}" aria-hidden="true"></span>
+          <span class="icon-label">${folder.label}</span>
+        `;
+        button.addEventListener("click", () => selectDesktopIcon(folder.id));
+        button.addEventListener("dblclick", () => {
+          if (folder.files || folder.type === "contact") {
+            openFolder(folder.id);
+          } else {
+            openMockItem(folder);
+          }
+        });
+        desktopIcons.appendChild(button);
+      }
 
-function closeStacks(){
-  document.querySelectorAll(".image-stack").forEach((stack) => stack.classList.remove("active"));
-}
+      function selectDesktopIcon(id) {
+        state.selectedDesktop = id;
+        document.querySelectorAll(".desktop-icon").forEach((icon) => {
+          icon.classList.toggle("selected", icon.dataset.iconId === id);
+        });
+      }
 
-function showPage(pageId){
-  const targetId = document.getElementById(pageId) ? pageId : "home";
+      function bringToFront(id) {
+        state.z += 1;
+        const entry = state.windows.get(id);
+        if (!entry) return;
+        entry.element.style.zIndex = state.z;
+        state.windows.forEach((win) => {
+          win.element.classList.toggle("inactive", win.id !== id);
+        });
+        syncTaskbar();
+      }
 
-  pages.forEach((page) => page.classList.toggle("active", page.id === targetId));
-  pageLinks.forEach((link) => link.classList.toggle("active", link.dataset.pageLink === targetId));
+      function syncTaskbar() {
+        taskButtons.innerHTML = "";
+        Array.from(state.windows.values())
+          .sort((a, b) => Number(a.element.style.zIndex || 0) - Number(b.element.style.zIndex || 0))
+          .forEach((entry) => {
+            if (!entry.open) return;
+            const btn = document.createElement("button");
+            btn.className = `task-btn ${entry.element.classList.contains("inactive") ? "inactive" : ""}`;
+            btn.textContent = entry.title;
+            btn.addEventListener("click", () => {
+              if (entry.element.classList.contains("hidden")) {
+                entry.element.classList.remove("hidden");
+              }
+              bringToFront(entry.id);
+            });
+            taskButtons.appendChild(btn);
+          });
+      }
 
-  if (nav && window.innerWidth <= 820) {
-    nav.classList.remove("open");
-    menuToggle?.setAttribute("aria-expanded", "false");
-  }
+      function makeWindowDraggable(element, handle, id) {
+        let startX = 0;
+        let startY = 0;
+        let initialX = 0;
+        let initialY = 0;
+        let dragging = false;
 
-  closeStacks();
-  window.scrollTo({ top: 0, behavior: "auto" });
-}
+        handle.addEventListener("mousedown", (event) => {
+          if (window.innerWidth <= 900) return;
+          dragging = true;
+          bringToFront(id);
+          startX = event.clientX;
+          startY = event.clientY;
+          initialX = element.offsetLeft;
+          initialY = element.offsetTop;
+          event.preventDefault();
+        });
 
-window.addEventListener("hashchange", () => {
-  const pageId = window.location.hash.replace("#", "") || "home";
-  showPage(pageId);
-});
+        window.addEventListener("mousemove", (event) => {
+          if (!dragging) return;
+          element.style.left = `${Math.max(0, initialX + event.clientX - startX)}px`;
+          element.style.top = `${Math.max(0, initialY + event.clientY - startY)}px`;
+        });
 
-window.addEventListener("load", () => {
-  const pageId = window.location.hash.replace("#", "") || "home";
-  showPage(pageId);
-});
+        window.addEventListener("mouseup", () => {
+          dragging = false;
+        });
+      }
 
-stackButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    const id = button.dataset.openStack;
-    const stack = document.getElementById(id);
-    if (!stack) return;
-    const active = stack.classList.contains("active");
-    closeStacks();
-    if (!active) {
-      stack.classList.add("active");
-      setTimeout(() => stack.scrollIntoView({ behavior: "smooth", block: "start" }), 40);
-    }
-  });
-});
-</script>
-</body>
+      function createBaseWindow(id, title, left, top, width, height) {
+        const windowEl = document.createElement("section");
+        windowEl.className = "window";
+        windowEl.style.left = `${left}px`;
+        windowEl.style.top = `${top}px`;
+        windowEl.style.width = `${width}px`;
+        windowEl.style.height = `${height}px`;
+        const titlebar = document.createElement("div");
+        titlebar.className = "titlebar";
+        titlebar.innerHTML = `
+          <div class="titlebar-left">
+            <span class="titlebar-icon" aria-hidden="true"></span>
+            <span class="titlebar-text">${title}</span>
+          </div>
+          <div class="window-controls">
+            <button class="win-btn" type="button" aria-label="Minimize"><span></span></button>
+            <button class="win-btn close" type="button" aria-label="Close"><span></span></button>
+          </div>
+        `;
+        windowEl.appendChild(titlebar);
+        windowLayer.appendChild(windowEl);
+
+        const closeBtn = titlebar.querySelector(".close");
+        const minBtn = titlebar.querySelector(".win-btn:not(.close)");
+        closeBtn.addEventListener("click", () => closeWindow(id));
+        minBtn.addEventListener("click", () => openError("Minimize", "This action is not available in preview mode."));
+
+        windowEl.addEventListener("mousedown", () => bringToFront(id));
+        makeWindowDraggable(windowEl, titlebar, id);
+
+        return { windowEl, titlebar };
+      }
+
+      function openFolder(folderId) {
+        const folder = folders.find((item) => item.id === folderId);
+        if (!folder) return;
+
+        if (folder.type === "contact") {
+          openContact();
+          return;
+        }
+
+        if (!folder.files) {
+          openMockItem(folder);
+          return;
+        }
+
+        const id = winId("folder", folderId);
+        const existing = state.windows.get(id);
+        if (existing) {
+          existing.element.classList.remove("hidden");
+          existing.open = true;
+          bringToFront(id);
+          syncTaskbar();
+          return;
+        }
+
+        const { windowEl } = createBaseWindow(id, `${folder.label} - Explorer`, 150 + state.windows.size * 24, 70 + state.windows.size * 22, 620, 420);
+        const body = document.createElement("div");
+        body.className = "window-body";
+        body.innerHTML = `
+          <div class="menubar">
+            <button class="dead-control" type="button">File</button>
+            <button class="dead-control" type="button">Edit</button>
+            <button class="dead-control" type="button">View</button>
+            <button class="dead-control" type="button">Favorites</button>
+            <button class="dead-control" type="button">Tools</button>
+            <button class="dead-control" type="button">Help</button>
+          </div>
+          <div class="toolbar">
+            <button class="tool-btn dead-control" type="button">Back</button>
+            <button class="tool-btn dead-control" type="button">Search</button>
+            <button class="tool-btn dead-control" type="button">Folders</button>
+          </div>
+          <div class="address-row">
+            <span>Address</span>
+            <button class="address-box dead-control" type="button">C:\\UNGADRAKEN\\${folder.label}</button>
+          </div>
+        `;
+
+        const explorer = document.createElement("div");
+        explorer.className = "explorer";
+        explorer.innerHTML = `
+          <aside class="sidebar">
+            <div class="sidebar-panel">
+              <div class="sidebar-preview" aria-hidden="true"></div>
+              <h3>${folder.label}</h3>
+              <p>${folder.description}</p>
+            </div>
+          </aside>
+          <div class="folder-content"><div class="file-grid"></div></div>
+        `;
+
+        const grid = explorer.querySelector(".file-grid");
+        folder.files.forEach((file, index) => {
+          const fileBtn = document.createElement("button");
+          fileBtn.className = "file-item";
+          fileBtn.dataset.folderId = folder.id;
+          fileBtn.dataset.fileIndex = String(index);
+          fileBtn.innerHTML = `
+            <img class="thumb" src="${file.src}" alt="${file.name}" />
+            <span>${file.name}</span>
+          `;
+          fileBtn.addEventListener("click", () => selectFile(folder.id, index));
+          fileBtn.addEventListener("dblclick", () => openImageViewer(folder.id, index));
+          grid.appendChild(fileBtn);
+        });
+
+        const status = document.createElement("div");
+        status.className = "statusbar";
+        status.innerHTML = `<span>${folder.files.length} object(s)</span><span>My Computer</span>`;
+
+        body.appendChild(explorer);
+        body.appendChild(status);
+        windowEl.appendChild(body);
+
+        windowEl.querySelectorAll(".dead-control").forEach((control) => {
+          control.addEventListener("click", () => {
+            openError("Explorer", "This command is not available.");
+          });
+        });
+
+        state.windows.set(id, {
+          id,
+          title: folder.label,
+          element: windowEl,
+          open: true
+        });
+        bringToFront(id);
+        syncTaskbar();
+      }
+
+      function buildMockGrid(grid, baseId, entries) {
+        entries.forEach((entry, index) => {
+          const fileBtn = document.createElement("button");
+          fileBtn.className = "file-item";
+          fileBtn.innerHTML = `
+            <span class="thumb-placeholder ${getIconType(entry)}" aria-hidden="true"></span>
+            <span>${entry.name}</span>
+          `;
+          fileBtn.addEventListener("click", () => {
+            grid.querySelectorAll(".file-item").forEach((item) => item.classList.remove("selected"));
+            fileBtn.classList.add("selected");
+          });
+          fileBtn.addEventListener("dblclick", () => {
+            if (entry.entries) {
+              openMockFolderWindow(entry.name, entry.name, entry.entries, `${baseId}-${entry.id}`);
+            } else {
+              openMockPreview(entry, `${baseId}-${entry.id}`, index);
+            }
+          });
+          grid.appendChild(fileBtn);
+        });
+      }
+
+      function openMockFolderWindow(title, description, entries, key) {
+        const id = winId("mock-folder", key);
+        const existing = state.windows.get(id);
+        if (existing) {
+          existing.element.classList.remove("hidden");
+          existing.open = true;
+          bringToFront(id);
+          syncTaskbar();
+          return;
+        }
+
+        const { windowEl } = createBaseWindow(id, `${title} - Explorer`, 180 + state.windows.size * 20, 90 + state.windows.size * 18, 560, 390);
+        const body = document.createElement("div");
+        body.className = "window-body";
+        body.innerHTML = `
+          <div class="menubar">
+            <button class="dead-control" type="button">File</button>
+            <button class="dead-control" type="button">Edit</button>
+            <button class="dead-control" type="button">View</button>
+            <button class="dead-control" type="button">Favorites</button>
+            <button class="dead-control" type="button">Tools</button>
+            <button class="dead-control" type="button">Help</button>
+          </div>
+          <div class="toolbar">
+            <button class="tool-btn dead-control" type="button">Back</button>
+            <button class="tool-btn dead-control" type="button">Search</button>
+            <button class="tool-btn dead-control" type="button">Folders</button>
+          </div>
+          <div class="address-row">
+            <span>Address</span>
+            <button class="address-box dead-control" type="button">C:\\UNGADRAKEN\\${title}</button>
+          </div>
+        `;
+
+        const explorer = document.createElement("div");
+        explorer.className = "explorer";
+        explorer.innerHTML = `
+          <aside class="sidebar">
+            <div class="sidebar-panel">
+              <div class="sidebar-preview" aria-hidden="true"></div>
+              <h3>${title}</h3>
+              <p>${description}</p>
+            </div>
+          </aside>
+          <div class="folder-content"><div class="file-grid"></div></div>
+        `;
+
+        const grid = explorer.querySelector(".file-grid");
+        buildMockGrid(grid, key, entries);
+
+        const status = document.createElement("div");
+        status.className = "statusbar";
+        status.innerHTML = `<span>${entries.length} object(s)</span><span>My Computer</span>`;
+
+        body.appendChild(explorer);
+        body.appendChild(status);
+        windowEl.appendChild(body);
+
+        windowEl.querySelectorAll(".dead-control").forEach((control) => {
+          control.addEventListener("click", () => {
+            openError("Explorer", "This command is not available.");
+          });
+        });
+
+        state.windows.set(id, {
+          id,
+          title,
+          element: windowEl,
+          open: true
+        });
+        bringToFront(id);
+        syncTaskbar();
+      }
+
+      function openMockPreview(entry, key, index) {
+        const id = winId("mock-item", key);
+        const existing = state.windows.get(id);
+        if (existing) {
+          existing.element.classList.remove("hidden");
+          existing.open = true;
+          bringToFront(id);
+          syncTaskbar();
+          return;
+        }
+
+        const { windowEl } = createBaseWindow(id, entry.name, 250 + index * 16, 120 + index * 14, 360, 210);
+        const body = document.createElement("div");
+        body.className = "error-body";
+        body.innerHTML = `
+          <div class="error-row">
+            <div class="error-icon">i</div>
+            <div class="error-message">${entry.message || "Preview mode only."}</div>
+          </div>
+          <div class="error-actions">
+            <button class="system-btn" type="button">OK</button>
+          </div>
+        `;
+        body.querySelector(".system-btn").addEventListener("click", () => closeWindow(id));
+        windowEl.appendChild(body);
+
+        state.windows.set(id, {
+          id,
+          title: entry.name,
+          element: windowEl,
+          open: true
+        });
+        bringToFront(id);
+        syncTaskbar();
+      }
+
+      function selectFile(folderId, index) {
+        state.selectedFile.set(folderId, index);
+        document.querySelectorAll(`.file-item[data-folder-id="${folderId}"]`).forEach((item) => {
+          item.classList.toggle("selected", Number(item.dataset.fileIndex) === index);
+        });
+      }
+
+      function openImageViewer(folderId, index) {
+        const folder = folders.find((item) => item.id === folderId);
+        if (!folder || !folder.files[index]) return;
+        const file = folder.files[index];
+        const id = winId("image", folderId, index);
+        const existing = state.windows.get(id);
+        if (existing) {
+          existing.element.classList.remove("hidden");
+          existing.open = true;
+          bringToFront(id);
+          syncTaskbar();
+          return;
+        }
+
+        const { windowEl } = createBaseWindow(id, file.name, 240 + index * 18, 110 + index * 18, 620, 470);
+        const body = document.createElement("div");
+        body.className = "viewer-body";
+        body.innerHTML = `
+          <div class="viewer-toolbar">
+            <span>${folder.label}</span>
+            <span>${file.name}</span>
+          </div>
+          <div class="viewer-stage">
+            <img src="${file.src}" alt="${file.name}" />
+          </div>
+          <div class="statusbar"><span>${file.name}</span><span>${index + 1} / ${folder.files.length}</span></div>
+        `;
+        windowEl.appendChild(body);
+
+        state.windows.set(id, {
+          id,
+          title: file.name,
+          element: windowEl,
+          open: true
+        });
+        bringToFront(id);
+        syncTaskbar();
+      }
+
+      function openContact() {
+        const id = winId("folder", "contact");
+        const existing = state.windows.get(id);
+        if (existing) {
+          existing.element.classList.remove("hidden");
+          existing.open = true;
+          bringToFront(id);
+          syncTaskbar();
+          return;
+        }
+
+        const { windowEl } = createBaseWindow(id, "Contact", 220, 90, 420, 250);
+        const panel = document.createElement("div");
+        panel.className = "contact-panel";
+        panel.innerHTML = `
+          <div><strong>UNGADRAKEN</strong></div>
+          <a href="mailto:ungadraken@gmail.com">ungadraken@gmail.com</a>
+          <a href="https://www.instagram.com/ungadrakenstudios/" target="_blank" rel="noreferrer">@ungadrakenstudios</a>
+        `;
+        windowEl.appendChild(panel);
+
+        state.windows.set(id, {
+          id,
+          title: "Contact",
+          element: windowEl,
+          open: true
+        });
+        bringToFront(id);
+        syncTaskbar();
+      }
+
+      function closeWindow(id) {
+        const entry = state.windows.get(id);
+        if (!entry) return;
+        entry.element.classList.add("hidden");
+        entry.open = false;
+        syncTaskbar();
+      }
+
+      function updateClock() {
+        const now = new Date();
+        const formatted = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+        document.getElementById("clock").textContent = formatted;
+      }
+
+      function openError(title, message) {
+        const id = "system:error";
+        const existing = state.windows.get(id);
+        if (existing) {
+          existing.element.classList.remove("hidden");
+          existing.element.querySelector(".titlebar-text").textContent = `${title} Error`;
+          existing.element.querySelector(".error-message").textContent = message;
+          existing.open = true;
+          bringToFront(id);
+          syncTaskbar();
+          return;
+        }
+
+        const { windowEl } = createBaseWindow(id, `${title} Error`, 300, 160, 360, 180);
+        const body = document.createElement("div");
+        body.className = "error-body";
+        body.innerHTML = `
+          <div class="error-row">
+            <div class="error-icon">!</div>
+            <div class="error-message">${message}</div>
+          </div>
+          <div class="error-actions">
+            <button class="system-btn" type="button">OK</button>
+          </div>
+        `;
+        body.querySelector(".system-btn").addEventListener("click", () => closeWindow(id));
+        windowEl.appendChild(body);
+
+        state.windows.set(id, {
+          id,
+          title: `${title} Error`,
+          element: windowEl,
+          open: true
+        });
+        bringToFront(id);
+        syncTaskbar();
+      }
+
+      folders.forEach(createDesktopIcon);
+      updateClock();
+      setInterval(updateClock, 1000);
+
+      startBtn.addEventListener("click", () => openError("Start Menu", "The Start menu is unavailable in this build."));
+      langBtn.addEventListener("click", () => openError("Language", "Language options could not be loaded."));
+      clockBtn.addEventListener("click", () => openError("Clock", "Date and Time Properties are not installed."));
+
+      document.body.addEventListener("click", (event) => {
+        if (!event.target.closest(".desktop-icon") && !event.target.closest(".window")) {
+          selectDesktopIcon(null);
+        }
+      });
+    </script>
+  </body>
 </html>
