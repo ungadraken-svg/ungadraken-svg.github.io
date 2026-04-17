@@ -43,7 +43,7 @@
         color: var(--text);
         font-family: Tahoma, "MS Sans Serif", Verdana, sans-serif;
         font-size: 12px;
-        background: #000 url("assets/images/desktop-wallpaper.jpg") center center / cover no-repeat fixed;
+        background: #000 url("DSC06885.JPG") center center / cover no-repeat fixed;
       }
 
       button,
@@ -445,7 +445,8 @@
         width: 76px;
         height: 62px;
         border: 1px solid #808080;
-        background: linear-gradient(180deg, #ffffff 0%, #ece9d8 100%);
+        background:
+          linear-gradient(180deg, #ffffff 0%, #ece9d8 100%);
         position: relative;
       }
 
@@ -1227,15 +1228,10 @@
           description: "Restricted luxury archive",
           entries: [
             { id: "guest-list", name: "guest_list.xls", type: "file", message: "Workbook cannot be opened in preview mode." },
-            {
-              id: "shopping",
-              name: "shopping_receipts",
-              type: "folder",
-              entries: [
-                { id: "fur-1", name: "fur_quote.doc", type: "file", message: "This file is read-only." },
-                { id: "jewel-1", name: "jewel_specs.txt", type: "file", message: "The text viewer could not start." }
-              ]
-            },
+            { id: "shopping", name: "shopping_receipts", type: "folder", entries: [
+              { id: "fur-1", name: "fur_quote.doc", type: "file", message: "This file is read-only." },
+              { id: "jewel-1", name: "jewel_specs.txt", type: "file", message: "The text viewer could not start." }
+            ] },
             { id: "chauffeur", name: "chauffeur.exe", type: "app", message: "This program cannot run in DOS mode." }
           ]
         },
@@ -1435,8 +1431,8 @@
 
         window.addEventListener("mousemove", (event) => {
           if (!dragging) return;
-          element.style.left = `${Math.max(0, initialX + event.clientX - startX)}px`;
-          element.style.top = `${Math.max(0, initialY + event.clientY - startY)}px`;
+            element.style.left = `${Math.max(0, initialX + event.clientX - startX)}px`;
+            element.style.top = `${Math.max(0, initialY + event.clientY - startY)}px`;
         });
 
         window.addEventListener("mouseup", () => {
